@@ -1,0 +1,67 @@
+[
+  {
+    "pest": "Grub",
+    "category": "Corn",
+    "recommendation": "Apply Chlorantraniliprole-based granules to the soil before planting. Use beneficial nematodes to control larvae biologically. Rotate crops to reduce infestations."
+  },
+  {
+    "pest": "Mole Cricket",
+    "category": "Corn",
+    "recommendation": "Use Imidacloprid soil drench or Bifenthrin-based insecticides. Apply biological controls like parasitic nematodes or fungal pathogens such as Beauveria bassiana."
+  },
+  {
+    "pest": "Wireworm",
+    "category": "Corn",
+    "recommendation": "Use seed treatments containing Thiamethoxam or Clothianidin. Incorporate crop rotation with non-host crops like legumes. Maintain well-drained soil to reduce wireworm survival."
+  },
+  {
+    "pest": "Corn Borer",
+    "category": "Corn",
+    "recommendation": "Apply Bacillus thuringiensis (Bt) formulations or use transgenic Bt corn hybrids. Introduce Trichogramma wasps to control eggs biologically. Avoid late planting to minimize infestation."
+  },
+  {
+    "pest": "Aphids",
+    "category": "Corn",
+    "recommendation": "Use insecticidal soaps or Neem oil for organic control. Apply systemic insecticides like Acetamiprid or Flonicamid for heavy infestations. Encourage natural predators such as ladybugs and lacewings."
+  },
+  {
+    "pest": "Beet Armyworm",
+    "category": "Beet",
+    "recommendation": "Use Spinosad or Emamectin benzoate-based treatments. Release beneficial insects such as parasitic wasps (Cotesia spp.). Employ pheromone traps for monitoring adult moths."
+  },
+  {
+    "pest": "Flax Budworm",
+    "category": "Alfalfa",
+    "recommendation": "Apply Pyrethroid-based sprays like Cypermethrin or Deltamethrin during early larval stages. Use crop rotation and avoid planting near infested areas."
+  },
+  {
+    "pest": "Lytta Polita",
+    "category": "Alfalfa",
+    "recommendation": "Use Carbaryl or Permethrin-based insecticides for severe infestations. Introduce natural enemies like birds and predatory insects. Maintain proper weed control to eliminate alternative hosts."
+  },
+  {
+    "pest": "Legume Blister Beetle",
+    "category": "Alfalfa",
+    "recommendation": "Apply Spinosad or Lambda-cyhalothrin-based insecticides. Avoid harvesting during peak beetle activity to prevent contamination. Use row covers to reduce beetle invasion."
+  },
+  {
+    "pest": "Blister Beetle",
+    "category": "Alfalfa",
+    "recommendation": "Hand-pick beetles in small infestations. Use Pyrethroid-based insecticides like Bifenthrin for larger outbreaks. Avoid mowing infested fields to reduce risk of beetle swarms."
+  },
+  {
+    "pest": "Miridae",
+    "category": "Vitis",
+    "recommendation": "Apply selective insecticides such as Flupyradifurone or Pyrethroids if population exceeds economic threshold. Use pheromone-based monitoring techniques. Encourage natural predators such as predatory mirid bugs."
+  },
+  {
+    "pest": "Prodenia Litura",
+    "category": "Citrus",
+    "recommendation": "Apply Chlorantraniliprole or Lufenuron for caterpillar control. Use pheromone traps to monitor adult moths. Maintain field hygiene by removing fallen leaves and debris."
+  },
+  {
+    "pest": "Cicadellidae",
+    "category": "Mango",
+    "recommendation": "Use systemic insecticides such as Imidacloprid or Thiamethoxam. Introduce biological controls like predatory bugs (Orius spp.). Apply reflective mulches to deter egg-laying by adults."
+  }
+]

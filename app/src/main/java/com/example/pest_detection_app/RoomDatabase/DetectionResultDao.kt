@@ -1,0 +1,42 @@
+package com.example.pest_detection_app.RoomDatabase
+
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import com.example.pest_detection_app.data.user.DetectionWithBoundingBoxes
+
+@Dao
+interface DetectionResultDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDetectionResult(result: DetectionResult): Long
+
+    @Query("SELECT * FROM detection_results WHERE userId = :userId")
+    suspend fun getDetectionsByUser(userId: Int?): List<DetectionWithBoundingBoxes>
+
+    @Query("UPDATE detection_results SET isSynced = :synced WHERE id = :detectionId")
+    suspend fun updateSyncStatus(detectionId: Int, synced: Boolean)
+
+    @Delete
+    suspend fun deleteDetection(result: DetectionResult)
+
+    @Query("SELECT * FROM detection_results WHERE detectionDate BETWEEN :startDate AND :endDate ORDER BY detectionDate DESC")
+    fun getDetectionsByDate(startDate: Long, endDate: Long): LiveData<List<DetectionResult>>
+
+    @Transaction
+    @Query("SELECT * FROM detection_results WHERE userId = :userId ORDER BY detectionDate DESC")
+    suspend fun getDetectionsSortedDesc(userId: Int?): List<DetectionWithBoundingBoxes>
+
+    @Transaction
+    @Query("SELECT * FROM detection_results WHERE userId = :userId ORDER BY detectionDate ASC")
+    suspend fun getDetectionsSortedAsc(userId: Int?): List<DetectionWithBoundingBoxes>
+
+    @Transaction
+    @Query("SELECT * FROM detection_results WHERE id = :detectionId")
+    suspend fun getDetectionById(detectionId: Int): DetectionWithBoundingBoxes?
+
+
+}
