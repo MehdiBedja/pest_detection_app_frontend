@@ -40,6 +40,7 @@ data class DetectionResult(
     val timestamp: Long, // Time of detection
     val isSynced: Boolean = false ,// Sync status with cloud
     val detectionDate: Long, // New field (stores date as Unix timestamp)
+    val note: String? = null ,
 )
 
 

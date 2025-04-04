@@ -10,30 +10,35 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.pest_detection_app.ViewModels.DetectionViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.pest_detection_app.MyApp
+import com.example.pest_detection_app.ViewModels.DetectionViewModel
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
+import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.model.BoundingBox
 import kotlinx.coroutines.delay
-
 
 @Composable
 fun DetailItemScreen(
     navController: NavController,
     viewModel: DetectionViewModel = viewModel(),
     getViewModel: DetectionSaveViewModel = viewModel(),
-    detectionId: Int
+    detectionId: Int,
+    userViewModel: LoginViewModel
 ) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    var noteText by remember { mutableStateOf("") }
+    var isEditingNote by remember { mutableStateOf(false) }
+
     Log.d("DetailItemScreen", "Fetching detection with ID: $detectionId")
     getViewModel.getDetectionById(detectionId)
 
     val detection by getViewModel.detection.collectAsState()
     val bitmap by viewModel.bitmap1.collectAsState()
-
-    Log.d("DetailItemScreen", "Current detection state: $detection")
+    val savedUserId by userViewModel.userId.collectAsState()
 
     val boundingBoxesModel = detection?.boundingBoxes?.map { box ->
         BoundingBox(
@@ -51,6 +56,8 @@ fun DetailItemScreen(
             Log.e("DetailItemScreen", "❌ Detection data is still NULL, retrying...")
             return@LaunchedEffect
         }
+
+        noteText = detection?.detection?.note ?: ""
 
         val uriString = detection!!.detection.imageUri
         if (uriString.isNullOrEmpty()) {
@@ -73,16 +80,12 @@ fun DetailItemScreen(
                 Log.d("DetailItemScreen", "📸 Camera image detected, no persistable permission needed: $imageUri")
             }
 
-            // Delay slightly to ensure data is available
             delay(500)
-
-            Log.d("DetailItemScreen", "🖼 Loading image in ViewModel...")
             viewModel.loadPastDetection(boundingBoxesModel ?: emptyList(), imageUri)
         } catch (e: SecurityException) {
             Log.e("DetailItemScreen", "❌ Failed to take persistable URI permission", e)
         }
     }
-
 
     Scaffold(
         topBar = { AppHeader("Detection Results") { navController.popBackStack() } }
@@ -101,7 +104,6 @@ fun DetailItemScreen(
                 ) {
                     item {
                         if (bitmap == null) {
-                            Log.d("DetailItemScreen", "Image is still loading, showing progress bar...")
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
@@ -109,10 +111,8 @@ fun DetailItemScreen(
                                 CircularProgressIndicator()
                             }
                         } else {
-                            Log.d("DetailItemScreen", "Displaying detected image: $bitmap")
                             DetectedImage(bitmap)
                         }
-
                     }
 
                     detection?.let {
@@ -130,8 +130,135 @@ fun DetailItemScreen(
                             }
                         }
                     }
+
+                    // Note Section
+                    item {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text("Note:", style = MaterialTheme.typography.titleLarge)
+
+                        if (noteText.isEmpty() && !isEditingNote) {
+                            Button(
+                                onClick = { isEditingNote = true },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                            ) {
+                                Text("➕ Add Note")
+                            }
+                        } else {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F1F1)),
+                                elevation = CardDefaults.cardElevation(6.dp)
+                            ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    if (isEditingNote) {
+                                        OutlinedTextField(
+                                            value = noteText,
+                                            onValueChange = { noteText = it },
+                                            modifier = Modifier.fillMaxWidth(),
+                                            label = { Text("Write your note...") }
+                                        )
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(top = 8.dp),
+                                            horizontalArrangement = Arrangement.SpaceBetween
+                                        ) {
+                                            Button(
+                                                onClick = {
+                                                    isEditingNote = false
+                                                    noteText = detection?.detection?.note ?: ""
+                                                },
+                                                colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                                            ) {
+                                                Text("Cancel")
+                                            }
+
+                                            Button(
+                                                onClick = {
+                                                    getViewModel.setNoteForDetection(detectionId, noteText)
+                                                    isEditingNote = false
+                                                    getViewModel.getDetectionById(detectionId) // 🔥 Refetch updated detection
+                                                }
+                                            ) {
+                                                Text("✅ Save Note")
+                                            }
+
+
+                                        }
+                                    } else {
+                                        Text(
+                                            text = noteText,
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            modifier = Modifier.padding(bottom = 8.dp)
+                                        )
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween
+                                        ) {
+                                            Button(onClick = { isEditingNote = true }) {
+                                                Text("✏️ Modify Note")
+                                            }
+                                            Button(
+                                                onClick = {
+                                                    getViewModel.setNoteForDetection(detectionId, "")
+                                                    noteText = ""
+                                                },
+                                                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                                            ) {
+                                                Text("🗑️ Delete Note", color = Color.White)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // Delete Button
+                    item {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(
+                            onClick = { showDeleteDialog = true },
+                            colors = ButtonDefaults.buttonColors(Color.Red),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            Text("Delete Detection", color = Color.White)
+                        }
+                    }
                 }
             }
+        }
+
+        if (showDeleteDialog) {
+            AlertDialog(
+                onDismissRequest = { showDeleteDialog = false },
+                title = { Text("Confirm Delete") },
+                text = { Text("Are you sure you want to delete this detection? This action cannot be undone.") },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            savedUserId?.let {
+                                getViewModel.deleteDetection(detectionId, it, true)
+                            }
+                            showDeleteDialog = false
+                            navController.popBackStack()
+                        },
+                        colors = ButtonDefaults.buttonColors(Color.Red)
+                    ) {
+                        Text("Delete", color = Color.White)
+                    }
+                },
+                dismissButton = {
+                    Button(onClick = { showDeleteDialog = false }) {
+                        Text("Cancel")
+                    }
+                }
+            )
         }
     }
 }

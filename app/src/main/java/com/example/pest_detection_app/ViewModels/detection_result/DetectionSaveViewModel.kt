@@ -126,4 +126,40 @@ class DetectionSaveViewModel(
             _detection.value = result  // Store in StateFlow
         }
     }
+
+
+    // 🔹 Delete a single detection by ID
+    fun deleteDetection(detectionId: Int, userId: Int, isDescending: Boolean) = viewModelScope.launch {
+        detectionResultDao.deleteDetectionById(detectionId)
+        getSortedDetections(userId, isDescending)  // ✅ Refresh only the user's detections
+    }
+
+    // 🔹 Delete all detections for a user
+    fun deleteAllDetections(userId: Int, isDescending: Boolean) = viewModelScope.launch {
+        detectionResultDao.deleteAllDetectionsForUser(userId)
+        getSortedDetections(userId, isDescending)  // ✅ Refresh only the user's detections
+    }
+
+
+
+    fun deleteDetectionsByPestName(userId: Int?, pestName: String) = viewModelScope.launch {
+        detectionResultDao.deleteDetectionsByPestName(userId, pestName)
+        getSortedDetections(userId, isDescending = true)  // Refresh the list
+    }
+
+
+    fun setNoteForDetection(detectionId: Int, note: String) {
+        viewModelScope.launch {
+            detectionResultDao.setNoteForDetection(detectionId, note)
+        }
+    }
+
+    fun deleteNoteForDetection(detectionId: Int) {
+        viewModelScope.launch {
+            detectionResultDao.deleteNoteForDetection(detectionId)
+        }
+    }
+
+
+
 }

@@ -17,7 +17,7 @@ object DatabaseManager {
                 PestDetectionDatabase::class.java,
                 "pestDetectionDatabase"
             )
-                .addMigrations(MIGRATION_4_5) // Added migration
+                .addMigrations(MIGRATION_4_5, MIGRATION_5_6) // Added migration
                 .build()
                 .also { instance = it }
         }
@@ -30,6 +30,13 @@ object DatabaseManager {
             // 2. If you want, update existing rows with a reasonable timestamp (e.g., the time the migration is performed)
             val currentTime = System.currentTimeMillis()
             database.execSQL("UPDATE detection_results SET detectionDate = $currentTime WHERE detectionDate = 0")
+        }
+    }
+
+    // 🔹 Migration 5 -> 6 (Adding "note" field)
+    private val MIGRATION_5_6 = object : Migration(5, 6) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE detection_results ADD COLUMN note TEXT DEFAULT NULL")
         }
     }
 

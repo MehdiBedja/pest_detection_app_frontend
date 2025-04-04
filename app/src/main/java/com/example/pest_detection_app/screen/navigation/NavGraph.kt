@@ -143,7 +143,7 @@ fun NavGraph(navController: NavHostController) {
 
                 val detectionViewModel: DetectionViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 
-                DetailItemScreen(navController, detectionViewModel, detectionSaveViewModel, detectionId)
+                DetailItemScreen(navController, detectionViewModel, detectionSaveViewModel, detectionId , userView)
             }
 
 

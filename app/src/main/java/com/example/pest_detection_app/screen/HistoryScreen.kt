@@ -76,20 +76,15 @@ fun AppHeader1(pageTitle: String, onBackClick: () -> Unit) {
 
 @Composable
 fun DetectionHistoryScreen(
-    navController: NavController ,
+    navController: NavController,
     userViewModel: LoginViewModel,
-    viewModel: DetectionSaveViewModel = viewModel() ,
+    viewModel: DetectionSaveViewModel = viewModel(),
 ) {
     val savedUserId by userViewModel.userId.collectAsState()
     val detectionList by viewModel.detections.collectAsState()
     var selectedPest by remember { mutableStateOf("None") }
     var isDescending by remember { mutableStateOf(true) }
-
-    val pestList = listOf("None") + listOf(
-        "Grub", "Mole Cricket", "Wireworm", "Corn Borer", "Aphids", "Beet Armyworm",
-        "Flax Budworm", "Lytta Polita", "Legume Blister beetle", "Blister Beetle",
-        "Miridae", "Prodenia Litura", "Cicadellidae"
-    )
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     // Load initial detections
     LaunchedEffect(savedUserId) {
@@ -97,33 +92,32 @@ fun DetectionHistoryScreen(
     }
 
     Scaffold(
-        topBar = {
-            AppHeader1("Detection Records") { }
-        }
+        topBar = { AppHeader1("Detection Records") {} }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(0xFFE8F5E9)) // Light green background
-
+                .background(Color(0xFFE8F5E9))
         ) {
-            // Pest Selection Dropdown
-            var expanded by remember { mutableStateOf(false) }
-
+            // 🔹 Top Actions Row (Dropdown + Sort + Delete)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Pest Selection Dropdown
+                // 🔹 Pest Selection Dropdown
+                var expanded by remember { mutableStateOf(false) }
                 Box {
                     Button(onClick = { expanded = true }) {
                         Text(if (selectedPest == "None") "Select Pest" else selectedPest)
                     }
                     DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                        listOf("None") + pestList.forEach { pest ->
+                        listOf("None", "Grub", "Mole Cricket", "Wireworm", "Corn Borer", "Aphids",
+                            "Beet Armyworm", "Flax Budworm", "Lytta Polita", "Legume Blister beetle",
+                            "Blister Beetle", "Miridae", "Prodenia Litura", "Cicadellidae"
+                        ).forEach { pest ->
                             DropdownMenuItem(
                                 text = { Text(pest) },
                                 onClick = {
@@ -139,7 +133,7 @@ fun DetectionHistoryScreen(
                     }
                 }
 
-                // Sorting Button
+                // 🔹 Sorting Button
                 SortButton("Date", isDescending) {
                     isDescending = !isDescending
                     viewModel.getDetectionsByPestName(
@@ -147,10 +141,42 @@ fun DetectionHistoryScreen(
                         isDescending
                     )
                 }
+
+                // 🔹 Delete Button (Deletes all or only filtered detections)
+                Button(
+                    onClick = { showDeleteDialog = true },
+                    colors = ButtonDefaults.buttonColors(Color.Red),
+                    modifier = Modifier.padding(start = 8.dp)
+                ) {
+                    Text(if (selectedPest == "None") "Delete All" else "Delete All Shown")
+                }
             }
 
+            // 🔹 Confirmation Dialog for Deleting
+            if (showDeleteDialog) {
+                ConfirmDeleteDialog(
+                    message = if (selectedPest == "None")
+                        "Are you sure you want to delete all detections?"
+                    else
+                        "Are you sure you want to delete all detections of $selectedPest?",
 
-            // Detection List
+                    onConfirm = {
+                        savedUserId?.let {
+                            if (selectedPest == "None") {
+                                viewModel.deleteAllDetections(it, isDescending)  // ✅ Correctly calling deleteAllDetections
+                            } else {
+                                viewModel.deleteDetectionsByPestName(it, selectedPest)  // ✅ Correctly calling deleteDetectionsByPestName
+                                selectedPest = "None"  // 🔥 Reset selection after deleting all of that pest type!
+
+                            }
+                        }
+                        showDeleteDialog = false
+                    },
+                    onDismiss = { showDeleteDialog = false }
+                )
+            }
+
+            // 🔹 Detection List
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -158,7 +184,7 @@ fun DetectionHistoryScreen(
                     .padding(horizontal = 16.dp)
             ) {
                 items(detectionList) { detection ->
-                    DetectionItem(navController, detection )
+                    DetectionItem(navController, detection, viewModel, savedUserId, isDescending)
                 }
             }
         }
@@ -167,38 +193,21 @@ fun DetectionHistoryScreen(
 
 
 @Composable
-fun SortButton(text: String, isDescending: Boolean, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFFFF7043)),
-        modifier = Modifier.padding(4.dp)
-    ) {
-        Text(
-            text = if (isDescending) "$text ▼" else "$text ▲",
-            color = Color.White
-        )
-    }
-}
-
-
-@Composable
-fun DetectionItem(navController: NavController , detection: DetectionWithBoundingBoxes) {
-
-
+fun DetectionItem(
+    navController: NavController,
+    detection: DetectionWithBoundingBoxes,
+    viewModel: DetectionSaveViewModel,
+    userId: Int?,
+    isDescending: Boolean
+) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable {
-
-                navController.navigate("detail_screen/${detection.detection.id}")
-
-
-            },
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFECEAC8)), // ✅ Fixed placement
-
+            .clickable { navController.navigate("detail_screen/${detection.detection.id}") },
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFECEAC8)),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -245,7 +254,6 @@ fun DetectionItem(navController: NavController , detection: DetectionWithBoundin
                                     fontWeight = FontWeight.Light
                                 )
 
-                                // Add a divider between pests, but not after the last one
                                 if (index < detection.boundingBoxes.size - 1) {
                                     Divider(
                                         color = Color.Gray,
@@ -264,6 +272,23 @@ fun DetectionItem(navController: NavController , detection: DetectionWithBoundin
                         )
                     }
                 }
+
+                // Delete Button
+                IconButton(onClick = { showDeleteDialog = true }) {
+                    Icon(painterResource(id = R.drawable.ic_delete), contentDescription = "Delete", tint = Color.Red)
+                }
+            }
+
+            // Confirmation Dialog for Deleting One Detection
+            if (showDeleteDialog) {
+                ConfirmDeleteDialog(
+                    message = "Are you sure you want to delete this detection?",
+                    onConfirm = {
+                        viewModel.deleteDetection(detection.detection.id, userId ?: 0, isDescending)
+                        showDeleteDialog = false
+                    },
+                    onDismiss = { showDeleteDialog = false }
+                )
             }
 
             // Sync Status Indicator
@@ -273,9 +298,47 @@ fun DetectionItem(navController: NavController , detection: DetectionWithBoundin
                     .size(12.dp)
                     .clip(CircleShape)
                     .background(syncColor)
-                    .align(Alignment.End) // Aligns to the right
+                    .align(Alignment.End)
             )
         }
+    }
+}
+
+@Composable
+fun ConfirmDeleteDialog(message: String, onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = { onDismiss() },
+        title = { Text("Confirm Delete") },
+        text = { Text(message) },
+        confirmButton = {
+            Button(
+                onClick = onConfirm,
+                colors = ButtonDefaults.buttonColors(Color.Red)
+            ) {
+                Text("Delete", color = Color.White)
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
+}
+
+
+@Composable
+fun SortButton(text: String, isDescending: Boolean, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(Color(0xFFFF7043)),
+        modifier = Modifier.padding(4.dp)
+    ) {
+        Text(
+            text = if (isDescending) "$text ▼" else "$text ▲",
+            color = Color.White
+        )
     }
 }
 

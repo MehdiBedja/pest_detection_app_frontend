@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -36,8 +37,12 @@ fun BottomNavBar(navController: NavController, isLoggedIn: Boolean) {
         bottomNavItems.add(BottomNavItem("Profile", Screen.UserProfileScreen.route, Icons.Filled.Person))
     }
 
+    val currentRoute = navController.currentDestination?.route
+
     NavigationBar(containerColor = Color(0xF05C6467), tonalElevation = 8.dp) {
         bottomNavItems.forEach { item ->
+            val isSelected = currentRoute == item.route
+
             NavigationBarItem(
                 icon = {
                     if (item.icon is Int) {
@@ -57,8 +62,16 @@ fun BottomNavBar(navController: NavController, isLoggedIn: Boolean) {
                     }
                 },
                 label = { Text(item.title, color = Color.White) },
-                selected = false,
-                onClick = { navController.navigate(item.route) }
+                selected = isSelected,
+                onClick = {
+                    navController.navigate(item.route) {
+                        launchSingleTop = true
+                    }
+                },
+                // 🔹 This adds a slight background highlight to the selected item
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = if (isSelected) Color(0xFF4A5255) else Color.Transparent
+                )
             )
         }
     }
