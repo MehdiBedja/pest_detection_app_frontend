@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pest_detection_app.RoomDatabase.BoundingBox
 import com.example.pest_detection_app.RoomDatabase.BoundingBoxDao
 import com.example.pest_detection_app.RoomDatabase.DetectionResult
@@ -87,6 +88,10 @@ class DetectionSaveViewModel(
     private val _detections = MutableStateFlow<List<DetectionWithBoundingBoxes>>(emptyList())
     val detections: StateFlow<List<DetectionWithBoundingBoxes>> = _detections
 
+
+    private val _detections1 = MutableStateFlow<List<DetectionWithBoundingBoxes>>(emptyList())
+    val detections1: StateFlow<List<DetectionWithBoundingBoxes>> = _detections1
+
     private var allDetections: List<DetectionWithBoundingBoxes> = emptyList()
 
     fun getSortedDetections(userId: Int?, isDescending: Boolean) = viewModelScope.launch {
@@ -159,6 +164,11 @@ class DetectionSaveViewModel(
             detectionResultDao.deleteNoteForDetection(detectionId)
         }
     }
+
+    fun getRecentDetections(userId: Int) {
+        viewModelScope.launch {
+            _detections1.value =   detectionResultDao.getDetectionsSortedDesc(userId)
+        }}
 
 
 

@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -41,38 +42,15 @@ import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.data.user.DetectionWithBoundingBoxes
+import com.example.pest_detection_app.ui.theme.CardBackground
+import com.example.pest_detection_app.ui.theme.DarkBackground
+import com.example.pest_detection_app.ui.theme.LightText
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 
-/** ✅ Header Component */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppHeader1(pageTitle: String, onBackClick: () -> Unit) {
-    TopAppBar(
-        title = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = pageTitle,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        },
-        actions = {
-            Image(
-                painter = painterResource(id = R.drawable.logo), // Replace with your actual logo
-                contentDescription = "App Logo",
-                modifier = Modifier.size(40.dp).padding(end = 8.dp)
-            )
-        }
-    )
-}
+
 
 @Composable
 fun DetectionHistoryScreen(
@@ -91,14 +69,12 @@ fun DetectionHistoryScreen(
         viewModel.getSortedDetections(savedUserId, isDescending)
     }
 
-    Scaffold(
-        topBar = { AppHeader1("Detection Records") {} }
-    ) { paddingValues ->
+    Scaffold() { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(0xFFE8F5E9))
+                .background(DarkBackground)
         ) {
             // 🔹 Top Actions Row (Dropdown + Sort + Delete)
             Row(
@@ -110,10 +86,20 @@ fun DetectionHistoryScreen(
                 // 🔹 Pest Selection Dropdown
                 var expanded by remember { mutableStateOf(false) }
                 Box {
-                    Button(onClick = { expanded = true }) {
-                        Text(if (selectedPest == "None") "Select Pest" else selectedPest)
+                    Button(
+                        onClick = { expanded = true },
+                        colors = ButtonDefaults.buttonColors(LightText ) // New color
+                    ) {
+                        Text(
+                            text = if (selectedPest == "None") "Select Pest" else selectedPest,
+                            color = Color.Black
+                        )
                     }
-                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.heightIn(max = 300.dp) // Limiting dropdown height
+                    ) {
                         listOf("None", "Grub", "Mole Cricket", "Wireworm", "Corn Borer", "Aphids",
                             "Beet Armyworm", "Flax Budworm", "Lytta Polita", "Legume Blister beetle",
                             "Blister Beetle", "Miridae", "Prodenia Litura", "Cicadellidae"
@@ -145,10 +131,13 @@ fun DetectionHistoryScreen(
                 // 🔹 Delete Button (Deletes all or only filtered detections)
                 Button(
                     onClick = { showDeleteDialog = true },
-                    colors = ButtonDefaults.buttonColors(Color.Red),
+                    colors = ButtonDefaults.buttonColors(LightText), // New color
                     modifier = Modifier.padding(start = 8.dp)
                 ) {
-                    Text(if (selectedPest == "None") "Delete All" else "Delete All Shown")
+                    Text(
+                        text = if (selectedPest == "None") "Delete All" else "Delete All",
+                        color = Color.Black
+                    )
                 }
             }
 
@@ -163,11 +152,10 @@ fun DetectionHistoryScreen(
                     onConfirm = {
                         savedUserId?.let {
                             if (selectedPest == "None") {
-                                viewModel.deleteAllDetections(it, isDescending)  // ✅ Correctly calling deleteAllDetections
+                                viewModel.deleteAllDetections(it, isDescending)
                             } else {
-                                viewModel.deleteDetectionsByPestName(it, selectedPest)  // ✅ Correctly calling deleteDetectionsByPestName
-                                selectedPest = "None"  // 🔥 Reset selection after deleting all of that pest type!
-
+                                viewModel.deleteDetectionsByPestName(it, selectedPest)
+                                selectedPest = "None" // 🔥 Reset selection after deletion!
                             }
                         }
                         showDeleteDialog = false
@@ -184,7 +172,10 @@ fun DetectionHistoryScreen(
                     .padding(horizontal = 16.dp)
             ) {
                 items(detectionList) { detection ->
-                    DetectionItem(navController, detection, viewModel, savedUserId, isDescending)
+                    DetectionItem(
+                        navController, detection, viewModel, savedUserId, isDescending, {
+                            selectedPest = "None" // Reset pest selection after deletion
+                        })
                 }
             }
         }
@@ -198,7 +189,8 @@ fun DetectionItem(
     detection: DetectionWithBoundingBoxes,
     viewModel: DetectionSaveViewModel,
     userId: Int?,
-    isDescending: Boolean
+    isDescending: Boolean,
+    resetPestSelection: () -> Unit // Add this callback
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
 
@@ -207,7 +199,7 @@ fun DetectionItem(
             .fillMaxWidth()
             .padding(8.dp)
             .clickable { navController.navigate("detail_screen/${detection.detection.id}") },
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFECEAC8)),
+        colors = CardDefaults.cardColors(containerColor = CardBackground),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -226,17 +218,11 @@ fun DetectionItem(
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Inference time: ${detection.detection.timestamp}",
-                        fontWeight = FontWeight.Bold,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
-                    )
-
-                    Text(
                         text = "Date: ${formatDate(detection.detection.detectionDate)}",
                         fontWeight = FontWeight.Bold,
                         overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
+                        maxLines = 1,
+                        fontFamily = FontFamily.Serif
                     )
 
                     if (detection.boundingBoxes.isNotEmpty()) {
@@ -246,7 +232,8 @@ fun DetectionItem(
                                     text = "Detected Pest: ${box.clsName}",
                                     fontWeight = FontWeight.Medium,
                                     overflow = TextOverflow.Ellipsis,
-                                    maxLines = 1
+                                    maxLines = 1,
+                                    fontFamily = FontFamily.Serif
                                 )
 
                                 Text(
@@ -285,21 +272,12 @@ fun DetectionItem(
                     message = "Are you sure you want to delete this detection?",
                     onConfirm = {
                         viewModel.deleteDetection(detection.detection.id, userId ?: 0, isDescending)
+                        resetPestSelection() // Reset the pest selection after deletion
                         showDeleteDialog = false
                     },
                     onDismiss = { showDeleteDialog = false }
                 )
             }
-
-            // Sync Status Indicator
-            val syncColor = if (detection.detection.isSynced) Color.Green else Color.Red
-            Box(
-                modifier = Modifier
-                    .size(12.dp)
-                    .clip(CircleShape)
-                    .background(syncColor)
-                    .align(Alignment.End)
-            )
         }
     }
 }
@@ -332,12 +310,12 @@ fun SortButton(text: String, isDescending: Boolean, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(Color(0xFFFF7043)),
+        colors = ButtonDefaults.buttonColors(LightText),
         modifier = Modifier.padding(4.dp)
     ) {
         Text(
             text = if (isDescending) "$text ▼" else "$text ▲",
-            color = Color.White
+            color = Color.Black
         )
     }
 }

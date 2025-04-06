@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.*
@@ -16,12 +17,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,6 +34,10 @@ import com.example.pest_detection_app.ViewModels.DetectionViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
+import com.example.pest_detection_app.ui.theme.AccentGreen
+import com.example.pest_detection_app.ui.theme.CardBackground
+import com.example.pest_detection_app.ui.theme.DarkBackground
+import com.example.pest_detection_app.ui.theme.GrayText
 import org.json.JSONArray
 import java.io.InputStream
 
@@ -74,13 +81,11 @@ fun ResultsScreen(
         }
     }
 
-    Scaffold(
-        topBar = { AppHeader("Detection Results") { navController.popBackStack() } }
-    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(8.dp)
+                .background(DarkBackground)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 if (isProcessing) {
@@ -127,8 +132,24 @@ fun ResultsScreen(
                 }
                 ActionButtons(onSave = { saveResults() })
             }
+
+            // Floating Back Button (add this part)
+            FloatingActionButton(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.TopStart),
+                containerColor = DarkBackground,
+                contentColor = Color.White,
+                shape = RoundedCornerShape(50)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
         }
-    }
+
 
     // Show login/signup dialog if not logged in
     if (showLoginDialog) {
@@ -162,40 +183,6 @@ fun LoginSignupDialog(navController: NavController, onDismiss: () -> Unit) {
 }
 
 
-
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppHeader(pageTitle: String, onBackClick: () -> Unit) {
-    TopAppBar(
-        title = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = pageTitle,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        },
-        navigationIcon = {
-            IconButton(onClick = onBackClick) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-            }
-        },
-        actions = {
-            Image(
-                painter = painterResource(id = R.drawable.logo), // Replace with your actual logo
-                contentDescription = "App Logo",
-                modifier = Modifier.size(40.dp).padding(end = 8.dp)
-            )
-        }
-    )
-}
 
 @Composable
 fun DetectedImage(bitmap: Bitmap?) {
@@ -251,13 +238,40 @@ fun DetectedImage(bitmap: Bitmap?) {
 
 @Composable
 fun PestInfoCard(pestIndex: Int, pestName: String, confidenceScore: Float) {
-    Card(shape = RoundedCornerShape(8.dp), modifier = Modifier.fillMaxWidth()) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(4.dp, RoundedCornerShape(16.dp)),
+        colors = CardDefaults.cardColors(containerColor = CardBackground)
+    ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Detected Pest #$pestIndex: $pestName", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Text("Confidence Score: ${"%.2f".format(confidenceScore * 100)}%", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = "Detected Pest : $pestIndex",
+                fontSize = 20.sp,
+                color = AccentGreen,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Serif,
+
+                )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = pestName,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = DarkBackground ,
+
+                )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Confidence: ${"%.2f".format(confidenceScore * 100)}%",
+                fontSize = 14.sp,
+                color = GrayText
+            )
         }
     }
 }
+
 
 @Composable
 fun PesticideRecommendationCard(pestName: String, context: Context) {
@@ -266,16 +280,51 @@ fun PesticideRecommendationCard(pestName: String, context: Context) {
     val pestInfo = (0 until jsonArray.length())
         .map { jsonArray.getJSONObject(it) }
         .find { it.optString("pest") == pestName }
+
     val cropCategory = pestInfo?.optString("category") ?: "Unknown"
     val pesticideRecommendation = pestInfo?.optString("recommendation") ?: "No recommendation available"
 
-    Card(shape = RoundedCornerShape(8.dp), modifier = Modifier.fillMaxWidth()) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(4.dp, RoundedCornerShape(16.dp)),
+        colors = CardDefaults.cardColors(containerColor = CardBackground)
+    ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Crop Category: $cropCategory", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Text("Recommended Pesticide: $pesticideRecommendation", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = "Crop Category:",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = AccentGreen ,
+                fontFamily = FontFamily.Serif,
+
+                )
+            Text(
+                text = cropCategory,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = DarkBackground
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Pesticide Recommendation:",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = AccentGreen ,
+                fontFamily = FontFamily.Serif,
+
+                )
+            Text(
+                text = pesticideRecommendation,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = DarkBackground
+            )
         }
     }
 }
+
 
 fun loadJsonFromAssets(context: Context, fileName: String): String {
     val inputStream: InputStream = context.assets.open(fileName)
