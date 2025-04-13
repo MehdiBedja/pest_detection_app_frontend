@@ -69,6 +69,8 @@ interface DetectionResultDao {
     suspend fun deleteNoteForDetection(detectionId: Int)
 
 
+    @Query("SELECT serverId FROM detection_results WHERE serverId IS NOT NULL AND userId = :userId")
+    suspend fun getServerIdsForUser(userId: Int): List<String>
 
 
 

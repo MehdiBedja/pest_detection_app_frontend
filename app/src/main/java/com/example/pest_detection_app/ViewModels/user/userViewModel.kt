@@ -62,8 +62,8 @@ class AccountViewModel(private val authRepository: AuthRepository ) : ViewModel(
                     email = email,
                     username = username,
                     lastName = lastName,
-                    firstName = firstName,
-                    phoneNumber = phoneNumber,
+                    firstName = null.toString(),
+                    phoneNumber = null.toString(),
                     password = password
                 )
 
@@ -81,8 +81,8 @@ class AccountViewModel(private val authRepository: AuthRepository ) : ViewModel(
                             username = user.username,
                             email = user.email,
                             last_name = user.last_name,
-                            first_name = user.first_name,
-                            phone_number = user.phone_number,
+                            first_name = null,
+                            phone_number = null,
                             date_of_birth = user.date_of_birth,
                             date_joined = user.date_joined,
                             profile_picture = user.profile_picture
@@ -231,23 +231,21 @@ class LoginViewModel(
                     if (tokenValue != null && userId != null) {
                         userPreferences.updateValues(true, userId, tokenValue)
 
-                        Globals.savedToken = tokenValue  // Update global token
-                        _token.value = tokenValue     // Update state token
-                        _userId.value = userId   // Update state userid
+                        Globals.savedToken = tokenValue
+                        _token.value = tokenValue
+                        _userId.value = userId
 
                         Log.d("Login", "Login successful. Token: $tokenValue")
 
                         login.value = true
                         logout.value = false
 
-                        // 🔥 Check if user exists in Room
                         val userDao = DatabaseManager.userDao(MyApp.getContext())
                         val existingUser = withContext(Dispatchers.IO) { userDao.getUserById(userId) }
 
                         if (existingUser == null) {
                             Log.d("Login", "User not found in Room, fetching from backend...")
 
-                            // Fetch user data from backend
                             val userResponse = authRepository.getUser(tokenValue)
                             if (userResponse.isSuccessful) {
                                 val userData = userResponse.body()
@@ -264,7 +262,6 @@ class LoginViewModel(
                                         profile_picture = userData.profile_picture
                                     )
 
-                                    // Save user to Room Database
                                     withContext(Dispatchers.IO) {
                                         userDao.insertUser(userEntity)
                                     }
@@ -279,7 +276,11 @@ class LoginViewModel(
                         }
                     }
                 } else {
-                    error.value = "Failed to login: ${response.message()}"
+                    error.value = if (response.code() == 401) {
+                        "Incorrect username or password"
+                    } else {
+                        "Login failed: ${response.message()}"
+                    }
                     Log.e("Login", "Failed to login: ${response.message()}")
                     _token.value = null
                     Globals.savedToken = null
@@ -294,6 +295,8 @@ class LoginViewModel(
             }
         }
     }
+
+
 
 
 

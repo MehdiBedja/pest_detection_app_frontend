@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileInputStream
 
 class DetectionViewModel(application: Application) : AndroidViewModel(application), Detector.DetectorListener {
 
@@ -138,15 +140,34 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
             val context = getApplication<Application>()
             val contentResolver = context.contentResolver
 
-            // ✅ Only take persistable permission for gallery images
-            if (isGalleryUri(uri)) {
-                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                contentResolver.takePersistableUriPermission(uri, takeFlags)
-                Log.d("DetectionViewModel", "✅ Persistable permission granted for URI: $uri")
+            val inputStream = when (uri.scheme) {
+                "content" -> {
+                    // ✅ Handle gallery or content URIs
+                    if (isGalleryUri(uri)) {
+                        val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        contentResolver.takePersistableUriPermission(uri, takeFlags)
+                        Log.d("DetectionViewModel", "✅ Persistable permission granted for URI: $uri")
+                    }
+                    contentResolver.openInputStream(uri)
+                }
+
+                "file" -> {
+                    // ✅ Handle file URIs
+                    Log.d("DetectionViewModel", "✅ Loading from file URI: $uri")
+                    FileInputStream(File(uri.path!!))
+                }
+
+                else -> {
+                    // ✅ Handle raw file paths or unknown schemes
+                    Log.d("DetectionViewModel", "✅ Loading from raw path or unknown scheme: $uri")
+                    FileInputStream(File(uri.toString()))
+                }
             }
 
-            val inputStream = contentResolver.openInputStream(uri)
-            BitmapFactory.decodeStream(inputStream)
+            inputStream.use {
+                BitmapFactory.decodeStream(it)
+            }
+
         } catch (e: SecurityException) {
             Log.e("DetectionViewModel", "❌ Permission error: Use ACTION_OPEN_DOCUMENT for gallery images", e)
             null

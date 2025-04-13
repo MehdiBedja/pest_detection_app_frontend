@@ -55,6 +55,7 @@ import com.example.pest_detection_app.ui.theme.CardBackground
 import com.example.pest_detection_app.ui.theme.DarkBackground
 import com.example.pest_detection_app.ui.theme.GrayText
 import com.example.pest_detection_app.ui.theme.LightText
+import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -78,6 +79,58 @@ private fun createImageUri(context: Context): Uri? {
 }
 
 @Composable
+fun SyncNowButton(detectionSaveViewModel: DetectionSaveViewModel , userViewModel: LoginViewModel) {
+
+    val userid by userViewModel.userId.collectAsState()
+    val scope = rememberCoroutineScope()
+    var isSyncing by remember { mutableStateOf(false) }
+    var syncSuccess by remember { mutableStateOf<Boolean?>(null) }
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Button(
+                onClick = {
+                    isSyncing = true
+                    scope.launch {
+                        try {
+                            detectionSaveViewModel.syncLocalServerIdsWithCloud(userid!!)
+                            syncSuccess = true
+                        } catch (e: Exception) {
+                            syncSuccess = false
+                        } finally {
+                            isSyncing = false
+                        }
+                    }
+                },
+                enabled = !isSyncing
+            ) {
+                Text("Sync Now")
+            }
+
+            if (isSyncing) {
+                Spacer(modifier = Modifier.height(12.dp))
+                CircularProgressIndicator()
+            }
+
+            // Show result
+            LaunchedEffect(syncSuccess) {
+                syncSuccess?.let {
+                    val msg = if (it) "✅ Sync Successful!" else "❌ Sync Failed!"
+                    snackbarHostState.showSnackbar(msg)
+                    syncSuccess = null
+                }
+            }
+        }
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
+    }
+}
+
+
+@Composable
 fun HomeScreen(navController: NavController, userViewModel: LoginViewModel ,
                detectionSaveViewModel: DetectionSaveViewModel , detectionViewModel: DetectionViewModel ,
                userViewModelRoom: UserViewModelRoom) {
@@ -91,16 +144,15 @@ fun HomeScreen(navController: NavController, userViewModel: LoginViewModel ,
             .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState()) // Make the column vertically scrollable
             .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color(0xFF121212), Color(0xFF000000))
-                )
+            color = DarkBackground
             )
-
         ,
 
 
     )  {
         UserGreeting(navController , userViewModel , userViewModelRoom)
+
+        SyncNowButton(detectionSaveViewModel , userViewModel)
 
         if(!isLoggedIn ) {
             AuthButtons(navController)

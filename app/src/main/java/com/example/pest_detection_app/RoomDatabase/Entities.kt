@@ -36,6 +36,7 @@ data class User(
 data class DetectionResult(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val userId: Int, // Foreign key to User
+    val serverId: String, // New field for server-side unique identifier
     val imageUri: String, // Local image path
     val timestamp: Long, // Time of detection
     val isSynced: Boolean = false ,// Sync status with cloud

@@ -17,7 +17,7 @@ object DatabaseManager {
                 PestDetectionDatabase::class.java,
                 "pestDetectionDatabase"
             )
-                .addMigrations(MIGRATION_4_5, MIGRATION_5_6) // Added migration
+                .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7) // Added migration
                 .build()
                 .also { instance = it }
         }
@@ -39,6 +39,15 @@ object DatabaseManager {
             database.execSQL("ALTER TABLE detection_results ADD COLUMN note TEXT DEFAULT NULL")
         }
     }
+
+
+    private val MIGRATION_6_7 = object : Migration(6, 7) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            // Add the serverId field to the detection_results table
+            database.execSQL("ALTER TABLE detection_results ADD COLUMN serverId TEXT NOT NULL DEFAULT ''")
+        }
+    }
+
 
     fun userDao(context: Context): UserDao = getDatabase(context).userDao()
     fun detectionResultDao(context: Context): DetectionResultDao = getDatabase(context).detectionResultDao()
