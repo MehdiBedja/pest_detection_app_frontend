@@ -49,6 +49,7 @@ import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.ViewModels.user.UserViewModelRoom
 import com.example.pest_detection_app.data.user.DetectionWithBoundingBoxes
 import com.example.pest_detection_app.navigation.userView
+import com.example.pest_detection_app.preferences.Globals
 import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.ui.theme.AccentGreen
 import com.example.pest_detection_app.ui.theme.CardBackground
@@ -95,6 +96,13 @@ fun SyncNowButton(detectionSaveViewModel: DetectionSaveViewModel , userViewModel
                     scope.launch {
                         try {
                             detectionSaveViewModel.syncLocalServerIdsWithCloud(userid!!)
+                            Globals.savedToken?.let {
+                               detectionSaveViewModel.softDeleteLocalDetections(
+                                 it, userid!!)
+
+                                detectionSaveViewModel.syncSoftDeletedDetections()
+                                detectionSaveViewModel.syncNotes(it , userid!!)
+                            }
                             syncSuccess = true
                         } catch (e: Exception) {
                             syncSuccess = false

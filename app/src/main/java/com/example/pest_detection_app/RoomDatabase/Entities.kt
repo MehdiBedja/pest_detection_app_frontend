@@ -35,15 +35,16 @@ data class User(
 )
 data class DetectionResult(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val userId: Int, // Foreign key to User
-    val serverId: String, // New field for server-side unique identifier
-    val imageUri: String, // Local image path
-    val timestamp: Long, // Time of detection
-    val isSynced: Boolean = false ,// Sync status with cloud
-    val detectionDate: Long, // New field (stores date as Unix timestamp)
-    val note: String? = null ,
+    val userId: Int,
+    val serverId: String,
+    val imageUri: String,
+    val timestamp: Long,
+    val isSynced: Boolean = false,
+    val detectionDate: Long,
+    val note: String? = null,
+    val updatedAt: Long? = null, // 🆕 Timestamp of last update
+    val isDeleted: Boolean = false // 🆕 For soft delete
 )
-
 
 
 

@@ -21,6 +21,18 @@ data class ServerIdsRequest(
     @SerializedName("ids") val ids: List<String>
 )
 
+
+data class ServerIdsRequestDel(
+    val server_ids: List<String>
+)
+
+data class SoftDeletedDetectionsResponse(
+    @SerializedName("deleted_ids")
+    val deletedIds: List<String>
+)
+
+
+
 data class SyncDetectionsResponse(
     @SerializedName("detections_to_send") val detectionsToSend: List<DetectionToSend>,
     @SerializedName("detections_needed_from_phone") val detectionsNeededFromPhone: List<String>
@@ -57,3 +69,31 @@ data class BoundingBoxDto(
     @SerializedName("cls") val cls: Int,
     @SerializedName("clsName") val clsName: String
 )
+
+
+
+data class DetectionNoteUpdate(
+    val serverId: String,
+    val updatedAt: Long?,
+    val note: String?
+)
+
+
+data class DetectionNoteUpdate1(
+    val serverId: String,
+    val updatedAt1: Long?,
+    val note: String?
+)
+
+
+data class NotesSyncRequest(
+    val detections: List<DetectionNoteUpdate>
+)
+
+
+data class SyncDetectionsResponse1(
+    val detections: List<DetectionNoteUpdate>
+)
+
+
+
