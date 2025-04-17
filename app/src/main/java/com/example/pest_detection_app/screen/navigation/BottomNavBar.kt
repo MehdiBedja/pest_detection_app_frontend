@@ -44,11 +44,12 @@ fun BottomNavBar(navController: NavController, isLoggedIn: Boolean) {
 
     if (isLoggedIn) {
         bottomNavItems.add(BottomNavItem("History", Screen.History.route, R.drawable.history))
+        bottomNavItems.add(
+            BottomNavItem("Profile", Screen.UserProfileScreen.route, Icons.Default.Person)
+        )
+
     }
 
-    bottomNavItems.add(
-        BottomNavItem("Settings", Screen.Settings.route, Icons.Filled.Settings)
-    )
 
     val currentRoute = navController.currentDestination?.route
 

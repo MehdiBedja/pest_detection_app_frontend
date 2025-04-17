@@ -164,7 +164,7 @@ fun ResultsScreen(
                                 "Inference Time: ${inferenceTime} ms",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = Color.Black
                             )
                         }
                     }
@@ -310,7 +310,7 @@ fun PestInfoCard(pestIndex: Int, pestName: String, confidenceScore: Float) {
                 text = pestName,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = DarkBackground ,
+                color = Color.Black ,
 
                 )
             Spacer(modifier = Modifier.height(4.dp))
@@ -355,7 +355,7 @@ fun PesticideRecommendationCard(pestName: String, context: Context) {
                 text = cropCategory,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = DarkBackground
+                color = Color.Black
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -370,7 +370,7 @@ fun PesticideRecommendationCard(pestName: String, context: Context) {
                 text = pesticideRecommendation,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = DarkBackground
+                color = Color.Black
             )
         }
     }

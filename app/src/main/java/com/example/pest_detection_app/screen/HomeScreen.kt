@@ -160,7 +160,6 @@ fun HomeScreen(navController: NavController, userViewModel: LoginViewModel ,
     )  {
         UserGreeting(navController , userViewModel , userViewModelRoom)
 
-        SyncNowButton(detectionSaveViewModel , userViewModel)
 
         if(!isLoggedIn ) {
             AuthButtons(navController)
@@ -169,6 +168,8 @@ fun HomeScreen(navController: NavController, userViewModel: LoginViewModel ,
             ScanButton(navController)
 
         if(isLoggedIn ) {
+            SyncNowButton(detectionSaveViewModel , userViewModel)
+
             RecentDetectionsSection(
                 navController, userViewModel,
                 detectionViewModel, detectionSaveViewModel
@@ -372,7 +373,7 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
 
         Text(
             text = pestName,
-            color = Color.White,
+            color = LightText,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold ,
             fontFamily = FontFamily.Serif,
@@ -381,7 +382,7 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
 
         Text(
             text = "Confidence: $confidence%",
-            color = Color.White.copy(alpha = 0.7f),
+            color = LightText.copy(alpha = 0.7f),
             fontSize = 16.sp
         )
     }
@@ -594,7 +595,7 @@ fun AuthButtons(navController: NavController) {
             Button(
                 onClick = { navController.navigate("login") },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = CardBackground,
+                    containerColor = Color.White,
                     contentColor = Color.Black
                 )
             ) {
@@ -603,7 +604,7 @@ fun AuthButtons(navController: NavController) {
             Button(
                 onClick = { navController.navigate("signup") },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = CardBackground,
+                    containerColor = Color.White,
                     contentColor = Color.Black
                 )
             ) {

@@ -165,7 +165,9 @@ fun NavGraph(navController: NavHostController) {
                 Screen.Forum.route,
                 Screen.Settings.route,
                 Screen.History.route,
-                Screen.UserProfileScreen.route
+                Screen.UserProfileScreen.route,
+                Screen.SignUp.route ,
+                Screen.Login.route
             )
         ) {
             Box(

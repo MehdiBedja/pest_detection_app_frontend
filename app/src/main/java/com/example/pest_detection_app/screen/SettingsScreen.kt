@@ -49,26 +49,13 @@ fun SettingsScreen(navController: NavController) {
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                item { SectionTitle("Preferences") }
-                item {
-                    SettingsItem("🚪 Profile Page", "Check and change your account personal's information") {
-                        navController.navigate("profile")
-                    }
-                }
+
 
                 item { SectionTitle("Preferences") }
                 item { SettingsItem("🌐 Language", "English / Arabic") { } }
                 item { SettingsItem("🎨 Theme", "Light / Dark Mode") { } }
                 item { SettingsItem("🔔 Notifications", "Manage alerts & updates") { } }
 
-                item { SectionTitle("Privacy & Data") }
-                item { SettingsItem("🚫 Clear History", "Remove all search & detection history") { } }
-                item { SettingsItem("📝 Terms & Privacy Policy", "Read our policies") { } }
-
-                item { SectionTitle("Support & Feedback") }
-                item { SettingsItem("💬 Contact Support", "Send feedback or report issues") { } }
-                item { SettingsItem("⭐ Rate the App", "Give us a rating") { } }
-                item { SettingsItem("🔄 Check for Updates", "Ensure you're on the latest version") { } }
                 item { SettingsItem("❓ About", "App version & details") { } }
 
                 item { SectionTitle("Account") }

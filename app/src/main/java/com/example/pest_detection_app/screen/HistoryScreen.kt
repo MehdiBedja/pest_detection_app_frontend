@@ -88,11 +88,11 @@ fun DetectionHistoryScreen(
                 Box {
                     Button(
                         onClick = { expanded = true },
-                        colors = ButtonDefaults.buttonColors(LightText ) // New color
+                        colors = ButtonDefaults.buttonColors(Color.Black ) // New color
                     ) {
                         Text(
                             text = if (selectedPest == "None") "Select Pest" else selectedPest,
-                            color = Color.Black
+                            color = Color.White
                         )
                     }
                     DropdownMenu(
@@ -131,12 +131,12 @@ fun DetectionHistoryScreen(
                 // 🔹 Delete Button (Deletes all or only filtered detections)
                 Button(
                     onClick = { showDeleteDialog = true },
-                    colors = ButtonDefaults.buttonColors(LightText), // New color
+                    colors = ButtonDefaults.buttonColors(Color.Black), // New color
                     modifier = Modifier.padding(start = 8.dp)
                 ) {
                     Text(
                         text = if (selectedPest == "None") "Delete All" else "Delete All",
-                        color = Color.Black
+                        color = Color.White
                     )
                 }
             }
@@ -199,7 +199,7 @@ fun DetectionItem(
             .fillMaxWidth()
             .padding(8.dp)
             .clickable { navController.navigate("detail_screen/${detection.detection.id}") },
-        colors = CardDefaults.cardColors(containerColor = CardBackground),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFFCFCFC)),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -310,12 +310,12 @@ fun SortButton(text: String, isDescending: Boolean, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(LightText),
+        colors = ButtonDefaults.buttonColors(Color.Black),
         modifier = Modifier.padding(4.dp)
     ) {
         Text(
             text = if (isDescending) "$text ▼" else "$text ▲",
-            color = Color.Black
+            color = Color.White
         )
     }
 }

@@ -64,11 +64,11 @@ fun Pest_Detection_AppTheme(
 
 
 // Define color palette
-val DarkBackground = Color(0xFF151515)
+val DarkBackground = Color(0xFFF6F4E8)
 
-val DarkBackground1 = Color(0xFFB29090)
+val DarkBackground1 = Color(0xFF131312)
 
-val LightText = Color(0xFFFFFFFF)
+val LightText =  Color(0xFF503D23)
 val GrayText = Color(0xFF8A8A8A)
 val AccentGreen = Color(0xFF9CB36B)
 val CardBackground = Color(0xFFF3F3E5)
