@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -91,7 +92,7 @@ fun DetectionHistoryScreen(
                         colors = ButtonDefaults.buttonColors(Color.Black ) // New color
                     ) {
                         Text(
-                            text = if (selectedPest == "None") "Select Pest" else selectedPest,
+                            text = if (selectedPest == "None") stringResource(R.string.select_pest) else selectedPest,
                             color = Color.White
                         )
                     }
@@ -120,7 +121,7 @@ fun DetectionHistoryScreen(
                 }
 
                 // 🔹 Sorting Button
-                SortButton("Date", isDescending) {
+                SortButton(stringResource(R.string.date), isDescending) {
                     isDescending = !isDescending
                     viewModel.getDetectionsByPestName(
                         if (selectedPest == "None") "" else selectedPest,
@@ -135,7 +136,7 @@ fun DetectionHistoryScreen(
                     modifier = Modifier.padding(start = 8.dp)
                 ) {
                     Text(
-                        text = if (selectedPest == "None") "Delete All" else "Delete All",
+                        text = if (selectedPest == "None") stringResource(R.string.delete_all) else stringResource(R.string.delete_all),
                         color = Color.White
                     )
                 }
@@ -145,9 +146,9 @@ fun DetectionHistoryScreen(
             if (showDeleteDialog) {
                 ConfirmDeleteDialog(
                     message = if (selectedPest == "None")
-                        "Are you sure you want to delete all detections?"
+                       stringResource(R.string.confirm_delete_all)
                     else
-                        "Are you sure you want to delete all detections of $selectedPest?",
+                        stringResource(R.string.confirm_delete_filtered)  +"$selectedPest?",
 
                     onConfirm = {
                         savedUserId?.let {
@@ -218,7 +219,7 @@ fun DetectionItem(
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Date: ${formatDate(detection.detection.detectionDate)}",
+                        text = stringResource(R.string.date) +" ${formatDate(detection.detection.detectionDate)}",
                         fontWeight = FontWeight.Bold,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
@@ -229,7 +230,7 @@ fun DetectionItem(
                         detection.boundingBoxes.forEachIndexed { index, box ->
                             Column {
                                 Text(
-                                    text = "Detected Pest: ${box.clsName}",
+                                    text = stringResource(R.string.detected_pest) + " ${box.clsName}",
                                     fontWeight = FontWeight.Medium,
                                     overflow = TextOverflow.Ellipsis,
                                     maxLines = 1,
@@ -237,7 +238,7 @@ fun DetectionItem(
                                 )
 
                                 Text(
-                                    text = "Confidence: ${box.cnf?.times(100)?.toInt() ?: 0}%",
+                                    text = stringResource(R.string.confidence) +" ${box.cnf?.times(100)?.toInt() ?: 0}%",
                                     fontWeight = FontWeight.Light
                                 )
 
@@ -252,7 +253,7 @@ fun DetectionItem(
                         }
                     } else {
                         Text(
-                            text = "No detection found.",
+                            text = stringResource(R.string.no_detection),
                             fontWeight = FontWeight.Medium,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
@@ -269,7 +270,7 @@ fun DetectionItem(
             // Confirmation Dialog for Deleting One Detection
             if (showDeleteDialog) {
                 ConfirmDeleteDialog(
-                    message = "Are you sure you want to delete this detection?",
+                    message = stringResource(R.string.confirm_delete_one),
                     onConfirm = {
                         viewModel.deleteDetection(detection.detection.id, userId ?: 0, isDescending)
                         resetPestSelection() // Reset the pest selection after deletion
@@ -286,19 +287,19 @@ fun DetectionItem(
 fun ConfirmDeleteDialog(message: String, onConfirm: () -> Unit, onDismiss: () -> Unit) {
     androidx.compose.material3.AlertDialog(
         onDismissRequest = { onDismiss() },
-        title = { Text("Confirm Delete") },
+        title = { Text(stringResource(R.string.confirm_delete_text)) },
         text = { Text(message) },
         confirmButton = {
             Button(
                 onClick = onConfirm,
                 colors = ButtonDefaults.buttonColors(Color.Red)
             ) {
-                Text("Delete", color = Color.White)
+                Text(stringResource(R.string.delete), color = Color.White)
             }
         },
         dismissButton = {
             Button(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
         }
     )

@@ -1,0 +1,67 @@
+[
+  {
+    "pest": "Grub",
+    "category": "Maïs",
+    "recommendation": "Appliquer des granulés à base de Chlorantraniliprole dans le sol avant la plantation. Utiliser des nématodes bénéfiques pour contrôler les larves de manière biologique. Pratiquer la rotation des cultures pour réduire les infestations."
+  },
+  {
+    "pest": "Mole Cricket",
+    "category": "Maïs",
+    "recommendation": "Utiliser une solution au sol d’Imidaclopride ou des insecticides à base de Bifenthrine. Appliquer des contrôles biologiques comme des nématodes parasites ou des champignons pathogènes tels que Beauveria bassiana."
+  },
+  {
+    "pest": "Wireworm",
+    "category": "Maïs",
+    "recommendation": "Utiliser des traitements de semences contenant du Thiaméthoxame ou du Clothianidine. Pratiquer la rotation avec des cultures non hôtes comme les légumineuses. Maintenir un sol bien drainé pour réduire la survie des vers fil de fer."
+  },
+  {
+    "pest": "Corn Borer",
+    "category": "Maïs",
+    "recommendation": "Appliquer des formulations de Bacillus thuringiensis (Bt) ou utiliser des hybrides de maïs transgéniques Bt. Introduire des guêpes Trichogramma pour contrôler biologiquement les œufs. Éviter les plantations tardives pour minimiser l'infestation."
+  },
+  {
+    "pest": "Aphids",
+    "category": "Maïs",
+    "recommendation": "Utiliser des savons insecticides ou de l'huile de neem pour un contrôle biologique. Appliquer des insecticides systémiques comme l'Acétamipride ou le Flonicamide en cas d'infestation sévère. Favoriser les prédateurs naturels tels que les coccinelles et les chrysopes."
+  },
+  {
+    "pest": "Beet Armyworm",
+    "category": "Betterave",
+    "recommendation": "Utiliser des traitements à base de Spinosad ou de Bénzoate d'émamectine. Libérer des insectes bénéfiques comme les guêpes parasites (Cotesia spp.). Utiliser des pièges à phéromones pour surveiller les papillons adultes."
+  },
+  {
+    "pest": "Flax Budworm",
+    "category": "Luzerne",
+    "recommendation": "Appliquer des pulvérisations à base de Pyréthrinoïdes comme la Cyperméthrine ou la Deltaméthrine pendant les premiers stades larvaires. Pratiquer la rotation des cultures et éviter de planter près des zones infestées."
+  },
+  {
+    "pest": "Lytta Polita",
+    "category": "Luzerne",
+    "recommendation": "Utiliser des insecticides à base de Carbaryl ou de Perméthrine en cas d'infestations graves. Introduire des ennemis naturels comme les oiseaux et les insectes prédateurs. Maintenir un bon désherbage pour éliminer les hôtes alternatifs."
+  },
+  {
+    "pest": "Legume Blister Beetle",
+    "category": "Luzerne",
+    "recommendation": "Appliquer des insecticides à base de Spinosad ou de Lambda-cyhalothrine. Éviter de récolter pendant les pics d'activité des coléoptères pour éviter toute contamination. Utiliser des voiles anti-insectes pour réduire l’invasion."
+  },
+  {
+    "pest": "Blister Beetle",
+    "category": "Luzerne",
+    "recommendation": "Ramasser les coléoptères manuellement en cas de petites infestations. Utiliser des pyréthrinoïdes comme la Bifenthrine en cas d’épidémies plus importantes. Éviter de faucher les champs infestés pour réduire les risques de prolifération."
+  },
+  {
+    "pest": "Miridae",
+    "category": "Vigne",
+    "recommendation": "Appliquer des insecticides sélectifs comme le Flupyradifurone ou les Pyréthrinoïdes si la population dépasse le seuil économique. Utiliser des techniques de surveillance à base de phéromones. Encourager les prédateurs naturels tels que les punaises prédatrices mirides."
+  },
+  {
+    "pest": "Prodenia Litura",
+    "category": "Agrumes",
+    "recommendation": "Appliquer du Chlorantraniliprole ou du Lufénuron pour lutter contre les chenilles. Utiliser des pièges à phéromones pour surveiller les papillons adultes. Maintenir l'hygiène du champ en éliminant les feuilles et débris tombés."
+  },
+  {
+    "pest": "Cicadellidae",
+    "category": "Mangue",
+    "recommendation": "Utiliser des insecticides systémiques tels que l’Imidaclopride ou le Thiaméthoxame. Introduire des contrôles biologiques comme des punaises prédatrices (Orius spp.). Appliquer des paillis réfléchissants pour décourager la ponte des adultes."
+  }
+]

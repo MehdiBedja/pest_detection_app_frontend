@@ -37,8 +37,10 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -63,6 +65,46 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+
+
+val pestNameTranslationsAr = mapOf(
+    "Grub" to "اليرقة البيضاء",
+    "Mole Cricket" to "صرصور الحقل",
+    "Wireworm" to "الدودة السلكية",
+    "Corn Borer" to "ثاقبة الذرة",
+    "Aphids" to "المنّ",
+    "Beet Armyworm" to "دودة الجيش",
+    "Flax Budworm" to "يرقة براعم الكتان",
+    "Lytta Polita" to "ذبابة الزيتون",
+    "Legume Blister Beetle" to "خنفساء التقرح البقولية",
+    "Blister Beetle" to "خنفساء التقرح",
+    "Miridae" to "حشرات الميري",
+    "Prodenia Litura" to "يرقة الحشد",
+    "Cicadellidae" to "النطاطات"
+)
+
+val pestNameTranslationsFr = mapOf(
+    "Grub" to "Vers blanc",
+    "Mole Cricket" to "Grillon des champs",
+    "Wireworm" to "Ver fil de fer",
+    "Corn Borer" to "Foreur du maïs",
+    "Aphids" to "Pucerons",
+    "Beet Armyworm" to "Chenille de la betterave",
+    "Flax Budworm" to "Chenille du lin",
+    "Lytta Polita" to "Mouche de l'olive",
+    "Legume Blister Beetle" to "Cantharide des légumineuses",
+    "Blister Beetle" to "Cantharide",
+    "Miridae" to "Mirides",
+    "Prodenia Litura" to "Chenille défoliatrice",
+    "Cicadellidae" to "Cicadelles"
+)
+
+
+
+
+
+
+
 @Composable
 fun ResultsScreen(
     navController: NavController,
@@ -72,6 +114,8 @@ fun ResultsScreen(
     context: Context,
     userview: LoginViewModel = viewModel()
 ) {
+
+
     val bitmap by viewModel.bitmap.collectAsState()
     val inferenceTime by viewModel.inferenceTime.collectAsState()
     val boundingBoxes by viewModel.boundingBoxes.collectAsState()
@@ -81,7 +125,6 @@ fun ResultsScreen(
     var showLoginDialog by remember { mutableStateOf(false) }
 
     val saveStatus by saveViewModel.saveStatus.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
     var hasSavedOnce by rememberSaveable { mutableStateOf(false) }
@@ -158,10 +201,10 @@ fun ResultsScreen(
 
                     item {
                         if (boundingBoxes.isEmpty()) {
-                            Text("No pests detected.", fontSize = 18.sp, color = Color.Red)
+                            Text(stringResource(R.string.no_pests_detected), fontSize = 18.sp, color = Color.Red)
                         } else {
                             Text(
-                                "Inference Time: ${inferenceTime} ms",
+                                stringResource(R.string.inference_time) + " ${inferenceTime} ms",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.Black
@@ -219,7 +262,7 @@ fun LoginSignupDialog(navController: NavController, onDismiss: () -> Unit) {
                 onDismiss()
                 navController.navigate("login")
             }) {
-                Text("Login")
+                Text(stringResource(R.string.login))
             }
         },
         dismissButton = {
@@ -227,7 +270,7 @@ fun LoginSignupDialog(navController: NavController, onDismiss: () -> Unit) {
                 onDismiss()
                 navController.navigate("signup")
             }) {
-                Text("Sign Up")
+                Text(stringResource(R.string.sign_up))
             }
         }
     )
@@ -279,7 +322,7 @@ fun DetectedImage(bitmap: Bitmap?) {
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Fit
                 )
-            } ?: Text("Failed to load image", color = Color.Red)
+            } ?: Text(stringResource(R.string.failed_to_load_image), color = Color.Red)
         }
     }
 }
@@ -288,7 +331,16 @@ fun DetectedImage(bitmap: Bitmap?) {
 
 
 @Composable
+
 fun PestInfoCard(pestIndex: Int, pestName: String, confidenceScore: Float) {
+    val currentLanguage = LocalContext.current.resources.configuration.locales[0].language
+
+    val displayedPestName = when (currentLanguage) {
+        "ar" -> pestNameTranslationsAr[pestName] ?: pestNameTranslationsFr[pestName] ?: pestName
+        "fr" -> pestNameTranslationsFr[pestName] ?: pestNameTranslationsAr[pestName] ?: pestName
+        else -> pestName // English fallback
+    }
+
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -298,24 +350,22 @@ fun PestInfoCard(pestIndex: Int, pestName: String, confidenceScore: Float) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Detected Pest : $pestIndex",
+                text = stringResource(R.string.detected_pest) + " $pestIndex",
                 fontSize = 20.sp,
                 color = AccentGreen,
                 fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Serif,
-
-                )
+                fontFamily = FontFamily.Serif
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = pestName,
+                text = displayedPestName,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black ,
-
-                )
+                color = Color.Black
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Confidence: ${"%.2f".format(confidenceScore * 100)}%",
+                text = stringResource(R.string.confidence) + " ${"%.2f".format(confidenceScore * 100)}%",
                 fontSize = 14.sp,
                 color = GrayText
             )
@@ -324,13 +374,20 @@ fun PestInfoCard(pestIndex: Int, pestName: String, confidenceScore: Float) {
 }
 
 
+
 @Composable
 fun PesticideRecommendationCard(pestName: String, context: Context) {
-    val jsonString = loadJsonFromAssets(context, "pestInfo.json")
-    val jsonArray = JSONArray(jsonString)
-    val pestInfo = (0 until jsonArray.length())
-        .map { jsonArray.getJSONObject(it) }
-        .find { it.optString("pest") == pestName }
+
+    val currentLanguage = LocalConfiguration.current.locales[0].language
+    val jsonString = remember(currentLanguage) { loadLocalizedJson(context) }
+    val jsonArray = remember(jsonString) { JSONArray(jsonString) }
+
+
+    val pestInfo = remember(pestName) {
+        (0 until jsonArray.length())
+            .map { jsonArray.getJSONObject(it) }
+            .find { it.optString("pest") == pestName }
+    }
 
     val cropCategory = pestInfo?.optString("category") ?: "Unknown"
     val pesticideRecommendation = pestInfo?.optString("recommendation") ?: "No recommendation available"
@@ -344,13 +401,12 @@ fun PesticideRecommendationCard(pestName: String, context: Context) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Crop Category:",
+                text = stringResource(R.string.crop_category),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                color = AccentGreen ,
+                color = AccentGreen,
                 fontFamily = FontFamily.Serif,
-
-                )
+            )
             Text(
                 text = cropCategory,
                 fontSize = 18.sp,
@@ -359,13 +415,12 @@ fun PesticideRecommendationCard(pestName: String, context: Context) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Pesticide Recommendation:",
+                text = stringResource(R.string.pesticide_recommendation),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                color = AccentGreen ,
+                color = AccentGreen,
                 fontFamily = FontFamily.Serif,
-
-                )
+            )
             Text(
                 text = pesticideRecommendation,
                 fontSize = 18.sp,
@@ -377,10 +432,18 @@ fun PesticideRecommendationCard(pestName: String, context: Context) {
 }
 
 
-fun loadJsonFromAssets(context: Context, fileName: String): String {
-    val inputStream: InputStream = context.assets.open(fileName)
-    return inputStream.bufferedReader().use { it.readText() }
+
+fun loadLocalizedJson(context: Context): String {
+    val language = Locale.getDefault().language
+    val fileName = when (language) {
+        "ar" -> "pests_ar.json"
+        "fr" -> "pests_fr.json"
+        else -> "pestInfo.json"  // English default
+    }
+    return context.assets.open(fileName).bufferedReader().use { it.readText() }
 }
+
+
 
 @Composable
 fun ActionButtons(
@@ -400,7 +463,7 @@ fun ActionButtons(
                 onClick = { navController.navigate(Screen.History.route) },
                 colors = ButtonDefaults.buttonColors(containerColor = AccentGreen),
             ) {
-                Text("See Detections History")
+                Text(stringResource(R.string.see_detections_history))
             }
         } else {
             Button(
@@ -408,7 +471,7 @@ fun ActionButtons(
                 colors = ButtonDefaults.buttonColors(containerColor = AccentGreen),
                 enabled = !isSaved
             ) {
-                Text("Save Results")
+                Text(stringResource(R.string.save_results))
             }
         }
 
@@ -443,15 +506,15 @@ fun ScanButton1(navController: NavController) {
             colors = ButtonDefaults.buttonColors(containerColor = CardBackground),
 
             ) {
-            Text(text = "Try Again" , color = Color.Black)
+            Text(text = stringResource(R.string.try_again) , color = Color.Black)
         }
 
         // Options dialog
         if (showOptions) {
             AlertDialog(
                 onDismissRequest = { showOptions = false },
-                title = { Text("Choose Option") },
-                text = { Text("How would you like to scan for pests?") },
+                title = { Text(stringResource(R.string.choose_option)) },
+                text = { Text(stringResource(R.string.scan_question)) },
                 confirmButton = {
                     Column {
                         Button(
@@ -462,7 +525,7 @@ fun ScanButton1(navController: NavController) {
                             colors = ButtonDefaults.buttonColors(AccentGreen),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Upload from Gallery")
+                            Text(stringResource(R.string.upload_from_gallery))
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -481,7 +544,7 @@ fun ScanButton1(navController: NavController) {
                             colors = ButtonDefaults.buttonColors(AccentGreen),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Take Photo")
+                            Text(stringResource(R.string.takeiimage))
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -490,7 +553,7 @@ fun ScanButton1(navController: NavController) {
                             onClick = { showOptions = false },
                             modifier = Modifier.align(Alignment.End)
                         ) {
-                            Text("Cancel")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 },

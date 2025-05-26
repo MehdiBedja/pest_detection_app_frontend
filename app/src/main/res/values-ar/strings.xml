@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome">مرحبا</string>
+    <string name="app_name">mehdi</string>
+
+
+    //Home screen
+
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="forgot_password">هل نسيت كلمة المرور؟</string>
+    <string name="no_account">ليس لديك حساب؟</string>
+    <string name="sign_up">إنشاء حساب</string>
+    <string name="invalid_email">تنسيق البريد الإلكتروني غير صالح</string>
+    <string name="short_password">يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل</string>
+    <string name="empty_fields_warning">يرجى ملء جميع الحقول</string>
+    <string name="generic_error">حدث خطأ ما</string>
+    <string name="try_again">حاول مرة أخرى</string>
+    <string name="ok">موافق</string>
+
+
+    <string name="welcomefarmer">مرحبًا أيها المزارع</string>
+    <string name="recentdetections">الكشفات الأخيرة</string>
+    <string name="seemore">عرض المزيد</string>
+    <string name="nodetectionsmadeyet">لا توجد أي كشفات حتى الآن.</string>
+    <string name="unknownpest">آفة غير معروفة</string>
+    <string name="confidence">نسبة الدقة:</string>
+    <string name="scanforpest">مسح للآفات</string>
+    <string name="chooseOption">اختر خيارًا</string>
+    <string name="How_would_you_like_to_scan_for_pests">كيف تود مسح الآفات؟</string>
+    <string name="upload_from_gallery">اختر من المعرض</string>
+    <string name="takeiimage">التقط صورة</string>
+    <string name="failed_tocreateimagefile">فشل في إنشاء ملف الصورة</string>
+    <string name="cancel">إلغاء</string>
+    <string name="forum">المنتدى</string>
+
+
+    // Settings Screen
+    <string name="settings"> الإعدادات</string>
+    <string name="language">اللغة</string>
+    <string name="about_the_app">حول التطبيق</string>
+    <string name="rate_us">قيّمنا</string>
+    <string name="account_settings">إعدادات الحساب</string>
+    <string name="arabic">عربي</string>
+    <string name="english">إنجليزي</string>
+    <string name="french">فرنسي</string>
+    <string name="choose_language">اختر اللغة</string>
+    <string name="change_pass">تغيير كلمة المرور</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+
+
+    // detailed record
+
+        <string name="note_label">ملاحظة:</string>
+        <string name="add_note">أضف ملاحظة</string>
+        <string name="write_note_hint">اكتب ملاحظتك...</string>
+        <string name="save_note">✅ حفظ الملاحظة</string>
+        <string name="modify_note">✏️ تعديل الملاحظة</string>
+        <string name="delete_note">🗑️ حذف الملاحظة</string>
+        <string name="delete_detection">حذف الكشف</string>
+        <string name="confirm_delete_title">تأكيد الحذف</string>
+        <string name="confirm_delete_text">هل أنت متأكد أنك تريد حذف هذا الكشف؟ لا يمكن التراجع عن هذا الإجراء.</string>
+        <string name="delete">حذف</string>
+        <string name="back">رجوع</string>
+
+
+    // history records
+
+    <string name="select_pest">اختر الآفة</string>
+    <string name="delete_all">حذف الكل</string>
+    <string name="date">التاريخ</string>
+    <string name="detected_pest">الآفة المكتشفة</string>
+    <string name="no_detection">لا يوجد كشف.</string>
+    <string name="confirm_delete_all">هل أنت متأكد أنك تريد حذف جميع الاكتشافات؟</string>
+    <string name="confirm_delete_filtered">هل أنت متأكد أنك تريد حذف جميع اكتشافات %1$s؟</string>
+    <string name="confirm_delete_one">هل أنت متأكد أنك تريد حذف هذا الاكتشاف؟</string>
+
+    <string name="sort_by_date_desc">التاريخ ▼</string>
+    <string name="sort_by_date_asc">التاريخ ▲</string>
+
+
+    //results screen
+
+
+    <string name="no_pests_detected">لم يتم الكشف عن أي آفات.</string>
+    <string name="inference_time">زمن الاستدلال: %1$d مللي ثانية</string>
+    <string name="crop_category">نوع المحصول:</string>
+    <string name="pesticide_recommendation">توصية بالمبيد:</string>
+    <string name="failed_to_load_image">فشل في تحميل الصورة</string>
+    <string name="save_results">حفظ النتائج</string>
+    <string name="see_detections_history">عرض سجل الكشف</string>
+    <string name="choose_option">اختر خياراً</string>
+    <string name="scan_question">كيف تريد فحص الآفات؟</string>
+    <string name="take_photo">التقط صورة</string>
+    <string name="login_to_save">لحفظ النتائج، يجب تسجيل الدخول أو إنشاء حساب.</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="results_saved">تم حفظ النتائج بنجاح!</string>
+    <string name="results_save_failed">فشل في حفظ النتائج.</string>
+    <string name="failed_create_file">فشل في إنشاء ملف الصورة</string>
+
+
+    //login screen
+
+    <string name="login_title">تسجيل الدخول</string>
+    <string name="username_label">اسم المستخدم</string>
+    <string name="password_label">كلمة المرور</string>
+    <string name="login_button">تسجيل الدخول</string>
+    <string name="not_registered">لست مسجلاً بعد؟</string>
+    <string name="sign_up_now">سجّل الآن</string>
+    <string name="login_illustration">رسم توضيحي لتسجيل الدخول</string>
+
+    //sign up screen
+
+    <string name="sign_up_title">إنشاء حساب</string>
+    <string name="email_label">البريد الإلكتروني</string>
+    <string name="full_name_label">الاسم الكامل</string>
+    <string name="repeat_password_label">تأكيد كلمة المرور</string>
+    <string name="sign_up_button">إنشاء حساب</string>
+    <string name="already_have_account">هل لديك حساب بالفعل؟</string>
+    <string name="log_in">تسجيل الدخول</string>
+    <string name="toggle_password_visibility">إظهار أو إخفاء كلمة المرور</string>
+
+    <!-- Validation Errors -->
+    <string name="email_empty_error">البريد الإلكتروني لا يمكن أن يكون فارغاً</string>
+    <string name="invalid_email_format_error">تنسيق البريد الإلكتروني غير صالح</string>
+    <string name="username_empty_error">اسم المستخدم لا يمكن أن يكون فارغاً</string>
+    <string name="full_name_empty_error">الاسم الكامل لا يمكن أن يكون فارغاً</string>
+    <string name="password_empty_error">كلمة المرور لا يمكن أن تكون فارغة</string>
+    <string name="password_length_error">يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل</string>
+    <string name="password_mismatch_error">كلمتا المرور غير متطابقتين</string>
+
+</resources>

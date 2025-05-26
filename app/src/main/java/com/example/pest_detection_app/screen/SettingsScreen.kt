@@ -1,7 +1,11 @@
 package com.example.pest_detection_app.screen
 
+import android.app.Activity
+import android.content.Context
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,8 +13,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -18,11 +24,80 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import java.util.Locale
+
+
+fun Context.updateLocale(languageCode: String): Context {
+    val locale = Locale(languageCode)
+    Locale.setDefault(locale)
+    val config = Configuration(resources.configuration)
+    config.setLocale(locale)
+    return createConfigurationContext(config)
+}
+
+
+object LanguagePref {
+    private const val PREF_NAME = "language_pref"
+    private const val LANGUAGE_KEY = "language_key"
+
+    fun saveLanguage(context: Context, lang: String) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putString(LANGUAGE_KEY, lang)
+            .apply()
+    }
+
+    fun getLanguage(context: Context): String {
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .getString(LANGUAGE_KEY, "en") ?: "en"
+    }
+}
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController) {
     val context = LocalContext.current
+
+
+    var showLanguageDialog by remember { mutableStateOf(false) }
+
+    if (showLanguageDialog) {
+        AlertDialog(
+            onDismissRequest = { showLanguageDialog = false },
+            title = { Text("Choose Language") },
+            text = {
+                Column {
+                    Text("English", modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            LanguagePref.saveLanguage(context, "en")
+                            showLanguageDialog = false
+                            (context as? Activity)?.recreate()
+                        }
+                        .padding(8.dp)
+                    )
+                    Text("Arabic", modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            LanguagePref.saveLanguage(context, "ar")
+                            showLanguageDialog = false
+                            (context as? Activity)?.recreate()
+                        }
+                        .padding(8.dp)
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showLanguageDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+
 
     Scaffold(
         topBar = {
@@ -52,8 +127,15 @@ fun SettingsScreen(navController: NavController) {
 
 
                 item { SectionTitle("Preferences") }
-                item { SettingsItem("🌐 Language", "English / Arabic") { } }
+
+                item {
+                    SettingsItem("🌐 Language", "English / Arabic") {
+                        showLanguageDialog = true
+                    }
+                }
                 item { SettingsItem("🎨 Theme", "Light / Dark Mode") { } }
+
+
                 item { SettingsItem("🔔 Notifications", "Manage alerts & updates") { } }
 
                 item { SettingsItem("❓ About", "App version & details") { } }
@@ -86,9 +168,10 @@ fun SectionTitle(title: String) {
 fun SettingsItem(title: String, subtitle: String, onClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(10.dp),
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFECEAC8)) ,
-        onClick = onClick
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }, // ✅ Add this!
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFECEAC8))
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -99,3 +182,4 @@ fun SettingsItem(title: String, subtitle: String, onClick: () -> Unit) {
         }
     }
 }
+

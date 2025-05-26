@@ -1,5 +1,9 @@
 package com.example.pest_detection_app.screen.user
 
+import android.app.Activity
+import android.content.Context
+import android.content.res.Configuration
+import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -18,7 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +36,38 @@ import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.data.user.User
 import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.ui.theme.DarkBackground
+import java.util.Locale
+
+// Language preference utilities
+fun Context.updateLocale(languageCode: String): Context {
+    val locale = Locale(languageCode)
+    Locale.setDefault(locale)
+    val config = Configuration(resources.configuration)
+    config.setLocale(locale)
+    return createConfigurationContext(config)
+}
+
+object LanguagePref {
+    private const val PREF_NAME = "language_pref"
+    private const val LANGUAGE_KEY = "language_key"
+
+    fun saveLanguage(context: Context, lang: String) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putString(LANGUAGE_KEY, lang)
+            .apply()
+    }
+
+    fun getLanguage(context: Context): String {
+        val lang = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .getString(LANGUAGE_KEY, "en") ?: "en"
+        return when (lang) {
+            "en", "ar", "fr" -> lang
+            else -> "en" // fallback to English
+        }
+    }
+
+}
 
 @Composable
 fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController) {
@@ -39,8 +77,6 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController) {
     val savedToken by viewModel.token.collectAsState()
 
     var isDarkMode by rememberSaveable { mutableStateOf(false) }
-    var language by rememberSaveable { mutableStateOf("English") }
-
 
     LaunchedEffect(savedToken) {
         viewModel.getUser()
@@ -49,7 +85,7 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground) // Beige background
+            .background(DarkBackground)
     ) {
         Column {
             // Top bar with Back and Logout
@@ -84,7 +120,6 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController) {
                 }
             }
 
-            // Spacer to separate top bar from content
             Spacer(modifier = Modifier.height(8.dp))
 
             // Main Content
@@ -105,24 +140,36 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController) {
                 }
             }
         }
-
     }
-
-
-
-    }
-
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserProfileContent(user: User, navController: NavController, viewModel: LoginViewModel) {
+    val context = LocalContext.current
+
+    // Get current language from preferences
+    var currentLanguage by remember {
+        mutableStateOf(
+            when (LanguagePref.getLanguage(context)) {
+                "en" -> "English"
+                "ar" -> "Arabic"
+                "fr" -> "Français"
+                else -> "English"
+            }
+        )
+    }
+
+
+    var isDarkMode by rememberSaveable { mutableStateOf(false) }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(80.dp)
     ) {
-
-
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val coroutineScope = rememberCoroutineScope()
         var showSettingsSheet by remember { mutableStateOf(false) }
@@ -134,7 +181,7 @@ fun UserProfileContent(user: User, navController: NavController, viewModel: Logi
             modifier = Modifier
                 .size(130.dp)
                 .clip(RoundedCornerShape(30.dp))
-                .background(Color(0xFFD4D0B4)) // placeholder background if needed
+                .background(Color(0xFFD4D0B4))
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -161,7 +208,7 @@ fun UserProfileContent(user: User, navController: NavController, viewModel: Logi
             border = BorderStroke(1.dp, Color(0xFF2B3A2F)),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF2B3A2F))
         ) {
-            Text("Edit Profile")
+            Text(text = stringResource(R.string.edit_profile))
         }
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -173,12 +220,11 @@ fun UserProfileContent(user: User, navController: NavController, viewModel: Logi
                 .background(Color.White, RoundedCornerShape(24.dp))
                 .padding(16.dp)
         ) {
-            ProfileOption(Icons.Default.Settings, label = "Settings") {
+            ProfileOption(Icons.Default.Settings, label = stringResource(R.string.settings)) {
                 showSettingsSheet = true
             }
             Divider(color = Color(0xFFE0DECC))
-            ProfileOption(Icons.Default.Lock, label = "Change password") { /* nav */ }
-
+            ProfileOption(Icons.Default.Lock, label = stringResource(R.string.change_pass)) { /* nav */ }
         }
 
         if (showSettingsSheet) {
@@ -189,10 +235,21 @@ fun UserProfileContent(user: User, navController: NavController, viewModel: Logi
                 containerColor = Color.White
             ) {
                 EmbeddedSettings(
-                    isDarkMode = false,
-                    onToggleDarkMode = { /* Add logic */ },
-                    language = "English",
-                    onLanguageChange = { /* Add logic */ }
+                    isDarkMode = isDarkMode,
+                    onToggleDarkMode = { isDarkMode = !isDarkMode },
+                    language = currentLanguage,
+                    onLanguageChange = { newLanguage ->
+                        currentLanguage = newLanguage
+                        val langCode = when (newLanguage) {
+                            "English" -> "en"
+                            "Arabic" -> "ar"
+                            "Français" -> "fr"
+                            else -> "en"
+                        }
+                        LanguagePref.saveLanguage(context, langCode)
+                        // Recreate activity to apply language change
+                        (context as? Activity)?.recreate()
+                    }
                 )
             }
         }
@@ -232,8 +289,6 @@ fun ProfileOption(icon: ImageVector, label: String, onClick: () -> Unit) {
     }
 }
 
-
-
 @Composable
 fun EmbeddedSettings(
     isDarkMode: Boolean,
@@ -242,6 +297,56 @@ fun EmbeddedSettings(
     onLanguageChange: (String) -> Unit,
 ) {
     val gradientColors = listOf(Color(0xFFB66DD1), Color(0xFFE77675))
+    var showLanguageDialog by remember { mutableStateOf(false) }
+
+    // Language selection dialog
+    if (showLanguageDialog) {
+        AlertDialog(
+            onDismissRequest = { showLanguageDialog = false },
+            title = { Text(text = stringResource(R.string.choose_language)) },
+            text = {
+                Column {
+                    Text(
+                        text = stringResource(R.string.english),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onLanguageChange("English")
+                                showLanguageDialog = false
+                            }
+                            .padding(12.dp)
+                    )
+                    Divider()
+                    Text(
+                        text = stringResource(R.string.arabic),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onLanguageChange("Arabic")
+                                showLanguageDialog = false
+                            }
+                            .padding(12.dp)
+                    )
+                    Divider()
+                    Text(
+                        text = stringResource(R.string.french),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onLanguageChange("Français")
+                                showLanguageDialog = false
+                            }
+                            .padding(12.dp)
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showLanguageDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -250,27 +355,26 @@ fun EmbeddedSettings(
             .padding(16.dp)
     ) {
         Text(
-            text = "Settings",
+            text = stringResource(R.string.settings),
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "Account Settings",
+            text = stringResource(R.string.account_settings),
             style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray)
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        SettingRow("Language: $language", onClick = {
-            val newLang = if (language == "English") "Arabic" else "English"
-            onLanguageChange(newLang)
+        SettingRow(R.string.language," $language", onClick = {
+            showLanguageDialog = true
         })
 
-        SettingRow("About the App", onClick = { /* Show dialog or bottom sheet */ })
+        SettingRow(R.string.about_the_app,"", onClick = { /* Show dialog or bottom sheet */ })
 
-        SettingRow("Rate us", onClick = { /* Open play store link */ })
+        SettingRow(R.string.rate_us, "", onClick = { /* Open play store link */ })
 
         SettingToggleRow(
             label = "Dark Mode",
@@ -278,8 +382,6 @@ fun EmbeddedSettings(
             onCheckedChange = { onToggleDarkMode() },
             gradient = Brush.horizontalGradient(gradientColors)
         )
-
-        Spacer(modifier = Modifier.height(20.dp))
 
         // Support Email
         Text(
@@ -291,9 +393,8 @@ fun EmbeddedSettings(
     }
 }
 
-
 @Composable
-fun SettingRow(label: String, onClick: () -> Unit) {
+fun SettingRow(@StringRes text :Int, label: String, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -302,7 +403,7 @@ fun SettingRow(label: String, onClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = label,
+            text =stringResource(id = text)+   label,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.weight(1f)
         )

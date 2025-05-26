@@ -7,27 +7,27 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.pest_detection_app.MyApp
+import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.DetectionViewModel
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.model.BoundingBox
 import com.example.pest_detection_app.ui.theme.AccentGreen
-import com.example.pest_detection_app.ui.theme.CardBackground
 import com.example.pest_detection_app.ui.theme.DarkBackground
 import kotlinx.coroutines.delay
 
@@ -42,6 +42,8 @@ fun DetailItemScreen(
     var showDeleteDialog by remember { mutableStateOf(false) }
     var noteText by remember { mutableStateOf("") }
     var isEditingNote by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
 
     Log.d("DetailItemScreen", "Fetching detection with ID: $detectionId")
     getViewModel.getDetectionById(detectionId)
@@ -76,7 +78,6 @@ fun DetailItemScreen(
         }
 
         val imageUri = Uri.parse(uriString)
-        val context = MyApp.getContext()
         val contentResolver = context.contentResolver
 
         Log.d("DetailItemScreen", "📷 Received image URI: $imageUri")
@@ -102,8 +103,7 @@ fun DetailItemScreen(
         }
     }
 
-    Scaffold(
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -117,11 +117,8 @@ fun DetailItemScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 12.dp)
                 ) {
-
-
                     LazyColumn(
-                        modifier = Modifier
-                            .padding(16.dp),
+                        modifier = Modifier.padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         item {
@@ -137,8 +134,6 @@ fun DetailItemScreen(
                             }
                         }
 
-
-
                         detection?.let {
                             itemsIndexed(it.boundingBoxes) { index, box ->
                                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -149,7 +144,7 @@ fun DetailItemScreen(
                                     )
                                     PesticideRecommendationCard(
                                         pestName = box.clsName,
-                                        context = MyApp.getContext()
+                                        context = context
                                     )
                                 }
                             }
@@ -159,7 +154,7 @@ fun DetailItemScreen(
                         item {
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                "Note:",
+                                stringResource(R.string.note_label),
                                 style = MaterialTheme.typography.titleLarge,
                                 color = AccentGreen
                             )
@@ -171,7 +166,7 @@ fun DetailItemScreen(
                                         .fillMaxWidth()
                                         .padding(vertical = 8.dp)
                                 ) {
-                                    Text("➕ Add Note")
+                                    Text(stringResource(R.string.add_note))
                                 }
                             } else {
                                 Card(
@@ -179,9 +174,7 @@ fun DetailItemScreen(
                                         .fillMaxWidth()
                                         .padding(vertical = 8.dp),
                                     colors = CardDefaults.cardColors(
-                                        containerColor = Color(
-                                            0xFFF1F1F1
-                                        )
+                                        containerColor = Color(0xFFF1F1F1)
                                     ),
                                     elevation = CardDefaults.cardElevation(6.dp)
                                 ) {
@@ -191,7 +184,7 @@ fun DetailItemScreen(
                                                 value = noteText,
                                                 onValueChange = { noteText = it },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                label = { Text("Write your note...") }
+                                                label = { Text(stringResource(R.string.write_note_hint)) }
                                             )
                                             Row(
                                                 modifier = Modifier
@@ -208,7 +201,7 @@ fun DetailItemScreen(
                                                         containerColor = Color.Gray
                                                     )
                                                 ) {
-                                                    Text("Cancel")
+                                                    Text(stringResource(R.string.cancel))
                                                 }
 
                                                 Button(
@@ -218,13 +211,11 @@ fun DetailItemScreen(
                                                             noteText
                                                         )
                                                         isEditingNote = false
-                                                        getViewModel.getDetectionById(detectionId) // 🔥 Refetch updated detection
+                                                        getViewModel.getDetectionById(detectionId)
                                                     }
                                                 ) {
-                                                    Text("✅ Save Note")
+                                                    Text(stringResource(R.string.save_note))
                                                 }
-
-
                                             }
                                         } else {
                                             Text(
@@ -237,7 +228,7 @@ fun DetailItemScreen(
                                                 horizontalArrangement = Arrangement.SpaceBetween
                                             ) {
                                                 Button(onClick = { isEditingNote = true }) {
-                                                    Text("✏️ Modify Note")
+                                                    Text(stringResource(R.string.modify_note))
                                                 }
                                                 Button(
                                                     onClick = {
@@ -251,7 +242,7 @@ fun DetailItemScreen(
                                                         containerColor = Color.Red
                                                     )
                                                 ) {
-                                                    Text("🗑️ Delete Note", color = Color.White)
+                                                    Text(stringResource(R.string.delete_note), color = Color.White)
                                                 }
                                             }
                                         }
@@ -259,6 +250,7 @@ fun DetailItemScreen(
                                 }
                             }
                         }
+
                         // Delete Button
                         item {
                             Spacer(modifier = Modifier.height(16.dp))
@@ -269,17 +261,14 @@ fun DetailItemScreen(
                                     .fillMaxWidth()
                                     .padding(horizontal = 16.dp)
                             ) {
-                                Text("Delete Detection", color = Color.White)
+                                Text(stringResource(R.string.delete_detection), color = Color.White)
                             }
                         }
                     }
                 }
-
-
             }
 
-
-            // Floating Back Button (top start)
+            // Back Button
             FloatingActionButton(
                 onClick = { navController.popBackStack() },
                 modifier = Modifier
@@ -291,15 +280,15 @@ fun DetailItemScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back"
+                    contentDescription = stringResource(R.string.back)
                 )
             }
 
             if (showDeleteDialog) {
                 AlertDialog(
                     onDismissRequest = { showDeleteDialog = false },
-                    title = { Text("Confirm Delete") },
-                    text = { Text("Are you sure you want to delete this detection? This action cannot be undone.") },
+                    title = { Text(stringResource(R.string.confirm_delete_title)) },
+                    text = { Text(stringResource(R.string.confirm_delete_text)) },
                     confirmButton = {
                         Button(
                             onClick = {
@@ -311,12 +300,12 @@ fun DetailItemScreen(
                             },
                             colors = ButtonDefaults.buttonColors(Color.Red)
                         ) {
-                            Text("Delete", color = Color.White)
+                            Text(stringResource(R.string.delete), color = Color.White)
                         }
                     },
                     dismissButton = {
                         Button(onClick = { showDeleteDialog = false }) {
-                            Text("Cancel")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 )

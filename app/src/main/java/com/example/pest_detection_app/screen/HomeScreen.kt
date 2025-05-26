@@ -29,11 +29,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -48,7 +48,6 @@ import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveV
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.ViewModels.user.UserViewModelRoom
 import com.example.pest_detection_app.data.user.DetectionWithBoundingBoxes
-import com.example.pest_detection_app.navigation.userView
 import com.example.pest_detection_app.preferences.Globals
 import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.ui.theme.AccentGreen
@@ -199,7 +198,7 @@ fun UserGreeting(navController: NavController , userViewModel: LoginViewModel, u
                 .padding(vertical = 24.dp, horizontal = 16.dp) // Add horizontal padding
         ) {
             Text(
-                text = "Welcome, Farmer ${user?.first_name} ${user?.last_name}",
+                text = stringResource(R.string.welcomefarmer) + " ${user?.last_name}",
                 color = LightText,
                 fontSize = 24.sp, // reduce size to fit better
                 fontFamily = FontFamily.Serif,
@@ -229,7 +228,7 @@ fun UserGreeting(navController: NavController , userViewModel: LoginViewModel, u
         }
     } else {
         Text(
-            text = "Welcome, Farmer",
+            text = stringResource(R.string.welcomefarmer),
             color = LightText,
             fontSize = 32.sp, // reduce a bit
             fontWeight = FontWeight.Bold,
@@ -270,7 +269,7 @@ fun RecentDetectionsSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Recent Detections",
+                text = stringResource(R.string.recentdetections),
                 color = LightText,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -288,7 +287,7 @@ fun RecentDetectionsSection(
                 )
             ) {
                 Text(
-                    text = "See More",
+                    text = stringResource(R.string.seemore),
                     fontWeight = FontWeight.Medium,
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -306,7 +305,7 @@ fun RecentDetectionsSection(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No detections made for now.",
+                    text = stringResource(R.string.nodetectionsmadeyet),
                     color = GrayText,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
@@ -330,7 +329,7 @@ fun RecentDetectionsSection(
 @Composable
 fun DetectionCard(navController: NavController,  detection: DetectionWithBoundingBoxes) {
     val firstBox = detection.boundingBoxes.firstOrNull()
-    val pestName = firstBox?.clsName ?: "Unknown Pest"
+    val pestName = firstBox?.clsName ?: stringResource(R.string.unknownpest)
     val confidence = firstBox?.cnf?.times(100)?.toInt()?.toString() ?: "0"
     val formattedDate = formatDate(detection.detection.detectionDate)
 
@@ -381,7 +380,7 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
             )
 
         Text(
-            text = "Confidence: $confidence%",
+            text = stringResource(R.string.confidence) +" $confidence%",
             color = LightText.copy(alpha = 0.7f),
             fontSize = 16.sp
         )
@@ -436,7 +435,7 @@ fun ScanButton(navController: NavController) {
 
                 // Text on top
                 AnimatedContent(
-                    targetState = "Scan for Pests",
+                    targetState = stringResource(R.string.scanforpest),
                     transitionSpec = {
                         fadeIn(animationSpec = tween(400)) with fadeOut(animationSpec = tween(400))
                     },
@@ -458,8 +457,8 @@ fun ScanButton(navController: NavController) {
         if (showOptions) {
             AlertDialog(
                 onDismissRequest = { showOptions = false },
-                title = { Text("Choose Option") },
-                text = { Text("How would you like to scan for pests?") },
+                title = { Text(stringResource(R.string.chooseOption)) },
+                text = { Text(stringResource(R.string.How_would_you_like_to_scan_for_pests)) },
                 confirmButton = {
                     Column {
                         Button(
@@ -470,7 +469,7 @@ fun ScanButton(navController: NavController) {
                             colors = ButtonDefaults.buttonColors(AccentGreen),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Upload from Gallery")
+                            Text(stringResource(R.string.upload_from_gallery))
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -483,13 +482,13 @@ fun ScanButton(navController: NavController) {
                                     cameraImageUri.value = uri
                                     cameraLauncher.launch(uri)
                                 } else {
-                                    Toast.makeText(context, "Failed to create image file", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, context.getString(R.string.failed_tocreateimagefile), Toast.LENGTH_SHORT).show()
                                 }
                             },
                             colors = ButtonDefaults.buttonColors(AccentGreen),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Take Photo")
+                            Text(stringResource(R.string.takeiimage))
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -498,7 +497,7 @@ fun ScanButton(navController: NavController) {
                             onClick = { showOptions = false },
                             modifier = Modifier.align(Alignment.End)
                         ) {
-                            Text("Cancel")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 },
@@ -525,7 +524,7 @@ fun ForumSection() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Forum",
+                text = stringResource(R.string.forum),
                 color = LightText,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -536,7 +535,7 @@ fun ForumSection() {
             )
 
             Text(
-                text = "See More",
+                text = stringResource(R.string.seemore),
                 color = GrayText,
                 fontSize = 16.sp
             )
@@ -599,7 +598,7 @@ fun AuthButtons(navController: NavController) {
                     contentColor = Color.Black
                 )
             ) {
-                Text("Sign In")
+                Text(stringResource(R.string.sign_in))
             }
             Button(
                 onClick = { navController.navigate("signup") },
@@ -608,7 +607,7 @@ fun AuthButtons(navController: NavController) {
                     contentColor = Color.Black
                 )
             ) {
-                Text("Sign Up")
+                Text(stringResource(R.string.sign_up))
             }
         }
     }

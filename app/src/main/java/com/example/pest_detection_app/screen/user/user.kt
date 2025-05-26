@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -141,7 +142,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Login",
+                            text = stringResource(R.string.login_title),
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF5C6BC0)
@@ -149,10 +150,10 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        LoginTextField("Username", username, { username = it }, isPassword = false)
+                        LoginTextField(stringResource(R.string.username_label), username, { username = it }, isPassword = false)
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        LoginTextField("Password", password, { password = it }, isPassword = true)
+                        LoginTextField(stringResource(R.string.password_label), password, { password = it }, isPassword = true)
                         Spacer(modifier = Modifier.height(20.dp))
 
                         if (viewModel.loading.value) {
@@ -174,7 +175,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                                 ),
                                 shape = RoundedCornerShape(12.dp)
                             ) {
-                                Text("LOGIN", fontWeight = FontWeight.Bold)
+                                Text(stringResource(R.string.login_button), fontWeight = FontWeight.Bold)
                             }
                         }
 
@@ -196,10 +197,10 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "Not yet registered?", color = Color.Gray)
+                    Text(text = stringResource(R.string.not_registered), color = Color.Gray)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "Sign Up Now",
+                        text = stringResource(R.string.sign_up_now),
                         color = Color(0xFF5C6BC0),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
@@ -300,6 +301,9 @@ fun SignUpScreen(navController: NavHostController) {
         }
     }
 
+    val context = LocalContext.current
+
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = CardBackground
@@ -324,7 +328,7 @@ fun SignUpScreen(navController: NavHostController) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Sign Up",
+                            text = stringResource(R.string.sign_up_title),
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF5C6BC0)
@@ -332,35 +336,35 @@ fun SignUpScreen(navController: NavHostController) {
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        SignUpTextField("Email", email, onValueChange = {
+                        SignUpTextField(stringResource(R.string.email_label), email, onValueChange = {
                             email = it
                             emailError = null
                         })
                         if (emailError != null) Text(emailError!!, color = Color.Red, fontSize = 12.sp)
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        SignUpTextField("Username", username, onValueChange = {
+                        SignUpTextField(stringResource(R.string.username_label), username, onValueChange = {
                             username = it
                             usernameError = null
                         })
                         if (usernameError != null) Text(usernameError!!, color = Color.Red, fontSize = 12.sp)
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        SignUpTextField("Full Name", lastName, onValueChange = {
+                        SignUpTextField(stringResource(R.string.full_name_label), lastName, onValueChange = {
                             lastName = it
                             lastNameError = null
                         })
                         if (lastNameError != null) Text(lastNameError!!, color = Color.Red, fontSize = 12.sp)
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        SignUpTextField("Password", password, onValueChange = {
+                        SignUpTextField(stringResource(R.string.password_label), password, onValueChange = {
                             password = it
                             passwordError = null
                         }, isPassword = true)
                         if (passwordError != null) Text(passwordError!!, color = Color.Red, fontSize = 12.sp)
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        SignUpTextField("Repeat Password", repeatPassword, onValueChange = {
+                        SignUpTextField(stringResource(R.string.repeat_password_label), repeatPassword, onValueChange = {
                             repeatPassword = it
                             repeatPasswordError = null
                         }, isPassword = true)
@@ -375,33 +379,33 @@ fun SignUpScreen(navController: NavHostController) {
                                     // Validation
                                     var isValid = true
                                     if (email.text.isBlank()) {
-                                        emailError = "Email cannot be empty"
+                                        emailError = context.getString(R.string.email_empty_error)
                                         isValid = false
                                     } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.text).matches()) {
-                                        emailError = "Invalid email format"
+                                        emailError = context.getString(R.string.invalid_email_format_error)
                                         isValid = false
                                     }
 
                                     if (username.text.isBlank()) {
-                                        usernameError = "Username cannot be empty"
+                                        usernameError = context.getString(R.string.username_empty_error)
                                         isValid = false
                                     }
 
                                     if (lastName.text.isBlank()) {
-                                        lastNameError = "Full name cannot be empty"
+                                        lastNameError = context.getString(R.string.full_name_empty_error)
                                         isValid = false
                                     }
 
                                     if (password.text.isBlank()) {
-                                        passwordError = "Password cannot be empty"
+                                        passwordError = context.getString(R.string.password_empty_error)
                                         isValid = false
                                     } else if (password.text.length < 6) {
-                                        passwordError = "Password must be at least 6 characters"
+                                        passwordError = context.getString(R.string.password_length_error)
                                         isValid = false
                                     }
 
                                     if (repeatPassword.text != password.text) {
-                                        repeatPasswordError = "Passwords do not match"
+                                        repeatPasswordError =context.getString(R.string.password_mismatch_error)
                                         isValid = false
                                     }
 
@@ -426,7 +430,7 @@ fun SignUpScreen(navController: NavHostController) {
                                 ),
                                 shape = RoundedCornerShape(12.dp)
                             ) {
-                                Text("SIGN UP", fontWeight = FontWeight.Bold)
+                                Text(stringResource(R.string.sign_up), fontWeight = FontWeight.Bold)
                             }
                         }
 
@@ -447,10 +451,10 @@ fun SignUpScreen(navController: NavHostController) {
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Already have an account?", color = Color.Gray)
+                    Text(text = stringResource(R.string.already_have_account), color = Color.Gray)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "Log In",
+                        text = stringResource(R.string.login),
                         color = Color(0xFF5C6BC0),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {

@@ -1,0 +1,118 @@
+<resources>
+    <string name="welcome">Bienvenue</string>
+    <string name="app_name">mehdi</string>
+
+    <!-- Home screen -->
+    <string name="sign_in">Se connecter</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="forgot_password">Mot de passe oublié ?</string>
+    <string name="no_account">Vous n\'avez pas de compte ?</string>
+    <string name="sign_up">S\'inscrire</string>
+    <string name="invalid_email">Format d\'email invalide</string>
+    <string name="short_password">Le mot de passe doit contenir au moins 6 caractères</string>
+    <string name="empty_fields_warning">Veuillez remplir tous les champs</string>
+    <string name="generic_error">Une erreur s\'est produite</string>
+    <string name="try_again">Réessayer</string>
+    <string name="ok">OK</string>
+
+    <string name="welcomefarmer">Bienvenue, Agriculteur</string>
+    <string name="recentdetections">Détections récentes</string>
+    <string name="seemore">Voir plus</string>
+    <string name="nodetectionsmadeyet">Aucune détection effectuée pour le moment.</string>
+    <string name="unknownpest">Ravageur inconnu</string>
+    <string name="confidence">Confiance :</string>
+    <string name="scanforpest">Scanner les ravageurs</string>
+    <string name="chooseOption">Choisir une option</string>
+    <string name="How_would_you_like_to_scan_for_pests">Comment souhaitez-vous scanner les ravageurs ?</string>
+    <string name="upload_from_gallery">Téléverser depuis la galerie</string>
+    <string name="takeiimage">Prendre une photo</string>
+    <string name="failed_tocreateimagefile">Échec de la création du fichier image</string>
+    <string name="cancel">Annuler</string>
+    <string name="forum">Forum</string>
+
+    <!-- Settings screen -->
+    <string name="settings">Paramètres</string>
+    <string name="language">Langue</string>
+    <string name="about_the_app">À propos de l\'application</string>
+    <string name="rate_us">Évaluez-nous</string>
+    <string name="account_settings">Paramètres du compte</string>
+    <string name="arabic">Arabe</string>
+    <string name="english">Anglais</string>
+    <string name="french">français</string>
+
+    <string name="choose_language">Choisir une langue</string>
+    <string name="change_pass">Changer le mot de passe</string>
+    <string name="edit_profile">Modifier le profil</string>
+
+    <!-- Detailed record page -->
+    <string name="note_label">Note :</string>
+    <string name="add_note">Ajouter une note</string>
+    <string name="write_note_hint">Écrivez votre note...</string>
+    <string name="save_note">✅ Enregistrer la note</string>
+    <string name="modify_note">✏️ Modifier la note</string>
+    <string name="delete_note">🗑️ Supprimer la note</string>
+    <string name="delete_detection">Supprimer la détection</string>
+    <string name="confirm_delete_title">Confirmer la suppression</string>
+    <string name="confirm_delete_text">Êtes-vous sûr de vouloir supprimer cette détection ? Cette action est irréversible.</string>
+    <string name="delete">Supprimer</string>
+    <string name="back">Retour</string>
+
+    <!-- History records -->
+    <string name="select_pest">Sélectionner un ravageur</string>
+    <string name="delete_all">Tout supprimer</string>
+    <string name="date">Date</string>
+    <string name="detected_pest">Ravageur détecté</string>
+    <string name="no_detection">Aucune détection trouvée.</string>
+    <string name="confirm_delete_all">Êtes-vous sûr de vouloir supprimer toutes les détections ?</string>
+    <string name="confirm_delete_filtered">Êtes-vous sûr de vouloir supprimer toutes les détections de %1$s ?</string>
+    <string name="confirm_delete_one">Êtes-vous sûr de vouloir supprimer cette détection ?</string>
+
+    <string name="sort_by_date_desc">Date ▼</string>
+    <string name="sort_by_date_asc">Date ▲</string>
+
+    <!-- Results screen -->
+    <string name="no_pests_detected">Aucun ravageur détecté.</string>
+    <string name="inference_time">Temps d\'inférence : %1$d ms</string>
+    <string name="crop_category">Catégorie de culture :</string>
+    <string name="pesticide_recommendation">Recommandation de pesticide :</string>
+    <string name="failed_to_load_image">Échec du chargement de l\'image</string>
+    <string name="save_results">Enregistrer les résultats</string>
+    <string name="see_detections_history">Voir l\'historique des détections</string>
+    <string name="choose_option">Choisir une option</string>
+    <string name="scan_question">Comment souhaitez-vous scanner les ravageurs ?</string>
+    <string name="take_photo">Prendre une photo</string>
+    <string name="login_to_save">Pour enregistrer vos résultats, connectez-vous ou inscrivez-vous.</string>
+    <string name="login">Connexion</string>
+    <string name="results_saved">Résultats enregistrés avec succès !</string>
+    <string name="results_save_failed">Échec de l\'enregistrement des résultats.</string>
+    <string name="failed_create_file">Échec de la création du fichier image</string>
+
+    <!-- Login screen -->
+    <string name="login_title">Connexion</string>
+    <string name="username_label">Nom d\'utilisateur</string>
+    <string name="password_label">Mot de passe</string>
+    <string name="login_button">CONNEXION</string>
+    <string name="not_registered">Pas encore inscrit ?</string>
+    <string name="sign_up_now">S\'inscrire maintenant</string>
+    <string name="login_illustration">Illustration de connexion</string>
+
+    <!-- Sign up screen -->
+    <string name="sign_up_title">Inscription</string>
+    <string name="email_label">Email</string>
+    <string name="full_name_label">Nom complet</string>
+    <string name="repeat_password_label">Répéter le mot de passe</string>
+    <string name="sign_up_button">S\'INSCRIRE</string>
+    <string name="already_have_account">Vous avez déjà un compte ?</string>
+    <string name="log_in">Se connecter</string>
+    <string name="toggle_password_visibility">Afficher/masquer le mot de passe</string>
+
+    <!-- Validation Errors -->
+    <string name="email_empty_error">L\'email ne peut pas être vide</string>
+    <string name="invalid_email_format_error">Format d\'email invalide</string>
+    <string name="username_empty_error">Le nom d\'utilisateur ne peut pas être vide</string>
+    <string name="full_name_empty_error">Le nom complet ne peut pas être vide</string>
+    <string name="password_empty_error">Le mot de passe ne peut pas être vide</string>
+    <string name="password_length_error">Le mot de passe doit comporter au moins 6 caractères</string>
+    <string name="password_mismatch_error">Les mots de passe ne correspondent pas</string>
+</resources>
