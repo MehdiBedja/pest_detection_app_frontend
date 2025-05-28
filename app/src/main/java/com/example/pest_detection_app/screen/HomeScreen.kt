@@ -149,26 +149,18 @@ fun HomeScreen(navController: NavController, userViewModel: LoginViewModel ,
             .fillMaxSize()
             .background(DarkBackground)
             .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState()) // Make the column vertically scrollable
-            .background(
-            color = DarkBackground
-            )
-        ,
+            .verticalScroll(rememberScrollState())
+            .background(color = DarkBackground),
+    ) {
+        UserGreeting(navController, userViewModel, userViewModelRoom)
 
-
-    )  {
-        UserGreeting(navController , userViewModel , userViewModelRoom)
-
-
-        if(!isLoggedIn ) {
+        if(!isLoggedIn) {
             AuthButtons(navController)
         }
 
-            ScanButton(navController)
+        ScanButton(navController)
 
-        if(isLoggedIn ) {
-            SyncNowButton(detectionSaveViewModel , userViewModel)
-
+        if(isLoggedIn) {
             RecentDetectionsSection(
                 navController, userViewModel,
                 detectionViewModel, detectionSaveViewModel

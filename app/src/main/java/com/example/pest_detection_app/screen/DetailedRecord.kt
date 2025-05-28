@@ -78,28 +78,24 @@ fun DetailItemScreen(
         }
 
         val imageUri = Uri.parse(uriString)
-        val contentResolver = context.contentResolver
-
         Log.d("DetailItemScreen", "📷 Received image URI: $imageUri")
 
         try {
-            if (imageUri.toString()
-                    .startsWith("content://com.android.providers.media.documents/")
-            ) {
-                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                contentResolver.takePersistableUriPermission(imageUri, takeFlags)
-                Log.d("DetailItemScreen", "✅ Persistable permission granted for URI: $imageUri")
-            } else {
-                Log.d(
-                    "DetailItemScreen",
-                    "📸 Camera image detected, no persistable permission needed: $imageUri"
-                )
+            // For gallery images, try to take permission
+            if (imageUri.toString().startsWith("content://com.android.providers.media")) {
+                try {
+                    val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    context.contentResolver.takePersistableUriPermission(imageUri, takeFlags)
+                    Log.d("DetailItemScreen", "✅ Permission granted for gallery image: $imageUri")
+                } catch (e: SecurityException) {
+                    Log.e("DetailItemScreen", "❌ Failed to take permission, but continuing: ${e.message}")
+                }
             }
 
             delay(500)
             viewModel.loadPastDetection(boundingBoxesModel ?: emptyList(), imageUri)
-        } catch (e: SecurityException) {
-            Log.e("DetailItemScreen", "❌ Failed to take persistable URI permission", e)
+        } catch (e: Exception) {
+            Log.e("DetailItemScreen", "❌ Error loading detection: ${e.message}", e)
         }
     }
 

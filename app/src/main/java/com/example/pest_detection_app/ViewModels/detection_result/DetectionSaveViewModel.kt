@@ -35,6 +35,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
 import java.util.UUID
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 class DetectionSaveViewModel(
     application: Application, // Pass Application as a constructor parameter
@@ -50,8 +52,16 @@ class DetectionSaveViewModel(
     private val _saveStatus = MutableStateFlow<Boolean?>(null)
     val saveStatus: StateFlow<Boolean?> = _saveStatus
 
+    private val _isSyncing = MutableStateFlow(false)
+    val isSyncing: StateFlow<Boolean> = _isSyncing
 
+    private val _syncCompletedEvent = MutableSharedFlow<SyncResult>()
+    val syncCompletedEvent = _syncCompletedEvent.asSharedFlow()
 
+    sealed class SyncResult {
+        object Success : SyncResult()
+        data class Failure(val errorMessage: String) : SyncResult()
+    }
 
     fun saveDetection(
         userId: Int,
@@ -222,95 +232,181 @@ class DetectionSaveViewModel(
         }}
 
 
-    fun syncLocalServerIdsWithCloud(userId: Int) {
+    fun syncAll(userId: Int, authToken: String) {
         viewModelScope.launch {
             try {
-                val authToken = Globals.savedToken ?: ""  // Get the token from Globals
-                val localServerIds = detectionResultDao.getServerIdsForUser(userId)
-                val response = detRepository.sendIds(localServerIds, authToken)
+                _isSyncing.value = true
+                
+                // Step 1: Sync local server IDs with cloud
+                val syncResult = syncLocalServerIdsWithCloud(userId)
+                if (!syncResult) throw Exception("Failed to sync with cloud")
+                
+                // Step 2: Handle soft deletes
+                val deleteResult = softDeleteLocalDetections(authToken, userId)
+                if (!deleteResult) throw Exception("Failed to handle soft deletes")
+                
+                // Step 3: Sync soft deleted items
+                val syncDeletedResult = syncSoftDeletedDetections()
+                if (!syncDeletedResult) throw Exception("Failed to sync deleted items")
+                
+                // Step 4: Sync notes
+                val notesResult = syncNotes(authToken, userId)
+                if (!notesResult) throw Exception("Failed to sync notes")
+                
+                _syncCompletedEvent.emit(SyncResult.Success)
+            } catch (e: Exception) {
+                _syncCompletedEvent.emit(SyncResult.Failure(e.localizedMessage ?: "Unknown error occurred"))
+                Log.e("SyncAll", "Sync failed", e)
+            } finally {
+                _isSyncing.value = false
+            }
+        }
+    }
 
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    if (body != null) {
-                        Log.d("SYNC", " ${body}")
-                    }
+    suspend fun syncLocalServerIdsWithCloud(userId: Int): Boolean {
+        return try {
+            val authToken = Globals.savedToken ?: throw Exception("No auth token available")
+            val localServerIds = detectionResultDao.getServerIdsForUser(userId)
+            val response = detRepository.sendIds(localServerIds, authToken)
 
-
-                    body?.detectionsToSend?.forEach { detectionWithBoxes ->
-                        val detection = detectionWithBoxes.detection
-                        val boxes = detectionWithBoxes.boundingBoxes
-                        Log.d("IMAGE_DOWNLOAD", "🖼️ Attempting to download image from URL: ${detection.imageUri}")
-
-                        // ⬇️ 1️⃣ Download the image from server and save locally
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Log.d("SYNC", "Server response received: $body")
+                    
+                    body.detectionsToSend.forEach { detectionToSend ->
+                        val detection = detectionToSend.detection
+                        val boxes = detectionToSend.boundingBoxes
+                        
                         val localImagePath = downloadAndSaveImage(
-                            context = MyApp.getContext(), // Make sure you have access to application context
+                            context = MyApp.getContext(),
                             imageUrl = if (detection.imageUri.startsWith("http")) {
                                 detection.imageUri
                             } else {
                                 url.trimEnd('/') + "/" + detection.imageUri.trimStart('/')
                             },
                             imageFileName = "${UUID.randomUUID()}.png"
-                        )
+                        ) ?: throw Exception("Failed to download image")
 
-                        // ⬇️ 2️⃣ Insert detection result using the local image path
                         val localDetectionId = detectionResultDao.insertDetectionResult(
                             DetectionResult(
                                 userId = detection.userId,
-                                imageUri = localImagePath ?: "", // fallback to empty string if failed
+                                imageUri = localImagePath,
                                 timestamp = detection.timestamp,
                                 isSynced = detection.isSynced,
                                 detectionDate = detection.detectionDate,
                                 serverId = detection.serverId,
-                                note = detection.note
+                                note = detection.note,
+                                updatedAt = System.currentTimeMillis()
                             )
                         )
 
-                        // ⬇️ 3️⃣ Insert bounding boxes
                         val roomBoxes = boxes.map { box ->
                             BoundingBox(
                                 detectionId = localDetectionId.toInt(),
-                                x1 = box.x1,
-                                y1 = box.y1,
-                                x2 = box.x2,
-                                y2 = box.y2,
-                                cx = box.cx,
-                                cy = box.cy,
-                                w = box.w,
-                                h = box.h,
-                                cnf = box.cnf,
-                                cls = box.cls,
-                                clsName = box.clsName
+                                x1 = box.x1, y1 = box.y1, x2 = box.x2, y2 = box.y2,
+                                cx = box.cx, cy = box.cy, w = box.w, h = box.h,
+                                cnf = box.cnf, cls = box.cls, clsName = box.clsName
                             )
                         }
-
                         boundingBoxDao.insertBoundingBoxes(roomBoxes)
                     }
 
-
-                    // ⬇️ 🔁 Step 4: If server needs data from phone, send it
-                    body?.detectionsNeededFromPhone?.let { neededServerIds ->
-                        Log.d("SYNC", "📤 Server needs ${neededServerIds.size} detections from phone")
-                        processDetectionsNeededFromPhone(
-                            neededServerIds,
-                            authToken ,
-                            userId
-                        )
+                    body.detectionsNeededFromPhone?.let { neededServerIds ->
+                        processDetectionsNeededFromPhone(neededServerIds, authToken, userId)
                     }
 
-
-                    if (body != null) {
-                        Log.d("SYNC", "✅ Sync success! ${body.detectionsToSend.size} detections saved.")
-                    }
+                    Log.d("SYNC", "✅ Sync success! ${body.detectionsToSend.size} detections saved.")
+                    true
                 } else {
-                    Log.e("SYNC", "❌ Server returned error: ${response.code()}")
+                    Log.e("SYNC", "❌ Empty response body")
+                    false
                 }
-            } catch (e: Exception) {
-                Log.e("SYNC", "❌ Exception during sync", e)
+            } else {
+                Log.e("SYNC", "❌ Server returned error: ${response.code()}")
+                false
             }
+        } catch (e: Exception) {
+            Log.e("SYNC", "❌ Exception during sync", e)
+            false
         }
     }
 
+    suspend fun softDeleteLocalDetections(authToken: String, userId: Int): Boolean {
+        return try {
+            val softDeletedIds = detectionResultDao.getSoftDeletedServerIds(userId)
+            if (softDeletedIds.isEmpty()) {
+                Log.d("SoftDelete", "No soft deleted IDs found locally.")
+                return true
+            }
 
+            val response = detRepository.softDeleteLocalDetections(softDeletedIds, authToken)
+            if (response.isSuccessful) {
+                detectionResultDao.deleteDetectionsByServerIds(softDeletedIds)
+                Log.d("SoftDelete", "Successfully deleted detections locally and on server.")
+                true
+            } else {
+                Log.e("SoftDelete", "Error deleting on server: ${response.errorBody()?.string()}")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("SoftDelete", "Exception during soft delete", e)
+            false
+        }
+    }
+
+    suspend fun syncSoftDeletedDetections(): Boolean {
+        return try {
+            val token = Globals.savedToken ?: throw Exception("No auth token")
+            val response = detRepository.getSoftDeletedDetectionsFromServer(token)
+            
+            if (response.isSuccessful) {
+                val deletedIds = response.body()?.deletedIds ?: emptyList()
+                if (deletedIds.isNotEmpty()) {
+                    detectionResultDao.deleteDetectionsByServerIds(deletedIds)
+                    Log.d("SyncSoftDelete", "Successfully deleted local detections: $deletedIds")
+                }
+                true
+            } else {
+                Log.e("SyncSoftDelete", "Server error: ${response.errorBody()?.string()}")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("SyncSoftDelete", "Exception during sync", e)
+            false
+        }
+    }
+
+    suspend fun syncNotes(authToken: String, userId: Int): Boolean {
+        return try {
+            val localDetections = detectionResultDao.getDetectionNotesForSync(userId)
+            val response = detRepository.updateNotesOnServer(authToken, localDetections)
+            
+            if (response.isSuccessful) {
+                response.body()?.detections?.forEach { serverDetection ->
+                    val serverId = serverDetection.serverId
+                    val note = serverDetection.note
+                    val updatedAt = serverDetection.updatedAt
+                    
+                    if (note != null && updatedAt != null) {
+                        detectionResultDao.updateNoteAndUpdatedAtByServerId(
+                            serverId = serverId,
+                            note = note,
+                            updatedAt = updatedAt
+                        )
+                    }
+                }
+                Log.d("SyncNotes", "Successfully synced notes with server.")
+                true
+            } else {
+                Log.e("SyncNotes", "Server error: ${response.errorBody()?.string()}")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("SyncNotes", "Error syncing notes", e)
+            false
+        }
+    }
 
     suspend fun downloadAndSaveImage(
         context: Context,
@@ -382,7 +478,7 @@ class DetectionSaveViewModel(
     ): Pair<String, Map<String, File>> {
         val detectionsJsonArray = mutableListOf<JSONObject>()
         val imageKeyToFileMap = mutableMapOf<String, File>()
-        val context = MyApp.getContext()  // Make sure this gives you application context
+        val context = MyApp.getContext()
 
         detections.forEachIndexed { index, detectionWithBoxes ->
             val detection = detectionWithBoxes.detection
@@ -411,6 +507,19 @@ class DetectionSaveViewModel(
             val imageKey = "image_$index"
             try {
                 val uri = Uri.parse(detection.imageUri)
+                
+                // Take persistable permission if needed
+                if (uri.scheme == "content") {
+                    try {
+                        val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        context.contentResolver.takePersistableUriPermission(uri, takeFlags)
+                        Log.d("SYNC", "✅ Persistable permission granted for URI: $uri")
+                    } catch (e: SecurityException) {
+                        Log.e("SYNC", "❌ Failed to take persistable permission: ${e.message}")
+                        // Continue anyway as we might still be able to open the stream
+                    }
+                }
 
                 val inputStream = context.contentResolver.openInputStream(uri)
                 if (inputStream != null) {
@@ -419,23 +528,24 @@ class DetectionSaveViewModel(
                         inputStream.copyTo(output)
                     }
                     imageKeyToFileMap[imageKey] = tempFile
+                    inputStream.close()
                 } else {
                     Log.w("SYNC", "⚠️ Could not resolve image URI to file: ${detection.imageUri}")
-                    return@forEachIndexed  // Skip this detection
+                    return@forEachIndexed
                 }
             } catch (e: Exception) {
                 Log.e("SYNC", "❌ Error reading image file: ${detection.imageUri}", e)
-                return@forEachIndexed  // Skip this detection on error
+                return@forEachIndexed
             }
 
             val detectionJson = JSONObject().apply {
-                put("serverid" , detection.serverId)
+                put("serverid", detection.serverId)
                 put("timestamp", detection.timestamp)
                 put("detection_date", detection.detectionDate)
                 put("note", detection.note)
                 put("image", imageKey)
                 put("bounding_boxes", boundingBoxesJson)
-                put("updated_at1" , detection.updatedAt)
+                put("updated_at1", detection.updatedAt)
             }
 
             detectionsJsonArray.add(detectionJson)
@@ -471,116 +581,6 @@ class DetectionSaveViewModel(
                 }
             } catch (e: Exception) {
                 Log.e("SYNC", "Error during sync: ${e.localizedMessage}")
-            }
-        }
-    }
-
-
-
-
-    fun softDeleteLocalDetections(authToken: String, userId: Int) {
-        viewModelScope.launch {
-            try {
-                // Step 1: Get local soft-deleted server IDs from Room
-                val softDeletedIds = detectionResultDao.getSoftDeletedServerIds(userId)
-
-                if (softDeletedIds.isEmpty()) {
-                    Log.d("SoftDelete", "No soft deleted IDs found locally.")
-                    return@launch
-                }
-
-                // Step 2: Send to server
-                val response = detRepository.softDeleteLocalDetections(softDeletedIds, authToken)
-
-                if (response.isSuccessful) {
-                    Log.d("SoftDelete", "Successfully soft deleted detections on server.")
-
-                    // Step 3: Delete them locally (hard delete)
-                    detectionResultDao.deleteDetectionsByServerIds(softDeletedIds)
-                    Log.d("SoftDelete", "Successfully deleted detections locally.")
-
-                } else {
-                    Log.e("SoftDelete", "Error deleting on server: ${response.errorBody()?.string()}")
-                }
-            } catch (e: Exception) {
-                Log.e("SoftDelete", "Exception during soft delete: ${e.localizedMessage}")
-            }
-        }
-    }
-
-
-    fun syncSoftDeletedDetections() {
-        viewModelScope.launch {
-            try {
-                // Step 1: Call the server
-                val response = Globals.savedToken?.let {
-                    detRepository.getSoftDeletedDetectionsFromServer(
-                        it
-                    )
-                }
-
-                if (response != null) {
-                    if (response.isSuccessful) {
-                        val deletedIds = response.body()?.deletedIds ?: emptyList()
-
-                        if (deletedIds.isNotEmpty()) {
-                            // Step 2: Delete from local Room database
-                            detectionResultDao.deleteDetectionsByServerIds(deletedIds)
-                            Log.d("SyncSoftDelete", "Successfully deleted local detections: $deletedIds")
-                        } else {
-                            Log.d("SyncSoftDelete", "No soft deleted detections found on server.")
-                        }
-                    } else {
-                        Log.e("SyncSoftDelete", "Server error: ${response.errorBody()?.string()}")
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("SyncSoftDelete", "Exception: ${e.localizedMessage}")
-            }
-        }
-    }
-
-
-
-
-    fun syncNotes(authToken: String, userId: Int) {
-        viewModelScope.launch {
-            try {
-                // 1. Get detections from Room
-                val localDetections = detectionResultDao.getDetectionNotesForSync(userId)
-                Log.d("sync notes" , "${localDetections}")
-
-                // 2. Send to server
-                val response = detRepository.updateNotesOnServer(authToken, localDetections)
-
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-
-                    responseBody?.detections?.forEach { serverDetection ->
-                        val serverId = serverDetection.serverId
-                        val note = serverDetection.note
-                        val updatedAt = serverDetection.updatedAt
-
-                        // 3. Update local Room with server changes
-                        if (note != null) {
-                            if (updatedAt != null) {
-                                detectionResultDao.updateNoteAndUpdatedAtByServerId(
-                                    serverId = serverId,
-                                    note = note,
-                                    updatedAt = updatedAt
-                                )
-                            }
-                        }
-                    }
-
-                    // Optional: Log success
-                    Log.d("SyncNotes", "Successfully synced notes with server.")
-                } else {
-                    Log.e("SyncNotes", "Server error: ${response.errorBody()?.string()}")
-                }
-
-            } catch (e: Exception) {
-                Log.e("SyncNotes", "Error syncing notes: ", e)
             }
         }
     }

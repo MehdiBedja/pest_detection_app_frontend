@@ -123,10 +123,19 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
 
     /**
      * Loads a bitmap from the given URI.
+     * This is used for initial image loading from camera/gallery
      */
     private fun loadBitmapFromUri(uri: Uri): Bitmap? {
         return try {
-            val inputStream = getApplication<Application>().contentResolver.openInputStream(uri)
+            val contentResolver = getApplication<Application>().contentResolver
+            
+            // For gallery images, we need to take persistable permission
+            if (uri.toString().startsWith("content://com.android.providers.media")) {
+                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                contentResolver.takePersistableUriPermission(uri, takeFlags)
+            }
+            
+            val inputStream = contentResolver.openInputStream(uri)
             BitmapFactory.decodeStream(inputStream)
         } catch (e: Exception) {
             Log.e("DetectionViewModel", "Error loading image from URI", e)
@@ -134,57 +143,51 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-
     private fun loadBitmapFromUriDetItem(uri: Uri): Bitmap? {
         return try {
             val context = getApplication<Application>()
             val contentResolver = context.contentResolver
 
-            val inputStream = when (uri.scheme) {
-                "content" -> {
-                    // ✅ Handle gallery or content URIs
-                    if (isGalleryUri(uri)) {
+            val inputStream = when {
+                // For gallery/media images
+                uri.toString().startsWith("content://com.android.providers.media") -> {
+                    try {
                         val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                         contentResolver.takePersistableUriPermission(uri, takeFlags)
-                        Log.d("DetectionViewModel", "✅ Persistable permission granted for URI: $uri")
+                        Log.d("DetectionViewModel", "✅ Took permission for gallery image: $uri")
+                    } catch (e: SecurityException) {
+                        Log.e("DetectionViewModel", "❌ Failed to take permission for gallery", e)
                     }
                     contentResolver.openInputStream(uri)
                 }
-
-                "file" -> {
-                    // ✅ Handle file URIs
-                    Log.d("DetectionViewModel", "✅ Loading from file URI: $uri")
+                
+                // For other content URIs (like camera)
+                uri.scheme == "content" -> {
+                    contentResolver.openInputStream(uri)
+                }
+                
+                // For file URIs
+                uri.scheme == "file" -> {
                     FileInputStream(File(uri.path!!))
                 }
-
+                
+                // For raw file paths
                 else -> {
-                    // ✅ Handle raw file paths or unknown schemes
-                    Log.d("DetectionViewModel", "✅ Loading from raw path or unknown scheme: $uri")
                     FileInputStream(File(uri.toString()))
                 }
             }
 
-            inputStream.use {
+            inputStream?.use {
                 BitmapFactory.decodeStream(it)
             }
 
         } catch (e: SecurityException) {
-            Log.e("DetectionViewModel", "❌ Permission error: Use ACTION_OPEN_DOCUMENT for gallery images", e)
+            Log.e("DetectionViewModel", "❌ Permission error: ${e.message}", e)
             null
         } catch (e: Exception) {
-            Log.e("DetectionViewModel", "❌ Error loading image from URI", e)
+            Log.e("DetectionViewModel", "❌ Error loading image: ${e.message}", e)
             null
         }
     }
-
-    /**
-     * ✅ Helper function to check if a URI is from the gallery
-     */
-    private fun isGalleryUri(uri: Uri): Boolean {
-        return uri.authority == "com.android.providers.media.documents"
-    }
-
-
-
 
 }
