@@ -102,7 +102,7 @@
     <string name="email_label">Email</string>
     <string name="full_name_label">Nom complet</string>
     <string name="repeat_password_label">Répéter le mot de passe</string>
-    <string name="sign_up_button">S\'INSCRIRE</string>
+    <string name="sign_up_button">S\'inscrire</string>
     <string name="already_have_account">Vous avez déjà un compte ?</string>
     <string name="log_in">Se connecter</string>
     <string name="toggle_password_visibility">Afficher/masquer le mot de passe</string>
@@ -115,4 +115,11 @@
     <string name="password_empty_error">Le mot de passe ne peut pas être vide</string>
     <string name="password_length_error">Le mot de passe doit comporter au moins 6 caractères</string>
     <string name="password_mismatch_error">Les mots de passe ne correspondent pas</string>
+
+
+    // Profile screen
+
+    <string name="Sign_in_Sign_Up" >Se connecter / S\'inscrire </string>
+    <string name="Hello_farmer">Bonjour, agriculteur</string>
+
 </resources>

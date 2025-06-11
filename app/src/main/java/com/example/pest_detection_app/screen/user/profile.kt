@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +34,9 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
+import com.example.pest_detection_app.ViewModels.user.UserViewModelRoom
 import com.example.pest_detection_app.data.user.User
+import com.example.pest_detection_app.screen.LoginSignupDialog
 import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.ui.theme.DarkBackground
 import java.util.Locale
@@ -70,11 +73,26 @@ object LanguagePref {
 }
 
 @Composable
-fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController) {
+fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , userViewModelRoom : UserViewModelRoom) {
     val userState by viewModel.user
     val loading by viewModel.loading
     val error by viewModel.error
     val savedToken by viewModel.token.collectAsState()
+
+
+
+    val userid by viewModel.userId.collectAsState()
+    val user by userViewModelRoom.user.observeAsState()
+
+
+    // Trigger data fetching
+    LaunchedEffect(Unit) {
+        userid?.let { userViewModelRoom.fetchUserById(it) }
+    }
+
+
+
+
 
     var isDarkMode by rememberSaveable { mutableStateOf(false) }
 
@@ -104,20 +122,23 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController) {
                     )
                 }
 
-                IconButton(
-                    onClick = {
-                        viewModel.logout()
-                        navController.navigate("home_screen") {
-                            popUpTo("home_screen") { inclusive = true }
+                if (user != null) {
+                    IconButton(
+                        onClick = {
+                            viewModel.logout()
+                            navController.navigate("home_screen") {
+                                popUpTo("home_screen") { inclusive = true }
+                            }
                         }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.logout),
+                            contentDescription = "Logout",
+                            tint = Color(0xFF2B3A2F)
+                        )
                     }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.logout),
-                        contentDescription = "Logout",
-                        tint = Color(0xFF2B3A2F)
-                    )
                 }
+
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -136,19 +157,50 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController) {
                         modifier = Modifier.align(Alignment.Center)
                     )
 
-                    userState != null -> UserProfileContent(userState!!, navController, viewModel)
+                    else -> UserProfileContent(user, navController, viewModel)
                 }
             }
         }
     }
 }
 
+
+@Composable
+fun LoginSignupDialog1(navController: NavController, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = { onDismiss() },
+        title = { Text (stringResource(R.string.Hello_farmer) ) },
+        confirmButton = {
+            Button(onClick = {
+                onDismiss()
+                navController.navigate("login")
+            }) {
+                Text(stringResource(R.string.login))
+            }
+        },
+        dismissButton = {
+            Button(onClick = {
+                onDismiss()
+                navController.navigate("signup")
+            }) {
+                Text(stringResource(R.string.sign_up))
+            }
+        }
+    )
+}
+
+
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserProfileContent(user: User, navController: NavController, viewModel: LoginViewModel) {
+fun UserProfileContent(
+    user: com.example.pest_detection_app.RoomDatabase.User?,
+    navController: NavController,
+    viewModel: LoginViewModel
+) {
     val context = LocalContext.current
 
-    // Get current language from preferences
     var currentLanguage by remember {
         mutableStateOf(
             when (LanguagePref.getLanguage(context)) {
@@ -160,8 +212,11 @@ fun UserProfileContent(user: User, navController: NavController, viewModel: Logi
         )
     }
 
-
     var isDarkMode by rememberSaveable { mutableStateOf(false) }
+
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val coroutineScope = rememberCoroutineScope()
+    var showSettingsSheet by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -170,50 +225,85 @@ fun UserProfileContent(user: User, navController: NavController, viewModel: Logi
             .verticalScroll(rememberScrollState())
             .padding(80.dp)
     ) {
-        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-        val coroutineScope = rememberCoroutineScope()
-        var showSettingsSheet by remember { mutableStateOf(false) }
+        if (user != null) {
+            // ✅ Logged-in user content
 
-        // Profile Image in rounded square
-        Image(
-            painter = rememberAsyncImagePainter(R.drawable.profilepicture),
-            contentDescription = "Profile Image",
-            modifier = Modifier
-                .size(130.dp)
-                .clip(RoundedCornerShape(30.dp))
-                .background(Color(0xFFD4D0B4))
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "${user.last_name}",
-            style = MaterialTheme.typography.headlineSmall.copy(
-                color = Color(0xFF2B3A2F),
-                fontWeight = FontWeight.Bold
+            // Profile Image
+            Image(
+                painter = rememberAsyncImagePainter(R.drawable.profilepicture),
+                contentDescription = "Profile Image",
+                modifier = Modifier
+                    .size(130.dp)
+                    .clip(RoundedCornerShape(30.dp))
+                    .background(Color(0xFFD4D0B4))
             )
-        )
 
-        Text(
-            text = "@${user.username}",
-            style = MaterialTheme.typography.bodyMedium.copy(color = Color(0xFF61705C))
-        )
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "${user.last_name}",
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    color = Color(0xFF2B3A2F),
+                    fontWeight = FontWeight.Bold
+                )
+            )
 
-        // Edit Profile Button
-        OutlinedButton(
-            onClick = { /* Edit profile nav */ },
-            shape = RoundedCornerShape(12.dp),
-            border = BorderStroke(1.dp, Color(0xFF2B3A2F)),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF2B3A2F))
-        ) {
-            Text(text = stringResource(R.string.edit_profile))
+            Text(
+                text = "@${user.username}",
+                style = MaterialTheme.typography.bodyMedium.copy(color = Color(0xFF61705C))
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Edit Profile
+            OutlinedButton(
+                onClick = { /* Navigate to edit profile */ },
+                shape = RoundedCornerShape(12.dp),
+                border = BorderStroke(1.dp, Color(0xFF2B3A2F)),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF2B3A2F))
+            ) {
+                Text(text = stringResource(R.string.edit_profile))
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+        } else {
+            // ✅ Not logged in content
+
+            Text(
+                text = "",
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    color = Color(0xFF2B3A2F),
+                    fontWeight = FontWeight.Bold
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            var showLoginDialog by remember { mutableStateOf(false) }
+
+            Button(
+                onClick = { showLoginDialog = true },
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2B3A2F))
+            ) {
+                Text(
+                    text = stringResource(R.string.Sign_in_Sign_Up),
+                    color = Color.White
+                )
+            }
+
+            if (showLoginDialog) {
+                LoginSignupDialog1(
+                    navController = navController,
+                    onDismiss = { showLoginDialog = false }
+                )
+            }
+
+
+            Spacer(modifier = Modifier.height(30.dp))
         }
 
-        Spacer(modifier = Modifier.height(30.dp))
-
-        // Settings Section
+        // Settings Section (available for everyone)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -223,10 +313,16 @@ fun UserProfileContent(user: User, navController: NavController, viewModel: Logi
             ProfileOption(Icons.Default.Settings, label = stringResource(R.string.settings)) {
                 showSettingsSheet = true
             }
-            Divider(color = Color(0xFFE0DECC))
-            ProfileOption(Icons.Default.Lock, label = stringResource(R.string.change_pass)) { /* nav */ }
+
+            if (user != null) {
+                Divider(color = Color(0xFFE0DECC))
+                ProfileOption(Icons.Default.Lock, label = stringResource(R.string.change_pass)) {
+                    // Navigate to change password
+                }
+            }
         }
 
+        // Settings Bottom Sheet
         if (showSettingsSheet) {
             ModalBottomSheet(
                 onDismissRequest = { showSettingsSheet = false },
@@ -247,7 +343,6 @@ fun UserProfileContent(user: User, navController: NavController, viewModel: Logi
                             else -> "en"
                         }
                         LanguagePref.saveLanguage(context, langCode)
-                        // Recreate activity to apply language change
                         (context as? Activity)?.recreate()
                     }
                 )
@@ -255,6 +350,7 @@ fun UserProfileContent(user: User, navController: NavController, viewModel: Logi
         }
     }
 }
+
 
 @Composable
 fun ProfileOption(icon: ImageVector, label: String, onClick: () -> Unit) {

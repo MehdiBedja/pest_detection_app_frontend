@@ -49,3 +49,32 @@ data class CustomUser(
     val email: String,
     val profileImage: String?
 )
+
+
+
+data class GoogleSignUpRequest(
+    @SerializedName("id_token") val idToken: String,
+    @SerializedName("user_type") val userType: String
+)
+
+
+
+data class GoogleSignUpResponse(
+    val token: String,
+    val user: User,
+    val message: String
+)
+
+
+
+// Add these data classes to your data models file
+
+data class GoogleSignInRequest(
+    val idToken: String
+)
+
+data class GoogleSignInResponse(
+    val token: String,
+    val user: User,
+    val message: String
+)

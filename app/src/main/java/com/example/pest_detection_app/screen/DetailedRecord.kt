@@ -270,8 +270,8 @@ fun DetailItemScreen(
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.TopStart),
-                containerColor = DarkBackground,
-                contentColor = Color.White,
+                containerColor = Color.Green,
+                contentColor = Color.Black,
                 shape = RoundedCornerShape(50)
             ) {
                 Icon(

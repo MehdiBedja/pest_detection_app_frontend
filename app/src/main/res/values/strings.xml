@@ -133,6 +133,10 @@
     <string name="password_length_error">Password must be at least 6 characters</string>
     <string name="password_mismatch_error">Passwords do not match</string>
 
+//profile screen
+
+    <string name="Sign_in_Sign_Up">Sign in / Sign up</string>
+    <string name="Hello_farmer">Hello, farmer</string>
 
 
 </resources>

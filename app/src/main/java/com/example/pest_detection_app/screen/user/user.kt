@@ -1,10 +1,13 @@
-
-
 package com.example.pest_detection_app.screen.user
 
+import android.app.Activity
+import android.content.Intent
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +35,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -75,21 +79,49 @@ import com.example.pest_detection_app.repository.user.AuthRepository
 import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.ViewModels.user.AccountViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
+import com.example.pest_detection_app.navigation.userView
 import com.example.pest_detection_app.ui.theme.*
-
-
-
-
-
-
-
-
-
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 
 @Composable
 fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
     var username by remember { mutableStateOf(TextFieldValue()) }
     var password by remember { mutableStateOf(TextFieldValue()) }
+
+    val context = LocalContext.current
+    val activity = context as? Activity
+    val gso = remember {
+        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("374837935478-pr8pgbl7aa5hjio476on3e5bhrjk18mg.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+    }
+    val googleSignInClient = remember { GoogleSignIn.getClient(context, gso) }
+
+    // Updated Google Sign-In launcher
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            val idToken = account?.idToken
+            if (idToken != null) {
+                Log.d("GoogleSignInToken", "$idToken")
+                viewModel.loginWithGoogle(idToken)
+            } else {
+                viewModel.error.value = "Failed to get Google ID token"
+            }
+        } catch (e: ApiException) {
+            viewModel.error.value = "Google Sign-In Error: ${e.statusCode} - ${e.message}"
+            Log.e("GoogleSignIn", "Google Sign-In failed with API Exception: ${e.statusCode}", e)
+        }
+    }
 
     if (viewModel.login.value) {
         LaunchedEffect(Unit) {
@@ -177,6 +209,29 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                             ) {
                                 Text(stringResource(R.string.login_button), fontWeight = FontWeight.Bold)
                             }
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            // OR Divider
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Divider(modifier = Modifier.weight(1f))
+                                Text(
+                                    text = "OR",
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    color = Color.Gray
+                                )
+                                Divider(modifier = Modifier.weight(1f))
+                            }
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            // Google Sign In Button
+                            GoogleSignInButton {
+                                launcher.launch(googleSignInClient.signInIntent)
+                            }
                         }
 
                         if (viewModel.error.value != null) {
@@ -208,10 +263,32 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                         }
                     )
                 }
-
-                Spacer(modifier = Modifier.height(24.dp))
             }
         }
+    }
+}
+
+@Composable
+fun GoogleSignInButton(onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.White,
+            contentColor = Color.Black
+        ),
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.dp, Color.LightGray)
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.google),
+            contentDescription = "Google Sign-In",
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text("Sign in with Google", fontWeight = FontWeight.Bold)
     }
 }
 
@@ -247,7 +324,6 @@ fun LoginTextField(
 }
 
 
-
 @Composable
 fun LogoutScreen(navController: NavController, viewModel: LoginViewModel) {
     Button(
@@ -274,6 +350,8 @@ fun LogoutScreen(navController: NavController, viewModel: LoginViewModel) {
 }
 
 
+
+// 6. Updated SignUpScreen Composable
 @Composable
 fun SignUpScreen(navController: NavHostController) {
     var email by remember { mutableStateOf(TextFieldValue()) }
@@ -293,6 +371,40 @@ fun SignUpScreen(navController: NavHostController) {
     val authRepository = AuthRepository(endpoint)
     val viewModel = AccountViewModel.getInstance(authRepository)
 
+    val context = LocalContext.current
+    val activity = context as? Activity
+
+    // Google Sign-In setup
+    val gso = remember {
+        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("374837935478-pr8pgbl7aa5hjio476on3e5bhrjk18mg.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+    }
+    val googleSignInClient = remember { GoogleSignIn.getClient(context, gso) }
+
+    // Google Sign-Up launcher
+    val googleSignUpLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            val idToken = account?.idToken
+            if (idToken != null) {
+                Log.d("GoogleSignUptoken","$idToken")
+
+                viewModel.googleSignUp(idToken, context)
+            } else {
+                viewModel.error.value = "Failed to get Google ID token"
+            }
+        } catch (e: ApiException) {
+            viewModel.error.value = "Google Sign-In Error: ${e.statusCode} - ${e.message}"
+            Log.e("GoogleSignUp", "Google Sign-In failed with API Exception: ${e.statusCode}", e)
+        }
+    }
+
+    // Navigate to login on success
     if (viewModel.createdSuccess.value) {
         LaunchedEffect(Unit) {
             navController.navigate(Screen.Login.route) {
@@ -300,9 +412,6 @@ fun SignUpScreen(navController: NavHostController) {
             }
         }
     }
-
-    val context = LocalContext.current
-
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -336,76 +445,124 @@ fun SignUpScreen(navController: NavHostController) {
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        SignUpTextField(stringResource(R.string.email_label), email, onValueChange = {
-                            email = it
-                            emailError = null
-                        })
-                        if (emailError != null) Text(emailError!!, color = Color.Red, fontSize = 12.sp)
+                        SignUpTextField(
+                            stringResource(R.string.email_label),
+                            email,
+                            onValueChange = {
+                                email = it
+                                emailError = null
+                            })
+                        if (emailError != null) Text(
+                            emailError!!,
+                            color = Color.Red,
+                            fontSize = 12.sp
+                        )
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        SignUpTextField(stringResource(R.string.username_label), username, onValueChange = {
-                            username = it
-                            usernameError = null
-                        })
-                        if (usernameError != null) Text(usernameError!!, color = Color.Red, fontSize = 12.sp)
+                        SignUpTextField(
+                            stringResource(R.string.username_label),
+                            username,
+                            onValueChange = {
+                                username = it
+                                usernameError = null
+                            })
+                        if (usernameError != null) Text(
+                            usernameError!!,
+                            color = Color.Red,
+                            fontSize = 12.sp
+                        )
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        SignUpTextField(stringResource(R.string.full_name_label), lastName, onValueChange = {
-                            lastName = it
-                            lastNameError = null
-                        })
-                        if (lastNameError != null) Text(lastNameError!!, color = Color.Red, fontSize = 12.sp)
+                        SignUpTextField(
+                            stringResource(R.string.full_name_label),
+                            lastName,
+                            onValueChange = {
+                                lastName = it
+                                lastNameError = null
+                            })
+                        if (lastNameError != null) Text(
+                            lastNameError!!,
+                            color = Color.Red,
+                            fontSize = 12.sp
+                        )
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        SignUpTextField(stringResource(R.string.password_label), password, onValueChange = {
-                            password = it
-                            passwordError = null
-                        }, isPassword = true)
-                        if (passwordError != null) Text(passwordError!!, color = Color.Red, fontSize = 12.sp)
+                        SignUpTextField(
+                            stringResource(R.string.password_label),
+                            password,
+                            onValueChange = {
+                                password = it
+                                passwordError = null
+                            },
+                            isPassword = true
+                        )
+                        if (passwordError != null) Text(
+                            passwordError!!,
+                            color = Color.Red,
+                            fontSize = 12.sp
+                        )
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        SignUpTextField(stringResource(R.string.repeat_password_label), repeatPassword, onValueChange = {
-                            repeatPassword = it
-                            repeatPasswordError = null
-                        }, isPassword = true)
-                        if (repeatPasswordError != null) Text(repeatPasswordError!!, color = Color.Red, fontSize = 12.sp)
+                        SignUpTextField(
+                            stringResource(R.string.repeat_password_label),
+                            repeatPassword,
+                            onValueChange = {
+                                repeatPassword = it
+                                repeatPasswordError = null
+                            },
+                            isPassword = true
+                        )
+                        if (repeatPasswordError != null) Text(
+                            repeatPasswordError!!,
+                            color = Color.Red,
+                            fontSize = 12.sp
+                        )
                         Spacer(modifier = Modifier.height(20.dp))
 
                         if (viewModel.loading.value) {
                             CircularProgressIndicator(color = Color(0xFF5C6BC0))
                         } else {
+                            // Regular Sign Up Button
                             Button(
                                 onClick = {
-                                    // Validation
+                                    // Your existing validation logic...
                                     var isValid = true
                                     if (email.text.isBlank()) {
                                         emailError = context.getString(R.string.email_empty_error)
                                         isValid = false
-                                    } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.text).matches()) {
-                                        emailError = context.getString(R.string.invalid_email_format_error)
+                                    } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.text)
+                                            .matches()
+                                    ) {
+                                        emailError =
+                                            context.getString(R.string.invalid_email_format_error)
                                         isValid = false
                                     }
 
                                     if (username.text.isBlank()) {
-                                        usernameError = context.getString(R.string.username_empty_error)
+                                        usernameError =
+                                            context.getString(R.string.username_empty_error)
                                         isValid = false
                                     }
 
                                     if (lastName.text.isBlank()) {
-                                        lastNameError = context.getString(R.string.full_name_empty_error)
+                                        lastNameError =
+                                            context.getString(R.string.full_name_empty_error)
                                         isValid = false
                                     }
 
                                     if (password.text.isBlank()) {
-                                        passwordError = context.getString(R.string.password_empty_error)
+                                        passwordError =
+                                            context.getString(R.string.password_empty_error)
                                         isValid = false
                                     } else if (password.text.length < 6) {
-                                        passwordError = context.getString(R.string.password_length_error)
+                                        passwordError =
+                                            context.getString(R.string.password_length_error)
                                         isValid = false
                                     }
 
                                     if (repeatPassword.text != password.text) {
-                                        repeatPasswordError =context.getString(R.string.password_mismatch_error)
+                                        repeatPasswordError =
+                                            context.getString(R.string.password_mismatch_error)
                                         isValid = false
                                     }
 
@@ -431,6 +588,29 @@ fun SignUpScreen(navController: NavHostController) {
                                 shape = RoundedCornerShape(12.dp)
                             ) {
                                 Text(stringResource(R.string.sign_up), fontWeight = FontWeight.Bold)
+                            }
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            // OR Divider
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Divider(modifier = Modifier.weight(1f))
+                                Text(
+                                    text = "OR",
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    color = Color.Gray
+                                )
+                                Divider(modifier = Modifier.weight(1f))
+                            }
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            // Google Sign Up Button
+                            GoogleSignUpButton {
+                                googleSignUpLauncher.launch(googleSignInClient.signInIntent)
                             }
                         }
 
@@ -468,41 +648,67 @@ fun SignUpScreen(navController: NavHostController) {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpTextField(
-    label: String,
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
-    isPassword: Boolean = false
-) {
-    var passwordVisible by remember { mutableStateOf(false) }
-
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(label) },
-        modifier = Modifier.fillMaxWidth(),
+fun GoogleSignUpButton(onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.White,
+            contentColor = Color.Black
+        ),
         shape = RoundedCornerShape(12.dp),
-        singleLine = true,
-        visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
-        trailingIcon = {
-            if (isPassword) {
-                val iconRes = if (passwordVisible) R.drawable.visible else R.drawable.notvisible
-
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(
-                        painter = painterResource(id = iconRes),
-                        contentDescription = "Toggle password visibility",
-                        tint = Color.Unspecified // Keep original image color
-                    )
-                }
-            }
-
-        },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color(0xFF5C6BC0),
-            focusedLabelColor = Color(0xFF5C6BC0)
+        border = BorderStroke(1.dp, Color.LightGray)
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.google),
+            contentDescription = "Google Sign-Up",
+            modifier = Modifier.size(24.dp)
         )
-    )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text("Sign up with Google", fontWeight = FontWeight.Bold)
+    }
 }
+
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun SignUpTextField(
+        label: String,
+        value: TextFieldValue,
+        onValueChange: (TextFieldValue) -> Unit,
+        isPassword: Boolean = false
+    ) {
+        var passwordVisible by remember { mutableStateOf(false) }
+
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            label = { Text(label) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            singleLine = true,
+            visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
+            trailingIcon = {
+                if (isPassword) {
+                    val iconRes = if (passwordVisible) R.drawable.visible else R.drawable.notvisible
+
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            painter = painterResource(id = iconRes),
+                            contentDescription = "Toggle password visibility",
+                            tint = Color.Unspecified // Keep original image color
+                        )
+                    }
+                }
+
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFF5C6BC0),
+                focusedLabelColor = Color(0xFF5C6BC0)
+            )
+        )
+    }
+

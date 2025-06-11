@@ -1,5 +1,9 @@
 package com.example.pest_detection_app.repository.user
 
+import com.example.pest_detection_app.data.user.GoogleSignInRequest
+import com.example.pest_detection_app.data.user.GoogleSignInResponse
+import com.example.pest_detection_app.data.user.GoogleSignUpRequest
+import com.example.pest_detection_app.data.user.GoogleSignUpResponse
 import com.example.pest_detection_app.data.user.LoginRequest
 import com.example.pest_detection_app.data.user.LoginResponse
 import com.example.pest_detection_app.data.user.SignUpRequest
@@ -44,6 +48,22 @@ class AuthRepository(private val endpoint: userEndpoint) {
 
     suspend fun getUser(token: String): Response<User> {
         return endpoint.getUser("Token $token") // Only use the token now
+    }
+
+    suspend fun googleSignUp(idToken: String, userType: String = "client"): Response<GoogleSignUpResponse> {
+        val googleSignUpRequest = GoogleSignUpRequest(
+            idToken = idToken,
+            userType = userType
+        )
+        return endpoint.googleSignUp(googleSignUpRequest)
+    }
+
+    // Add this function to your AuthRepository class
+    suspend fun googleSignIn(idToken: String): Response<GoogleSignInResponse> {
+        val googleSignInRequest = GoogleSignInRequest(
+            idToken = idToken
+        )
+        return endpoint.googleSignIn(googleSignInRequest)
     }
 
 

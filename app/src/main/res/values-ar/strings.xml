@@ -130,4 +130,11 @@
     <string name="password_length_error">يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل</string>
     <string name="password_mismatch_error">كلمتا المرور غير متطابقتين</string>
 
+    // profile screen
+
+    <string name="Sign_in_Sign_Up">تسجيل دخول / إنشاء حساب</string>
+    <string name="Hello_farmer">مرحبًا أيها الفلاح</string>
+
+
+
 </resources>

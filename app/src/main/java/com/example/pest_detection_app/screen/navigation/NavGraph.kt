@@ -128,7 +128,17 @@ fun NavGraph(navController: NavHostController) {
                 composable(Screen.Settings.route) { SettingsScreen(navController) }
                 composable(Screen.Login.route) { LogInScreen(navController, userView) }
                 composable(Screen.SignUp.route) { SignUpScreen(navController) }
-                composable(Screen.UserProfileScreen.route) { UserProfileScreen(userView, navController) }
+                composable(Screen.UserProfileScreen.route) {
+
+                    val userViewModelRoom: UserViewModelRoom = androidx.lifecycle.viewmodel.compose.viewModel(
+                        factory = UserViewModelFactory(
+                            context,
+                            DatabaseManager.getDatabase(MyApp.getContext()).userDao(),
+                        )
+                    )
+
+
+                    UserProfileScreen(userView, navController , userViewModelRoom) }
                 composable(Screen.PesticideInfo.route) { PesticideInfoScreen(navController) }
                 composable(Screen.Logout.route) { LogoutScreen(navController, userView) }
 

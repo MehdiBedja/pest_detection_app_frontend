@@ -13,6 +13,7 @@ import com.example.pest_detection_app.MyApp
 import com.example.pest_detection_app.RoomDatabase.DatabaseManager
 import com.example.pest_detection_app.RoomDatabase.PestDetectionDatabase
 import com.example.pest_detection_app.RoomDatabase.UserDao
+import com.example.pest_detection_app.data.user.GoogleSignUpRequest
 import com.example.pest_detection_app.data.user.User
 import com.example.pest_detection_app.preferences.Globals
 import com.example.pest_detection_app.repository.user.AuthRepository
@@ -113,6 +114,96 @@ class AccountViewModel(private val authRepository: AuthRepository ) : ViewModel(
             }
         }
     }
+
+
+
+
+
+
+
+
+
+
+    // Add this to your ViewModel's googleSignUp function for better debugging:
+
+    fun googleSignUp(idToken: String, context: Context) {
+        loading.value = true
+        error.value = null
+
+        Log.d("GoogleSignUpViewModel", "Starting Google sign-up process")
+        Log.d("GoogleSignUpViewModel", "ID Token being sent: ${idToken.take(50)}...") // Only show first 50 chars for security
+
+        viewModelScope.launch {
+            try {
+                val request = GoogleSignUpRequest(idToken, "client")
+                Log.d("GoogleSignUpViewModel", "Request object created: id_token length=${idToken.length}, user_type=client")
+
+                val response = authRepository.googleSignUp(idToken, "client")
+                Log.d("GoogleSignUpViewModel", "Response received: code=${response.code()}, isSuccessful=${response.isSuccessful}")
+
+                if (response.isSuccessful) {
+                    val googleResponse = response.body()
+                    Log.d("GoogleSignUpViewModel", "Response body: $googleResponse")
+
+                    if (googleResponse != null) {
+                        val user = googleResponse.user
+
+                        // Initialize the Room database and UserDao
+                        val userDao = DatabaseManager.userDao(context)
+
+                        // Convert API response to Room Entity
+                        val userEntity = com.example.pest_detection_app.RoomDatabase.User(
+                            id = user.id,
+                            username = user.username,
+                            email = user.email,
+                            last_name = user.last_name,
+                            first_name = user.first_name,
+                            phone_number = user.phone_number,
+                            date_of_birth = user.date_of_birth,
+                            date_joined = user.date_joined,
+                            profile_picture = user.profile_picture
+                        )
+
+                        // Save user to Room Database in background thread
+                        withContext(Dispatchers.IO) {
+                            userDao.insertUser(userEntity)
+                        }
+
+                        // Sign-up success
+                        createdSuccess.value = true
+                        Log.d("GoogleSignUp", "User successfully signed up with Google and stored in Room DB: $user")
+                    } else {
+                        error.value = "Failed to get user data from server"
+                        Log.e("GoogleSignUp", "Response body was null")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("GoogleSignUpViewModel", "Error response: code=${response.code()}, body=$errorBody")
+
+                    error.value = when {
+                        response.code() == 400 && errorBody?.contains("already exists") == true ->
+                            "Account with this email already exists. Please try logging in instead."
+                        response.code() == 400 && !errorBody.isNullOrBlank() -> {
+                            try {
+                                val jsonObject = org.json.JSONObject(errorBody)
+                                jsonObject.getString("error")
+                            } catch (e: Exception) {
+                                "Invalid Google authentication. Details: $errorBody"
+                            }
+                        }
+                        response.code() == 400 -> "Invalid Google authentication. Please try again."
+                        else -> "Failed to sign up with Google: ${response.message()}"
+                    }
+                }
+            } catch (e: Exception) {
+                error.value = "Failed to sign up with Google: ${e.message}"
+                Log.e("GoogleSignUpViewModel", "Exception during Google sign-up", e)
+            } finally {
+                loading.value = false
+            }
+        }
+    }
+
 
 
 
@@ -241,7 +332,8 @@ class LoginViewModel(
                         logout.value = false
 
                         val userDao = DatabaseManager.userDao(MyApp.getContext())
-                        val existingUser = withContext(Dispatchers.IO) { userDao.getUserById(userId) }
+                        val existingUser =
+                            withContext(Dispatchers.IO) { userDao.getUserById(userId) }
 
                         if (existingUser == null) {
                             Log.d("Login", "User not found in Room, fetching from backend...")
@@ -250,17 +342,18 @@ class LoginViewModel(
                             if (userResponse.isSuccessful) {
                                 val userData = userResponse.body()
                                 if (userData != null) {
-                                    val userEntity = com.example.pest_detection_app.RoomDatabase.User(
-                                        id = userData.id,
-                                        username = userData.username,
-                                        email = userData.email,
-                                        last_name = userData.last_name,
-                                        first_name = userData.first_name,
-                                        phone_number = userData.phone_number,
-                                        date_of_birth = userData.date_of_birth,
-                                        date_joined = userData.date_joined,
-                                        profile_picture = userData.profile_picture
-                                    )
+                                    val userEntity =
+                                        com.example.pest_detection_app.RoomDatabase.User(
+                                            id = userData.id,
+                                            username = userData.username,
+                                            email = userData.email,
+                                            last_name = userData.last_name,
+                                            first_name = userData.first_name,
+                                            phone_number = userData.phone_number,
+                                            date_of_birth = userData.date_of_birth,
+                                            date_joined = userData.date_joined,
+                                            profile_picture = userData.profile_picture
+                                        )
 
                                     withContext(Dispatchers.IO) {
                                         userDao.insertUser(userEntity)
@@ -269,7 +362,10 @@ class LoginViewModel(
                                     Log.d("Login", "User successfully stored in Room database")
                                 }
                             } else {
-                                Log.e("Login", "Failed to fetch user from backend: ${userResponse.message()}")
+                                Log.e(
+                                    "Login",
+                                    "Failed to fetch user from backend: ${userResponse.message()}"
+                                )
                             }
                         } else {
                             Log.d("Login", "User already exists in Room, no need to fetch.")
@@ -296,6 +392,121 @@ class LoginViewModel(
         }
     }
 
+    // Add this function to your LoginViewModel class
+    fun loginWithGoogle(idToken: String) {
+        loading.value = true
+        error.value = null
+
+        Log.d("GoogleSignInViewModel", "Starting Google sign-in process")
+        Log.d(
+            "GoogleSignInViewModel",
+            "ID Token being sent: ${idToken.take(50)}..."
+        ) // Only show first 50 chars for security
+
+        viewModelScope.launch {
+            try {
+                val response = authRepository.googleSignIn(idToken)
+                Log.d(
+                    "GoogleSignInViewModel",
+                    "Response received: code=${response.code()}, isSuccessful=${response.isSuccessful}"
+                )
+
+                if (response.isSuccessful) {
+                    val googleResponse = response.body()
+                    Log.d("GoogleSignInViewModel", "Response body: $googleResponse")
+
+                    if (googleResponse != null) {
+                        val tokenValue = googleResponse.token
+                        val user = googleResponse.user
+
+                        if (tokenValue != null && user != null) {
+                            // Save credentials to preferences
+                            userPreferences.updateValues(true, user.id, tokenValue)
+
+                            // Update global state
+                            Globals.savedToken = tokenValue
+                            _token.value = tokenValue
+                            _userId.value = user.id
+
+                            Log.d("GoogleSignIn", "Sign-in successful. Token: $tokenValue")
+
+                            login.value = true
+                            logout.value = false
+
+                            // Check if user exists in Room database
+                            val userDao = DatabaseManager.userDao(MyApp.getContext())
+                            val existingUser =
+                                withContext(Dispatchers.IO) { userDao.getUserById(user.id) }
+
+                            if (existingUser == null) {
+                                Log.d(
+                                    "GoogleSignIn",
+                                    "User not found in Room, storing user data..."
+                                )
+
+                                // Convert API response to Room Entity
+                                val userEntity = com.example.pest_detection_app.RoomDatabase.User(
+                                    id = user.id,
+                                    username = user.username,
+                                    email = user.email,
+                                    last_name = user.last_name,
+                                    first_name = user.first_name,
+                                    phone_number = user.phone_number,
+                                    date_of_birth = user.date_of_birth,
+                                    date_joined = user.date_joined,
+                                    profile_picture = user.profile_picture
+                                )
+
+                                // Save user to Room Database
+                                withContext(Dispatchers.IO) {
+                                    userDao.insertUser(userEntity)
+                                }
+
+                                Log.d("GoogleSignIn", "User successfully stored in Room database")
+                            } else {
+                                Log.d(
+                                    "GoogleSignIn",
+                                    "User already exists in Room, no need to store."
+                                )
+                            }
+                        } else {
+                            error.value = "Failed to get authentication data from server"
+                            Log.e("GoogleSignIn", "Token or user data was null")
+                        }
+                    } else {
+                        error.value = "Failed to get response data from server"
+                        Log.e("GoogleSignIn", "Response body was null")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.e(
+                        "GoogleSignInViewModel",
+                        "Error response: code=${response.code()}, body=$errorBody"
+                    )
+
+                    error.value = when {
+                        response.code() == 404 -> "Account not found. Please sign up first."
+                        response.code() == 400 && !errorBody.isNullOrBlank() -> {
+                            try {
+                                val jsonObject = org.json.JSONObject(errorBody)
+                                jsonObject.getString("error")
+                            } catch (e: Exception) {
+                                "Invalid Google authentication. Details: $errorBody"
+                            }
+                        }
+
+                        response.code() == 400 -> "Invalid Google authentication. Please try again."
+                        else -> "Failed to sign in with Google: ${response.message()}"
+                    }
+                }
+            } catch (e: Exception) {
+                error.value = "Failed to sign in with Google: ${e.message}"
+                Log.e("GoogleSignInViewModel", "Exception during Google sign-in", e)
+            } finally {
+                loading.value = false
+            }
+        }
+    }
 
 
 
