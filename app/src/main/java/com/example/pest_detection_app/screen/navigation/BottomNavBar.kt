@@ -39,10 +39,10 @@ import com.example.pest_detection_app.R
 fun BottomNavBar(navController: NavController, isLoggedIn: Boolean) {
     val bottomNavItems = mutableListOf(
         BottomNavItem("Home", Screen.Home.route, Icons.Filled.Home),
-        BottomNavItem("Forum", Screen.Forum.route, Icons.Filled.Send),
     )
 
     if (isLoggedIn) {
+        bottomNavItems.add(BottomNavItem("Stat", Screen.Stat.route, R.drawable.stats))
         bottomNavItems.add(BottomNavItem("History", Screen.History.route, R.drawable.history))
 
 

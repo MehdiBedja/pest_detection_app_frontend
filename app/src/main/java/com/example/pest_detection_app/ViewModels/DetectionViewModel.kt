@@ -128,20 +128,27 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
     private fun loadBitmapFromUri(uri: Uri): Bitmap? {
         return try {
             val contentResolver = getApplication<Application>().contentResolver
-            
-            // For gallery images, we need to take persistable permission
-            if (uri.toString().startsWith("content://com.android.providers.media")) {
-                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                contentResolver.takePersistableUriPermission(uri, takeFlags)
+
+            // Take persistable URI permission if needed (for gallery images)
+            if (uri.scheme == "content") {
+                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                try {
+                    contentResolver.takePersistableUriPermission(uri, takeFlags)
+                } catch (e: SecurityException) {
+                    // Ignore if permission was already granted or can't be taken
+                    Log.w("DetectionViewModel", "Persistable permission not granted: ${e.message}")
+                }
             }
-            
-            val inputStream = contentResolver.openInputStream(uri)
-            BitmapFactory.decodeStream(inputStream)
+
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)
+            }
         } catch (e: Exception) {
-            Log.e("DetectionViewModel", "Error loading image from URI", e)
+            Log.e("DetectionViewModel", "Error loading image from URI: $uri", e)
             null
         }
     }
+
 
     private fun loadBitmapFromUriDetItem(uri: Uri): Bitmap? {
         return try {
@@ -149,29 +156,17 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
             val contentResolver = context.contentResolver
 
             val inputStream = when {
-                // For gallery/media images
-                uri.toString().startsWith("content://com.android.providers.media") -> {
-                    try {
-                        val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        contentResolver.takePersistableUriPermission(uri, takeFlags)
-                        Log.d("DetectionViewModel", "✅ Took permission for gallery image: $uri")
-                    } catch (e: SecurityException) {
-                        Log.e("DetectionViewModel", "❌ Failed to take permission for gallery", e)
-                    }
-                    contentResolver.openInputStream(uri)
-                }
-                
-                // For other content URIs (like camera)
+                // For all content URIs (gallery, camera, downloads, etc.)
                 uri.scheme == "content" -> {
                     contentResolver.openInputStream(uri)
                 }
-                
+
                 // For file URIs
                 uri.scheme == "file" -> {
                     FileInputStream(File(uri.path!!))
                 }
-                
-                // For raw file paths
+
+                // For raw paths
                 else -> {
                     FileInputStream(File(uri.toString()))
                 }
@@ -189,5 +184,6 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
             null
         }
     }
+
 
 }

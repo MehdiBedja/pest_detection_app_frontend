@@ -8,26 +8,22 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,7 +31,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -43,9 +38,6 @@ import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.data.user.DetectionWithBoundingBoxes
-import com.example.pest_detection_app.ui.theme.CardBackground
-import com.example.pest_detection_app.ui.theme.DarkBackground
-import com.example.pest_detection_app.ui.theme.LightText
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -75,7 +67,7 @@ fun DetectionHistoryScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(DarkBackground)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             // 🔹 Top Actions Row (Dropdown + Sort + Delete)
             Row(
@@ -89,11 +81,14 @@ fun DetectionHistoryScreen(
                 Box {
                     Button(
                         onClick = { expanded = true },
-                        colors = ButtonDefaults.buttonColors(Color.Black ) // New color
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondary
+                        )
                     ) {
                         Text(
                             text = if (selectedPest == "None") stringResource(R.string.select_pest) else selectedPest,
-                            color = Color.White
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                     DropdownMenu(
@@ -132,12 +127,15 @@ fun DetectionHistoryScreen(
                 // 🔹 Delete Button (Deletes all or only filtered detections)
                 Button(
                     onClick = { showDeleteDialog = true },
-                    colors = ButtonDefaults.buttonColors(Color.Black), // New color
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onError
+                    ),
                     modifier = Modifier.padding(start = 8.dp)
                 ) {
                     Text(
                         text = if (selectedPest == "None") stringResource(R.string.delete_all) else stringResource(R.string.delete_all),
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onError
                     )
                 }
             }
@@ -146,7 +144,7 @@ fun DetectionHistoryScreen(
             if (showDeleteDialog) {
                 ConfirmDeleteDialog(
                     message = if (selectedPest == "None")
-                       stringResource(R.string.confirm_delete_all)
+                        stringResource(R.string.confirm_delete_all)
                     else
                         stringResource(R.string.confirm_delete_filtered)  +"$selectedPest?",
 
@@ -200,7 +198,7 @@ fun DetectionItem(
             .fillMaxWidth()
             .padding(8.dp)
             .clickable { navController.navigate("detail_screen/${detection.detection.id}") },
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFFCFCFC)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         shape = RoundedCornerShape(12.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -223,7 +221,8 @@ fun DetectionItem(
                         fontWeight = FontWeight.Bold,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
-                        fontFamily = FontFamily.Serif
+                        fontFamily = FontFamily.Serif,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     if (detection.boundingBoxes.isNotEmpty()) {
@@ -234,17 +233,19 @@ fun DetectionItem(
                                     fontWeight = FontWeight.Medium,
                                     overflow = TextOverflow.Ellipsis,
                                     maxLines = 1,
-                                    fontFamily = FontFamily.Serif
+                                    fontFamily = FontFamily.Serif,
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
 
                                 Text(
                                     text = stringResource(R.string.confidence) +" ${box.cnf?.times(100)?.toInt() ?: 0}%",
-                                    fontWeight = FontWeight.Light
+                                    fontWeight = FontWeight.Light,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
 
                                 if (index < detection.boundingBoxes.size - 1) {
-                                    Divider(
-                                        color = Color.Gray,
+                                    HorizontalDivider(
+                                        color = MaterialTheme.colorScheme.outline,
                                         thickness = 1.dp,
                                         modifier = Modifier.padding(vertical = 4.dp)
                                     )
@@ -256,14 +257,19 @@ fun DetectionItem(
                             text = stringResource(R.string.no_detection),
                             fontWeight = FontWeight.Medium,
                             overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
+                            maxLines = 1,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
 
                 // Delete Button
                 IconButton(onClick = { showDeleteDialog = true }) {
-                    Icon(painterResource(id = R.drawable.ic_delete), contentDescription = "Delete", tint = Color.Red)
+                    Icon(
+                        painterResource(id = R.drawable.ic_delete),
+                        contentDescription = "Delete",
+                        tint = MaterialTheme.colorScheme.error
+                    )
                 }
             }
 
@@ -287,19 +293,44 @@ fun DetectionItem(
 fun ConfirmDeleteDialog(message: String, onConfirm: () -> Unit, onDismiss: () -> Unit) {
     androidx.compose.material3.AlertDialog(
         onDismissRequest = { onDismiss() },
-        title = { Text(stringResource(R.string.confirm_delete_text)) },
-        text = { Text(message) },
+        title = {
+            Text(
+                stringResource(R.string.confirm_delete_text),
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        },
+        text = {
+            Text(
+                message,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
         confirmButton = {
             Button(
                 onClick = onConfirm,
-                colors = ButtonDefaults.buttonColors(Color.Red)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError
+                )
             ) {
-                Text(stringResource(R.string.delete), color = Color.White)
+                Text(
+                    stringResource(R.string.delete),
+                    color = MaterialTheme.colorScheme.onError
+                )
             }
         },
         dismissButton = {
-            Button(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
+            Button(
+                onClick = onDismiss,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                )
+            ) {
+                Text(
+                    stringResource(R.string.cancel),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
         }
     )
@@ -311,12 +342,15 @@ fun SortButton(text: String, isDescending: Boolean, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(Color.Black),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondary
+        ),
         modifier = Modifier.padding(4.dp)
     ) {
         Text(
             text = if (isDescending) "$text ▼" else "$text ▲",
-            color = Color.White
+            color = MaterialTheme.colorScheme.onSecondary
         )
     }
 }

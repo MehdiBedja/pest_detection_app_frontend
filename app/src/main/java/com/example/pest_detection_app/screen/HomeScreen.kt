@@ -1,6 +1,7 @@
 package com.example.pest_detection_app.screen
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -50,11 +51,6 @@ import com.example.pest_detection_app.ViewModels.user.UserViewModelRoom
 import com.example.pest_detection_app.data.user.DetectionWithBoundingBoxes
 import com.example.pest_detection_app.preferences.Globals
 import com.example.pest_detection_app.screen.navigation.Screen
-import com.example.pest_detection_app.ui.theme.AccentGreen
-import com.example.pest_detection_app.ui.theme.CardBackground
-import com.example.pest_detection_app.ui.theme.DarkBackground
-import com.example.pest_detection_app.ui.theme.GrayText
-import com.example.pest_detection_app.ui.theme.LightText
 import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
@@ -96,8 +92,8 @@ fun SyncNowButton(detectionSaveViewModel: DetectionSaveViewModel , userViewModel
                         try {
                             detectionSaveViewModel.syncLocalServerIdsWithCloud(userid!!)
                             Globals.savedToken?.let {
-                               detectionSaveViewModel.softDeleteLocalDetections(
-                                 it, userid!!)
+                                detectionSaveViewModel.softDeleteLocalDetections(
+                                    it, userid!!)
 
                                 detectionSaveViewModel.syncSoftDeletedDetections()
                                 detectionSaveViewModel.syncNotes(it , userid!!)
@@ -110,14 +106,20 @@ fun SyncNowButton(detectionSaveViewModel: DetectionSaveViewModel , userViewModel
                         }
                     }
                 },
-                enabled = !isSyncing
+                enabled = !isSyncing,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
             ) {
                 Text("Sync Now")
             }
 
             if (isSyncing) {
                 Spacer(modifier = Modifier.height(12.dp))
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
 
             // Show result
@@ -147,10 +149,9 @@ fun HomeScreen(navController: NavController, userViewModel: LoginViewModel ,
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState())
-            .background(color = DarkBackground),
+            .verticalScroll(rememberScrollState()),
     ) {
         UserGreeting(navController, userViewModel, userViewModelRoom)
 
@@ -165,8 +166,9 @@ fun HomeScreen(navController: NavController, userViewModel: LoginViewModel ,
                 navController, userViewModel,
                 detectionViewModel, detectionSaveViewModel
             )
+            StatSection(navController)
         }
-        ForumSection()
+
     }
 }
 
@@ -191,7 +193,7 @@ fun UserGreeting(navController: NavController , userViewModel: LoginViewModel, u
         ) {
             Text(
                 text = stringResource(R.string.welcomefarmer) + " ${user?.last_name}",
-                color = LightText,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 24.sp, // reduce size to fit better
                 fontFamily = FontFamily.Serif,
                 modifier = Modifier
@@ -207,12 +209,12 @@ fun UserGreeting(navController: NavController , userViewModel: LoginViewModel, u
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(color = LightText.copy(alpha = 0.2f))
+                    .background(color = MaterialTheme.colorScheme.primaryContainer)
                     .clickable { navController.navigate(Screen.UserProfileScreen.route) }
             ) {
                 Text(
-                    text = "${user?.first_name?.firstOrNull()?.uppercase() ?: ""}${user?.last_name?.firstOrNull()?.uppercase() ?: ""}",
-                    color = LightText,
+                    text = "${user?.username?.firstOrNull()?.uppercase() ?: ""}${user?.last_name?.firstOrNull()?.uppercase() ?: ""}",
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
@@ -221,7 +223,7 @@ fun UserGreeting(navController: NavController , userViewModel: LoginViewModel, u
     } else {
         Text(
             text = stringResource(R.string.welcomefarmer),
-            color = LightText,
+            color = MaterialTheme.colorScheme.onBackground,
             fontSize = 32.sp, // reduce a bit
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.Serif,
@@ -262,7 +264,7 @@ fun RecentDetectionsSection(
         ) {
             Text(
                 text = stringResource(R.string.recentdetections),
-                color = LightText,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = FontFamily.Serif,
@@ -275,7 +277,7 @@ fun RecentDetectionsSection(
             TextButton(
                 onClick = { navController.navigate(Screen.History.route) },
                 colors = ButtonDefaults.textButtonColors(
-                    contentColor = GrayText
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             ) {
                 Text(
@@ -298,7 +300,7 @@ fun RecentDetectionsSection(
             ) {
                 Text(
                     text = stringResource(R.string.nodetectionsmadeyet),
-                    color = GrayText,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )
@@ -336,7 +338,7 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
             ,
 
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = CardBackground) ,
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
 
         ) {
             Box(
@@ -351,7 +353,7 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
 
                 Text(
                     text = formattedDate,
-                    color = Color.White.copy(alpha = 0.7f),
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                     fontSize = 14.sp,
                     modifier = Modifier
                         .align(Alignment.TopEnd)
@@ -364,7 +366,7 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
 
         Text(
             text = pestName,
-            color = LightText,
+            color = MaterialTheme.colorScheme.onBackground,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold ,
             fontFamily = FontFamily.Serif,
@@ -373,7 +375,7 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
 
         Text(
             text = stringResource(R.string.confidence) +" $confidence%",
-            color = LightText.copy(alpha = 0.7f),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
             fontSize = 16.sp
         )
     }
@@ -386,14 +388,33 @@ fun ScanButton(navController: NavController) {
     val context = LocalContext.current
     var showOptions by remember { mutableStateOf(false) }
 
-    val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { navController.navigate("results/${Uri.encode(it.toString())}") }
+    val galleryLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()  // ✅ Use OpenDocument for persistable access
+    ) { uri: Uri? ->
+        uri?.let {
+            try {
+                // ✅ Persist permission immediately
+                context.contentResolver.takePersistableUriPermission(
+                    it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                Log.d("Gallery", "✅ Persisted URI permission for: $it")
+            } catch (e: SecurityException) {
+                Log.e("Gallery", "❌ Failed to persist permission", e)
+            }
+
+            navController.navigate("results/${Uri.encode(it.toString())}")
+        }
     }
 
     val cameraImageUri = remember { mutableStateOf<Uri?>(null) }
-    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+    val cameraLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success ->
         if (success) {
-            cameraImageUri.value?.let { navController.navigate("results/${Uri.encode(it.toString())}") }
+            cameraImageUri.value?.let {
+                navController.navigate("results/${Uri.encode(it.toString())}")
+            }
         }
     }
 
@@ -404,18 +425,14 @@ fun ScanButton(navController: NavController) {
     ) {
         Button(
             onClick = { showOptions = true },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent), // make button transparent
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
             shape = RoundedCornerShape(28.dp),
-            contentPadding = PaddingValues(0.dp), // remove inner padding
+            contentPadding = PaddingValues(0.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp) // adjust height as needed
+                .height(150.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                // Background image
+            Box(modifier = Modifier.fillMaxSize()) {
                 Image(
                     painter = painterResource(id = R.drawable.scanforpests_image),
                     contentDescription = "Pest Detection Illustration",
@@ -425,19 +442,17 @@ fun ScanButton(navController: NavController) {
                         .clip(RoundedCornerShape(28.dp))
                 )
 
-                // Text on top
                 AnimatedContent(
                     targetState = stringResource(R.string.scanforpest),
                     transitionSpec = {
                         fadeIn(animationSpec = tween(400)) with fadeOut(animationSpec = tween(400))
                     },
                     label = "ScanText",
-                    modifier = Modifier
-                        .align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center)
                 ) { targetText ->
                     Text(
                         text = targetText,
-                        color = Color(0xFF1A1A1A), // dark text
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -445,7 +460,6 @@ fun ScanButton(navController: NavController) {
             }
         }
 
-        // Options dialog
         if (showOptions) {
             AlertDialog(
                 onDismissRequest = { showOptions = false },
@@ -456,9 +470,13 @@ fun ScanButton(navController: NavController) {
                         Button(
                             onClick = {
                                 showOptions = false
-                                galleryLauncher.launch("image/*")
+                                // ✅ Launch OpenDocument with array
+                                galleryLauncher.launch(arrayOf("image/*"))
                             },
-                            colors = ButtonDefaults.buttonColors(AccentGreen),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            ),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(stringResource(R.string.upload_from_gallery))
@@ -474,10 +492,17 @@ fun ScanButton(navController: NavController) {
                                     cameraImageUri.value = uri
                                     cameraLauncher.launch(uri)
                                 } else {
-                                    Toast.makeText(context, context.getString(R.string.failed_tocreateimagefile), Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.failed_tocreateimagefile),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             },
-                            colors = ButtonDefaults.buttonColors(AccentGreen),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            ),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(stringResource(R.string.takeiimage))
@@ -489,22 +514,24 @@ fun ScanButton(navController: NavController) {
                             onClick = { showOptions = false },
                             modifier = Modifier.align(Alignment.End)
                         ) {
-                            Text(stringResource(R.string.cancel))
+                            Text(
+                                stringResource(R.string.cancel),
+                                color = MaterialTheme.colorScheme.primary
+                            )
                         }
                     }
                 },
-                dismissButton = {} // Don't render a dismiss button separately
+                dismissButton = {}
             )
         }
-
-
-
     }
 }
 
 
+
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ForumSection() {
+fun StatSection(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -516,66 +543,65 @@ fun ForumSection() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(R.string.forum),
-                color = LightText,
+                text = stringResource(R.string.stats),
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = FontFamily.Serif,
                 letterSpacing = 0.5.sp ,
 
                 modifier = Modifier.padding(bottom = 8.dp)
+
             )
 
-            Text(
-                text = stringResource(R.string.seemore),
-                color = GrayText,
-                fontSize = 16.sp
-            )
+
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
 
-        Card(
+        Box(
             modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = CardBackground)
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
         ) {
-            Column(
+            Button(
+                onClick = { navController.navigate(Screen.Stat.route) },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                shape = RoundedCornerShape(28.dp),
+                contentPadding = PaddingValues(0.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .height(150.dp)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = "Farmer",
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Image(
+                        painter = painterResource(id = R.drawable.statsimage2),
+                        contentDescription = "Pest Stats Illustration",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(28.dp))
                     )
 
-                    Text(
-                        text = "3 h ago",
-                        color = GrayText,
-                        fontSize = 16.sp
-                    )
+                    AnimatedContent(
+                        targetState = stringResource(R.string.stats_dashboard),
+                        transitionSpec = {
+                            fadeIn(animationSpec = tween(400)) with fadeOut(animationSpec = tween(400))
+                        },
+                        label = "ScanText",
+                        modifier = Modifier.align(Alignment.TopCenter)
+                            .padding(top = 8.dp)
+                    ) { targetText ->
+                        Text(
+                            text = targetText,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = "Has anyone tried this pesticide?",
-                    color = Color.Black,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Medium
-                )
             }
-        }
     }
-}
+}}
 @Composable
 fun AuthButtons(navController: NavController) {
     Row(
@@ -586,8 +612,8 @@ fun AuthButtons(navController: NavController) {
             Button(
                 onClick = { navController.navigate("login") },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
                 )
             ) {
                 Text(stringResource(R.string.sign_in))
@@ -595,8 +621,8 @@ fun AuthButtons(navController: NavController) {
             Button(
                 onClick = { navController.navigate("signup") },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
                 )
             ) {
                 Text(stringResource(R.string.sign_up))
@@ -604,5 +630,3 @@ fun AuthButtons(navController: NavController) {
         }
     }
 }
-
-

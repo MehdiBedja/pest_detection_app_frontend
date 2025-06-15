@@ -69,41 +69,40 @@ class DetectionSaveViewModel(
         boundingBoxes: List<com.example.pest_detection_app.model.BoundingBox>,
         inferenceTime: Long
     ) {
-
         val localGeneratedServerId = UUID.randomUUID().toString()
-
         val currentTime = System.currentTimeMillis()
         val contentResolver = getApplication<Application>().contentResolver
         val uri = Uri.parse(imageUri)
 
         viewModelScope.launch {
             try {
-                // ✅ Request persistable permission if needed
-                if (imageUri.startsWith("content://com.android.providers.media.documents/") ||
-                    imageUri.startsWith("content://com.android.externalstorage.documents/") ||
-                    imageUri.startsWith("content://com.android.providers.downloads.documents/")) {
-
+                // ✅ Try to persist URI permission only if it's a content URI (usually from gallery)
+                if (uri.scheme == "content") {
                     val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    contentResolver.takePersistableUriPermission(uri, takeFlags)
-                    Log.d("DetectionSaveViewModel", "✅ Persistable permission granted for gallery image: $uri")
+                    try {
+                        contentResolver.takePersistableUriPermission(uri, takeFlags)
+                        Log.d("DetectionSaveViewModel", "✅ Persistable permission granted for URI: $uri")
+                    } catch (e: SecurityException) {
+                        Log.w("DetectionSaveViewModel", "⚠️ Persistable permission NOT granted (maybe already persisted or not granted temporarily): ${e.message}")
+                    }
                 } else {
-                    Log.d("DetectionSaveViewModel", "📸 Camera image detected, no persistable permission needed: $uri")
+                    Log.d("DetectionSaveViewModel", "📸 Not a gallery content URI, skipping persistable permission: $uri")
                 }
 
-                // ✅ Save DetectionResult
+                // ✅ Save detection metadata to Room
                 val detectionResult = DetectionResult(
                     userId = userId,
                     imageUri = imageUri,
                     timestamp = inferenceTime,
                     isSynced = false,
                     detectionDate = currentTime,
-                    serverId = localGeneratedServerId ,
-                    updatedAt = System.currentTimeMillis()// use this for sync reference later
-
+                    serverId = localGeneratedServerId,
+                    updatedAt = System.currentTimeMillis()
                 )
+
                 val detectionId = detectionResultDao.insertDetectionResult(detectionResult)
 
-                // ✅ Save BoundingBoxes
+                // ✅ Save bounding boxes
                 val roomBoundingBoxes = boundingBoxes.map {
                     BoundingBox(
                         detectionId = detectionId.toInt(),
@@ -115,13 +114,16 @@ class DetectionSaveViewModel(
 
                 boundingBoxDao.insertBoundingBoxes(roomBoundingBoxes)
 
-                _saveStatus.value = true  // ✅ Notify success
+                _saveStatus.value = true
+                Log.d("DetectionSaveViewModel", "✅ Detection and bounding boxes saved successfully")
+
             } catch (e: Exception) {
                 Log.e("DetectionSaveViewModel", "❌ Error saving detection or bounding boxes", e)
-                _saveStatus.value = false  // ❌ Notify failure
+                _saveStatus.value = false
             }
         }
     }
+
 
 
     fun resetSaveStatus() {

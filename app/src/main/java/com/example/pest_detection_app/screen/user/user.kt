@@ -133,7 +133,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = CardBackground
+        color = MaterialTheme.colorScheme.background
     ) {
         Box(
             modifier = Modifier
@@ -145,7 +145,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                     .fillMaxWidth()
                     .height(400.dp)
                     .clip(RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp))
-                    .background(Color(0xFF5C6BC0)),
+                    .background(MaterialTheme.colorScheme.primary),
                 contentAlignment = Alignment.BottomCenter
             ) {
                 Image(
@@ -167,7 +167,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                         .padding(horizontal = 24.dp),
                     shape = RoundedCornerShape(24.dp),
                     elevation = CardDefaults.cardElevation(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(
                         modifier = Modifier.padding(24.dp),
@@ -177,7 +177,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                             text = stringResource(R.string.login_title),
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF5C6BC0)
+                            color = MaterialTheme.colorScheme.primary
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
@@ -191,7 +191,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                         if (viewModel.loading.value) {
                             CircularProgressIndicator(
                                 modifier = Modifier.padding(top = 8.dp),
-                                color = Color(0xFF5C6BC0)
+                                color = MaterialTheme.colorScheme.primary
                             )
                         } else {
                             Button(
@@ -202,8 +202,8 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                                     .fillMaxWidth()
                                     .height(50.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color(0xFF5C6BC0),
-                                    contentColor = Color.White
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary
                                 ),
                                 shape = RoundedCornerShape(12.dp)
                             ) {
@@ -221,7 +221,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                                 Text(
                                     text = "OR",
                                     modifier = Modifier.padding(horizontal = 16.dp),
-                                    color = Color.Gray
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Divider(modifier = Modifier.weight(1f))
                             }
@@ -238,7 +238,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
                                 text = viewModel.error.value ?: "",
-                                color = Color.Red,
+                                color = MaterialTheme.colorScheme.error,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.padding(top = 4.dp)
                             )
@@ -252,11 +252,11 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(text = stringResource(R.string.not_registered), color = Color.Gray)
+                    Text(text = stringResource(R.string.not_registered), color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = stringResource(R.string.sign_up_now),
-                        color = Color(0xFF5C6BC0),
+                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
                             navController.navigate(Screen.SignUp.route)
@@ -276,11 +276,11 @@ fun GoogleSignInButton(onClick: () -> Unit) {
             .fillMaxWidth()
             .height(50.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.White,
-            contentColor = Color.Black
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
         ),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, Color.LightGray)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Icon(
             painter = painterResource(id = R.drawable.google),
@@ -316,9 +316,9 @@ fun LoginTextField(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color(0xFF5C6BC0),
-            unfocusedBorderColor = Color.LightGray,
-            cursorColor = Color(0xFF5C6BC0)
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+            cursorColor = MaterialTheme.colorScheme.primary
         )
     )
 }
@@ -336,8 +336,8 @@ fun LogoutScreen(navController: NavController, viewModel: LoginViewModel) {
             }
         },
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSystemInDarkTheme()) BlueGray else Black,
-            contentColor = Color.White
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
         ),
         shape = RoundedCornerShape(size = 4.dp)
     ) {
@@ -415,7 +415,7 @@ fun SignUpScreen(navController: NavHostController) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = CardBackground
+        color = MaterialTheme.colorScheme.background
     ) {
         Box(
             modifier = Modifier
@@ -430,7 +430,7 @@ fun SignUpScreen(navController: NavHostController) {
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(24.dp),
                     elevation = CardDefaults.cardElevation(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(
                         modifier = Modifier.padding(24.dp),
@@ -440,7 +440,7 @@ fun SignUpScreen(navController: NavHostController) {
                             text = stringResource(R.string.sign_up_title),
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF5C6BC0)
+                            color = MaterialTheme.colorScheme.primary
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
@@ -454,7 +454,7 @@ fun SignUpScreen(navController: NavHostController) {
                             })
                         if (emailError != null) Text(
                             emailError!!,
-                            color = Color.Red,
+                            color = MaterialTheme.colorScheme.error,
                             fontSize = 12.sp
                         )
                         Spacer(modifier = Modifier.height(12.dp))
@@ -468,7 +468,7 @@ fun SignUpScreen(navController: NavHostController) {
                             })
                         if (usernameError != null) Text(
                             usernameError!!,
-                            color = Color.Red,
+                            color = MaterialTheme.colorScheme.error,
                             fontSize = 12.sp
                         )
                         Spacer(modifier = Modifier.height(12.dp))
@@ -482,7 +482,7 @@ fun SignUpScreen(navController: NavHostController) {
                             })
                         if (lastNameError != null) Text(
                             lastNameError!!,
-                            color = Color.Red,
+                            color = MaterialTheme.colorScheme.error,
                             fontSize = 12.sp
                         )
                         Spacer(modifier = Modifier.height(12.dp))
@@ -498,7 +498,7 @@ fun SignUpScreen(navController: NavHostController) {
                         )
                         if (passwordError != null) Text(
                             passwordError!!,
-                            color = Color.Red,
+                            color = MaterialTheme.colorScheme.error,
                             fontSize = 12.sp
                         )
                         Spacer(modifier = Modifier.height(12.dp))
@@ -514,13 +514,13 @@ fun SignUpScreen(navController: NavHostController) {
                         )
                         if (repeatPasswordError != null) Text(
                             repeatPasswordError!!,
-                            color = Color.Red,
+                            color = MaterialTheme.colorScheme.error,
                             fontSize = 12.sp
                         )
                         Spacer(modifier = Modifier.height(20.dp))
 
                         if (viewModel.loading.value) {
-                            CircularProgressIndicator(color = Color(0xFF5C6BC0))
+                            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                         } else {
                             // Regular Sign Up Button
                             Button(
@@ -582,8 +582,8 @@ fun SignUpScreen(navController: NavHostController) {
                                     .fillMaxWidth()
                                     .height(50.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color(0xFF5C6BC0),
-                                    contentColor = Color.White
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary
                                 ),
                                 shape = RoundedCornerShape(12.dp)
                             ) {
@@ -601,7 +601,7 @@ fun SignUpScreen(navController: NavHostController) {
                                 Text(
                                     text = "OR",
                                     modifier = Modifier.padding(horizontal = 16.dp),
-                                    color = Color.Gray
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Divider(modifier = Modifier.weight(1f))
                             }
@@ -618,7 +618,7 @@ fun SignUpScreen(navController: NavHostController) {
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
                                 text = viewModel.error.value ?: "",
-                                color = Color.Red,
+                                color = MaterialTheme.colorScheme.error,
                                 fontWeight = FontWeight.Bold
                             )
                         }
@@ -631,11 +631,11 @@ fun SignUpScreen(navController: NavHostController) {
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = stringResource(R.string.already_have_account), color = Color.Gray)
+                    Text(text = stringResource(R.string.already_have_account), color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = stringResource(R.string.login),
-                        color = Color(0xFF5C6BC0),
+                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
                             navController.navigate(Screen.Login.route)
@@ -656,11 +656,11 @@ fun GoogleSignUpButton(onClick: () -> Unit) {
             .fillMaxWidth()
             .height(50.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.White,
-            contentColor = Color.Black
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
         ),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, Color.LightGray)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Icon(
             painter = painterResource(id = R.drawable.google),
@@ -673,42 +673,41 @@ fun GoogleSignUpButton(onClick: () -> Unit) {
 }
 
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun SignUpTextField(
-        label: String,
-        value: TextFieldValue,
-        onValueChange: (TextFieldValue) -> Unit,
-        isPassword: Boolean = false
-    ) {
-        var passwordVisible by remember { mutableStateOf(false) }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SignUpTextField(
+    label: String,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    isPassword: Boolean = false
+) {
+    var passwordVisible by remember { mutableStateOf(false) }
 
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            label = { Text(label) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp),
-            singleLine = true,
-            visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
-            trailingIcon = {
-                if (isPassword) {
-                    val iconRes = if (passwordVisible) R.drawable.visible else R.drawable.notvisible
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label) },
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        singleLine = true,
+        visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
+        trailingIcon = {
+            if (isPassword) {
+                val iconRes = if (passwordVisible) R.drawable.visible else R.drawable.notvisible
 
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            painter = painterResource(id = iconRes),
-                            contentDescription = "Toggle password visibility",
-                            tint = Color.Unspecified // Keep original image color
-                        )
-                    }
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        painter = painterResource(id = iconRes),
+                        contentDescription = "Toggle password visibility",
+                        tint = Color.Unspecified // Keep original image color
+                    )
                 }
+            }
 
-            },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color(0xFF5C6BC0),
-                focusedLabelColor = Color(0xFF5C6BC0)
-            )
+        },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            focusedLabelColor = MaterialTheme.colorScheme.primary
         )
-    }
-
+    )
+}

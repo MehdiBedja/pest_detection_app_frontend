@@ -1,47 +1,56 @@
 package com.example.pest_detection_app.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 
+// === Custom Color Palette ===
+
+// Light Theme Colors
+private val LightPrimary = Color(0xFF503D23) // Accent green
+private val LightBackground = Color(0xFFF6F4E8) // Soft white/beige
+private val LightSurface = Color(0xFFFFFFFF) // Card background
+private val LightOnPrimary = Color.White
+private val LightOnBackground = Color(0xFF503D23) // MarronColor for text
+private val LightOnSurface = Color(0xFF000000) // black
+
+// Dark Theme Colors (inferred for good contrast and design harmony)
+private val DarkPrimary = Color(0xFFB5C89A) // Softer green for dark mode
+private val DarkBackground = Color(0xFF1A1A1A) // Near black for contrast
+private val DarkSurface = Color(0xFF2A2A2A) // Slightly lighter than background
+private val DarkOnPrimary = Color.Black
+private val DarkOnBackground = Color(0xFFF6F4E8) // Light text on dark
+private val DarkOnSurface = Color(0xFFCCCCCC) // Light gray for secondary text
+
+// === Light Theme Color Scheme ===
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF4CAF50), // Green for pest detection theme
-    background = Color(0xFFFFFFFF),
-    surface = Color(0xFFF5F5F5),
-    onPrimary = Color.White,
-    onBackground = Color.Black,
-    onSurface = Color.Black
+    primary = LightPrimary,
+    background = LightBackground,
+    surface = LightSurface,
+    onPrimary = LightOnPrimary,
+    onBackground = LightOnBackground,
+    onSurface = LightOnSurface ,
+    secondaryContainer = Color.Black
 )
 
+// === Dark Theme Color Scheme ===
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF81C784), // Softer green for dark mode
-    background = Color(0xFF121212),
-    surface = Color(0xFF1E1E1E),
-    onPrimary = Color.Black,
-    onBackground = Color.White,
-    onSurface = Color.White
+    primary = DarkPrimary,
+    background = DarkBackground,
+    surface = DarkSurface,
+    onPrimary = DarkOnPrimary,
+    onBackground = DarkOnBackground,
+    onSurface = DarkOnSurface ,
+    secondaryContainer = Color.White
 )
 
-
-
+// === Theme Composable ===
 @Composable
 fun Pest_Detection_AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
@@ -64,14 +73,10 @@ fun Pest_Detection_AppTheme(
 
 
 // Define color palette
-val DarkBackground = Color(0xFFF6F4E8)
-
-val DarkBackground1 = Color(0xFF131312)
-
-val LightText =  Color(0xFF503D23)
+val WhiteBackground = Color(0xFFF6F4E8)
+val MarronColor =  Color(0xFF503D23)
 val GrayText = Color(0xFF8A8A8A)
 val AccentGreen = Color(0xFF9CB36B)
 val CardBackground = Color(0xFFF3F3E5)
-val CardBackground1 = Color(0xFFF3F3E5)
 
 

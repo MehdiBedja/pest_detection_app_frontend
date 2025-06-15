@@ -1,6 +1,7 @@
 package com.example.pest_detection_app.screen
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
@@ -9,12 +10,6 @@ import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
@@ -30,7 +25,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
@@ -39,7 +33,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -53,14 +46,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.screen.navigation.Screen
-import com.example.pest_detection_app.ui.theme.AccentGreen
-import com.example.pest_detection_app.ui.theme.CardBackground
-import com.example.pest_detection_app.ui.theme.DarkBackground
-import com.example.pest_detection_app.ui.theme.GrayText
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import java.io.File
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -178,7 +166,7 @@ fun ResultsScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp)
-            .background(DarkBackground)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             if (isProcessing) {
@@ -188,7 +176,7 @@ fun ResultsScreen(
                         .weight(1f),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                 }
             } else {
                 LazyColumn(
@@ -201,13 +189,17 @@ fun ResultsScreen(
 
                     item {
                         if (boundingBoxes.isEmpty()) {
-                            Text(stringResource(R.string.no_pests_detected), fontSize = 18.sp, color = Color.Red)
+                            Text(
+                                stringResource(R.string.no_pests_detected),
+                                fontSize = 18.sp,
+                                color = MaterialTheme.colorScheme.error
+                            )
                         } else {
                             Text(
-                                stringResource(R.string.inference_time) + " ${inferenceTime} ms",
+                                stringResource(R.string.inference_time) + " ${inferenceTime} ms" ,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.Black
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -234,8 +226,8 @@ fun ResultsScreen(
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.TopStart),
-            containerColor = Color.Green,
-            contentColor = Color.Black,
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
             shape = RoundedCornerShape(50)
         ) {
             Icon(
@@ -256,23 +248,42 @@ fun ResultsScreen(
 fun LoginSignupDialog(navController: NavController, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = { onDismiss() },
-        title = { Text("To save your results, you need to log in or sign up.") },
+        title = {
+            Text(
+                "To save your results, you need to log in or sign up.",
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        },
         confirmButton = {
-            Button(onClick = {
-                onDismiss()
-                navController.navigate("login")
-            }) {
+            Button(
+                onClick = {
+                    onDismiss()
+                    navController.navigate("login")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            ) {
                 Text(stringResource(R.string.login))
             }
         },
         dismissButton = {
-            Button(onClick = {
-                onDismiss()
-                navController.navigate("signup")
-            }) {
+            Button(
+                onClick = {
+                    onDismiss()
+                    navController.navigate("signup")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
+                )
+            ) {
                 Text(stringResource(R.string.sign_up))
             }
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface,
+        textContentColor = MaterialTheme.colorScheme.onSurface
     )
 }
 
@@ -295,7 +306,8 @@ fun DetectedImage(bitmap: Bitmap?) {
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Box(
             modifier = Modifier
@@ -322,16 +334,17 @@ fun DetectedImage(bitmap: Bitmap?) {
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Fit
                 )
-            } ?: Text(stringResource(R.string.failed_to_load_image), color = Color.Red)
+            } ?: Text(
+                stringResource(R.string.failed_to_load_image),
+                color = MaterialTheme.colorScheme.error
+            )
         }
     }
 }
 
 
 
-
 @Composable
-
 fun PestInfoCard(pestIndex: Int, pestName: String, confidenceScore: Float) {
     val currentLanguage = LocalContext.current.resources.configuration.locales[0].language
 
@@ -346,13 +359,13 @@ fun PestInfoCard(pestIndex: Int, pestName: String, confidenceScore: Float) {
         modifier = Modifier
             .fillMaxWidth()
             .shadow(4.dp, RoundedCornerShape(16.dp)),
-        colors = CardDefaults.cardColors(containerColor = CardBackground)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = stringResource(R.string.detected_pest) + " $pestIndex",
                 fontSize = 20.sp,
-                color = AccentGreen,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.Serif
             )
@@ -361,19 +374,17 @@ fun PestInfoCard(pestIndex: Int, pestName: String, confidenceScore: Float) {
                 text = displayedPestName,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = stringResource(R.string.confidence) + " ${"%.2f".format(confidenceScore * 100)}%",
                 fontSize = 14.sp,
-                color = GrayText
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
 }
-
-
 
 @Composable
 fun PesticideRecommendationCard(pestName: String, context: Context) {
@@ -381,7 +392,6 @@ fun PesticideRecommendationCard(pestName: String, context: Context) {
     val currentLanguage = LocalConfiguration.current.locales[0].language
     val jsonString = remember(currentLanguage) { loadLocalizedJson(context) }
     val jsonArray = remember(jsonString) { JSONArray(jsonString) }
-
 
     val pestInfo = remember(pestName) {
         (0 until jsonArray.length())
@@ -397,40 +407,39 @@ fun PesticideRecommendationCard(pestName: String, context: Context) {
         modifier = Modifier
             .fillMaxWidth()
             .shadow(4.dp, RoundedCornerShape(16.dp)),
-        colors = CardDefaults.cardColors(containerColor = CardBackground)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = stringResource(R.string.crop_category),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Medium,
-                color = AccentGreen,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontFamily = FontFamily.Serif,
             )
             Text(
                 text = cropCategory,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(R.string.pesticide_recommendation),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                color = AccentGreen,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontFamily = FontFamily.Serif,
             )
             Text(
                 text = pesticideRecommendation,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
 }
-
 
 
 fun loadLocalizedJson(context: Context): String {
@@ -461,14 +470,20 @@ fun ActionButtons(
         if (isSaved && isLoggedIn) {
             Button(
                 onClick = { navController.navigate(Screen.History.route) },
-                colors = ButtonDefaults.buttonColors(containerColor = AccentGreen),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
             ) {
                 Text(stringResource(R.string.see_detections_history))
             }
         } else {
             Button(
                 onClick = onSave,
-                colors = ButtonDefaults.buttonColors(containerColor = AccentGreen),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
                 enabled = !isSaved
             ) {
                 Text(stringResource(R.string.save_results))
@@ -487,8 +502,19 @@ fun ScanButton1(navController: NavController) {
     val context = LocalContext.current
     var showOptions by remember { mutableStateOf(false) }
 
-    val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { navController.navigate("results/${Uri.encode(it.toString())}") }
+    val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+        uri?.let {
+            try {
+                context.contentResolver.takePersistableUriPermission(
+                    it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                Log.d("ScanButton1", "✅ Persistable URI permission granted: $it")
+            } catch (e: SecurityException) {
+                Log.e("ScanButton1", "❌ Failed to persist URI permission", e)
+            }
+            navController.navigate("results/${Uri.encode(it.toString())}")
+        }
     }
 
     val cameraImageUri = remember { mutableStateOf<Uri?>(null) }
@@ -498,31 +524,43 @@ fun ScanButton1(navController: NavController) {
         }
     }
 
-    Box(
-        modifier = Modifier
-    ) {
+    Box(modifier = Modifier) {
         Button(
             onClick = { showOptions = true },
-            colors = ButtonDefaults.buttonColors(containerColor = CardBackground),
-
-            ) {
-            Text(text = stringResource(R.string.try_again) , color = Color.Black)
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondary
+            )
+        ) {
+            Text(text = stringResource(R.string.try_again))
         }
 
-        // Options dialog
         if (showOptions) {
             AlertDialog(
                 onDismissRequest = { showOptions = false },
-                title = { Text(stringResource(R.string.choose_option)) },
-                text = { Text(stringResource(R.string.scan_question)) },
+                title = {
+                    Text(
+                        stringResource(R.string.choose_option),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                },
+                text = {
+                    Text(
+                        stringResource(R.string.scan_question),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                },
                 confirmButton = {
                     Column {
                         Button(
                             onClick = {
                                 showOptions = false
-                                galleryLauncher.launch("image/*")
+                                galleryLauncher.launch(arrayOf("image/*"))
                             },
-                            colors = ButtonDefaults.buttonColors(AccentGreen),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            ),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(stringResource(R.string.upload_from_gallery))
@@ -541,7 +579,10 @@ fun ScanButton1(navController: NavController) {
                                     Toast.makeText(context, "Failed to create image file", Toast.LENGTH_SHORT).show()
                                 }
                             },
-                            colors = ButtonDefaults.buttonColors(AccentGreen),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            ),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(stringResource(R.string.takeiimage))
@@ -553,18 +594,21 @@ fun ScanButton1(navController: NavController) {
                             onClick = { showOptions = false },
                             modifier = Modifier.align(Alignment.End)
                         ) {
-                            Text(stringResource(R.string.cancel))
+                            Text(
+                                stringResource(R.string.cancel),
+                                color = MaterialTheme.colorScheme.primary
+                            )
                         }
                     }
                 },
-                dismissButton = {} // Don't render a dismiss button separately
+                dismissButton = {},
+                containerColor = MaterialTheme.colorScheme.surface,
+                textContentColor = MaterialTheme.colorScheme.onSurface
             )
         }
-
-
-
     }
 }
+
 
 private fun createImageUri(context: Context): Uri? {
     val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())

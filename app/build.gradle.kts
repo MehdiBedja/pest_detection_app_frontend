@@ -122,4 +122,11 @@ dependencies {
 
     // Google Sign-In
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+
+    // MPAndroidChart for charts
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // Gson for JSON parsing (if not already added)
+    implementation("com.google.code.gson:gson:2.10.1")
 }

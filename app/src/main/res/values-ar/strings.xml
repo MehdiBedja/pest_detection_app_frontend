@@ -55,9 +55,9 @@
         <string name="note_label">ملاحظة:</string>
         <string name="add_note">أضف ملاحظة</string>
         <string name="write_note_hint">اكتب ملاحظتك...</string>
-        <string name="save_note">✅ حفظ الملاحظة</string>
-        <string name="modify_note">✏️ تعديل الملاحظة</string>
-        <string name="delete_note">🗑️ حذف الملاحظة</string>
+        <string name="save_note"> حفظ الملاحظة</string>
+        <string name="modify_note"> تعديل الملاحظة</string>
+        <string name="delete_note"> حذف الملاحظة</string>
         <string name="delete_detection">حذف الكشف</string>
         <string name="confirm_delete_title">تأكيد الحذف</string>
         <string name="confirm_delete_text">هل أنت متأكد أنك تريد حذف هذا الكشف؟ لا يمكن التراجع عن هذا الإجراء.</string>
@@ -84,7 +84,7 @@
 
 
     <string name="no_pests_detected">لم يتم الكشف عن أي آفات.</string>
-    <string name="inference_time">زمن الاستدلال: %1$d مللي ثانية</string>
+    <string name="inference_time">زمن الاستدلال: </string>
     <string name="crop_category">نوع المحصول:</string>
     <string name="pesticide_recommendation">توصية بالمبيد:</string>
     <string name="failed_to_load_image">فشل في تحميل الصورة</string>
@@ -134,6 +134,49 @@
 
     <string name="Sign_in_Sign_Up">تسجيل دخول / إنشاء حساب</string>
     <string name="Hello_farmer">مرحبًا أيها الفلاح</string>
+
+
+    // Dashboard screen
+
+    <!-- شاشة لوحة الإحصائيات -->
+    <string name="stats_dashboard">لوحة الإحصائيات</string>
+    <string name ="stats"> الإحصائيات </string>
+    <string name ="telegram"> Join our telegram community </string>
+
+    <string name="summary">الملخص</string>
+    <string name="no_detection_data">لا توجد بيانات كشف</string>
+
+    <!-- بطاقات الملخص -->
+    <string name="total_detections">إجمالي الكشوفات</string>
+    <string name="most_frequent_pest">الآفة الأكثر شيوعًا</string>
+    <string name="last_detected">آخر كشف</string>
+    <string name="detection_trend">اتجاه الكشوفات</string>
+
+    <!-- عناوين الرسوم البيانية -->
+    <string name="detections_per_pest">الكشوفات لكل آفة</string>
+    <string name="detections_over_time">الكشوفات مع مرور الوقت</string>
+    <string name="detection_distribution">توزيع الكشوفات</string>
+    <string name="crop_type_distribution">توزيع حسب نوع المحصول</string>
+    <string name="detection_calendar">تقويم الكشوفات</string>
+
+    <!-- قيم الاتجاه -->
+    <string name="trend_increasing">↗ في تزايد</string>
+    <string name="trend_decreasing">↘ في انخفاض</string>
+    <string name="trend_stable">→ مستقر</string>
+
+    <!-- القيم الافتراضية -->
+    <string name="no_data">لا توجد بيانات</string>
+    <string name="unknown_crop">غير معروف</string>
+    <string name="no_pest_detected">لا شيء</string>
+
+
+
+    // strings-ar.xml (Arabic)
+    <string name="join_community">انضم للمجتمع</string>
+    <string name="telegram_group">مجموعة تليجرام</string>
+    <string name="connect_with_farmers">تواصل مع المزارعين الآخرين واحصل على الدعم</string>
+
+
 
 
 

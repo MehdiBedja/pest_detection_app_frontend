@@ -49,9 +49,9 @@
     <string name="note_label">Note :</string>
     <string name="add_note">Ajouter une note</string>
     <string name="write_note_hint">Écrivez votre note...</string>
-    <string name="save_note">✅ Enregistrer la note</string>
-    <string name="modify_note">✏️ Modifier la note</string>
-    <string name="delete_note">🗑️ Supprimer la note</string>
+    <string name="save_note">Enregistrer la note</string>
+    <string name="modify_note">Modifier la note</string>
+    <string name="delete_note">Supprimer la note</string>
     <string name="delete_detection">Supprimer la détection</string>
     <string name="confirm_delete_title">Confirmer la suppression</string>
     <string name="confirm_delete_text">Êtes-vous sûr de vouloir supprimer cette détection ? Cette action est irréversible.</string>
@@ -73,7 +73,7 @@
 
     <!-- Results screen -->
     <string name="no_pests_detected">Aucun ravageur détecté.</string>
-    <string name="inference_time">Temps d\'inférence : %1$d ms</string>
+    <string name="inference_time">Temps d\'inférence : </string>
     <string name="crop_category">Catégorie de culture :</string>
     <string name="pesticide_recommendation">Recommandation de pesticide :</string>
     <string name="failed_to_load_image">Échec du chargement de l\'image</string>
@@ -121,5 +121,48 @@
 
     <string name="Sign_in_Sign_Up" >Se connecter / S\'inscrire </string>
     <string name="Hello_farmer">Bonjour, agriculteur</string>
+
+
+
+    // Dashboard screen
+
+    <!-- Écran du tableau de bord -->
+    <string name="stats_dashboard">Tableau de Bord des Statistiques</string>
+    <string name ="stats"> Statistiques </string>
+    <string name ="telegram"> Join our telegram community </string>
+    <string name="summary">Résumé</string>
+    <string name="no_detection_data">Aucune donnée de détection disponible</string>
+
+    <!-- Cartes de résumé -->
+    <string name="total_detections">Détections Totales</string>
+    <string name="most_frequent_pest">Ravageur le Plus Fréquent</string>
+    <string name="last_detected">Dernier Détecté</string>
+    <string name="detection_trend">Tendance des Détections</string>
+
+    <!-- Titres des graphiques -->
+    <string name="detections_per_pest">Détections par Ravageur</string>
+    <string name="detections_over_time">Détections dans le Temps</string>
+    <string name="detection_distribution">Distribution des Détections</string>
+    <string name="crop_type_distribution">Distribution par Type de Culture</string>
+    <string name="detection_calendar">Calendrier des Détections</string>
+
+    <!-- Valeurs de tendance -->
+    <string name="trend_increasing">↗ En Augmentation</string>
+    <string name="trend_decreasing">↘ En Baisse</string>
+    <string name="trend_stable">→ Stable</string>
+
+    <!-- Valeurs par défaut -->
+    <string name="no_data">Aucune Donnée</string>
+    <string name="unknown_crop">Inconnu</string>
+    <string name="no_pest_detected">Aucun</string>
+
+
+
+
+    // strings-fr.xml (French)
+    <string name="join_community">Rejoindre la Communauté</string>
+    <string name="telegram_group">Groupe Telegram</string>
+    <string name="connect_with_farmers">Connectez-vous avec autres agriculteurs et obtenez du soutien</string>
+
 
 </resources>

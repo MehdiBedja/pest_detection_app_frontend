@@ -2,8 +2,16 @@ package com.example.pest_detection_app.screen.user
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -12,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -23,9 +32,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,10 +46,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.ViewModels.user.UserViewModelRoom
-import com.example.pest_detection_app.data.user.User
-import com.example.pest_detection_app.screen.LoginSignupDialog
 import com.example.pest_detection_app.screen.navigation.Screen
-import com.example.pest_detection_app.ui.theme.DarkBackground
 import java.util.Locale
 
 // Language preference utilities
@@ -103,7 +111,7 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column {
             // Top bar with Back and Logout
@@ -118,7 +126,7 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Back",
-                        tint = Color(0xFF2B3A2F)
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
 
@@ -134,7 +142,7 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
                         Icon(
                             painter = painterResource(id = R.drawable.logout),
                             contentDescription = "Logout",
-                            tint = Color(0xFF2B3A2F)
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -147,13 +155,13 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
             Box(modifier = Modifier.fillMaxSize()) {
                 when {
                     loading -> CircularProgressIndicator(
-                        color = Color.DarkGray,
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.align(Alignment.Center)
                     )
 
                     error != null -> Text(
                         "Error: $error",
-                        color = Color.Red,
+                        color = MaterialTheme.colorScheme.error,
                         modifier = Modifier.align(Alignment.Center)
                     )
 
@@ -235,7 +243,7 @@ fun UserProfileContent(
                 modifier = Modifier
                     .size(130.dp)
                     .clip(RoundedCornerShape(30.dp))
-                    .background(Color(0xFFD4D0B4))
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -243,14 +251,14 @@ fun UserProfileContent(
             Text(
                 text = "${user.last_name}",
                 style = MaterialTheme.typography.headlineSmall.copy(
-                    color = Color(0xFF2B3A2F),
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold
                 )
             )
 
             Text(
                 text = "@${user.username}",
-                style = MaterialTheme.typography.bodyMedium.copy(color = Color(0xFF61705C))
+                style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -259,10 +267,10 @@ fun UserProfileContent(
             OutlinedButton(
                 onClick = { /* Navigate to edit profile */ },
                 shape = RoundedCornerShape(12.dp),
-                border = BorderStroke(1.dp, Color(0xFF2B3A2F)),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF2B3A2F))
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text(text = stringResource(R.string.edit_profile))
+                Text(text = stringResource(R.string.edit_profile) , color = MaterialTheme.colorScheme.onSurface)
             }
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -272,7 +280,7 @@ fun UserProfileContent(
             Text(
                 text = "",
                 style = MaterialTheme.typography.headlineSmall.copy(
-                    color = Color(0xFF2B3A2F),
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -284,11 +292,11 @@ fun UserProfileContent(
             Button(
                 onClick = { showLoginDialog = true },
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2B3A2F))
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
                 Text(
                     text = stringResource(R.string.Sign_in_Sign_Up),
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
@@ -307,7 +315,7 @@ fun UserProfileContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.White, RoundedCornerShape(24.dp))
+                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(24.dp))
                 .padding(16.dp)
         ) {
             ProfileOption(Icons.Default.Settings, label = stringResource(R.string.settings)) {
@@ -315,20 +323,31 @@ fun UserProfileContent(
             }
 
             if (user != null) {
-                Divider(color = Color(0xFFE0DECC))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline)
                 ProfileOption(Icons.Default.Lock, label = stringResource(R.string.change_pass)) {
                     // Navigate to change password
                 }
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
 
-        // Settings Bottom Sheet
+        // 🔥 NEW: Telegram Community Section
+        TelegramCommunitySection(
+            onJoinTelegram = {
+                // Handle Telegram group join
+                val telegramUrl = "https://t.me/+qRyX7uHuv5o5MDg0" // Replace with your actual Telegram group link
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(telegramUrl))
+                context.startActivity(intent)
+            }
+        )
+
+        // Settings Bottom Sheet (existing code)
         if (showSettingsSheet) {
             ModalBottomSheet(
                 onDismissRequest = { showSettingsSheet = false },
                 sheetState = sheetState,
                 shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-                containerColor = Color.White
+                containerColor = MaterialTheme.colorScheme.surface
             ) {
                 EmbeddedSettings(
                     isDarkMode = isDarkMode,
@@ -349,7 +368,34 @@ fun UserProfileContent(
             }
         }
     }
-}
+
+        // Settings Bottom Sheet
+        if (showSettingsSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { showSettingsSheet = false },
+                sheetState = sheetState,
+                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+                containerColor = MaterialTheme.colorScheme.surface
+            ) {
+                EmbeddedSettings(
+                    isDarkMode = isDarkMode,
+                    onToggleDarkMode = { isDarkMode = !isDarkMode },
+                    language = currentLanguage,
+                    onLanguageChange = { newLanguage ->
+                        currentLanguage = newLanguage
+                        val langCode = when (newLanguage) {
+                            "English" -> "en"
+                            "Arabic" -> "ar"
+                            "Français" -> "fr"
+                            else -> "en"
+                        }
+                        LanguagePref.saveLanguage(context, langCode)
+                        (context as? Activity)?.recreate()
+                    }
+                )
+            }
+        }
+    }
 
 
 @Composable
@@ -364,7 +410,7 @@ fun ProfileOption(icon: ImageVector, label: String, onClick: () -> Unit) {
         Icon(
             imageVector = icon,
             contentDescription = label,
-            tint = Color(0xFF2B3A2F),
+            tint = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.size(24.dp)
         )
 
@@ -373,14 +419,14 @@ fun ProfileOption(icon: ImageVector, label: String, onClick: () -> Unit) {
         Text(
             text = label,
             fontSize = 16.sp,
-            color = Color(0xFF2B3A2F),
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.weight(1f)
         )
 
         Icon(
             imageVector = Icons.Default.ArrowForward,
             contentDescription = "Go",
-            tint = Color(0xFF2B3A2F)
+            tint = MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -392,7 +438,7 @@ fun EmbeddedSettings(
     language: String,
     onLanguageChange: (String) -> Unit,
 ) {
-    val gradientColors = listOf(Color(0xFFB66DD1), Color(0xFFE77675))
+    val gradientColors = listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
     var showLanguageDialog by remember { mutableStateOf(false) }
 
     // Language selection dialog
@@ -412,7 +458,7 @@ fun EmbeddedSettings(
                             }
                             .padding(12.dp)
                     )
-                    Divider()
+                    HorizontalDivider()
                     Text(
                         text = stringResource(R.string.arabic),
                         modifier = Modifier
@@ -423,7 +469,7 @@ fun EmbeddedSettings(
                             }
                             .padding(12.dp)
                     )
-                    Divider()
+                    HorizontalDivider()
                     Text(
                         text = stringResource(R.string.french),
                         modifier = Modifier
@@ -447,19 +493,22 @@ fun EmbeddedSettings(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White, shape = RoundedCornerShape(24.dp))
+            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(24.dp))
             .padding(16.dp)
     ) {
         Text(
             text = stringResource(R.string.settings),
-            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
+            style = MaterialTheme.typography.headlineSmall.copy(
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = stringResource(R.string.account_settings),
-            style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray)
+            style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -483,7 +532,7 @@ fun EmbeddedSettings(
         Text(
             text = "Support: support@farmshield.com",
             style = MaterialTheme.typography.bodySmall,
-            color = Color.Gray,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
     }
@@ -500,10 +549,14 @@ fun SettingRow(@StringRes text :Int, label: String, onClick: () -> Unit) {
     ) {
         Text(
             text =stringResource(id = text)+   label,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
             modifier = Modifier.weight(1f)
         )
-        Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "Go")
+        Icon(
+            imageVector = Icons.Default.ArrowForward,
+            contentDescription = "Go",
+            tint = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
@@ -522,17 +575,17 @@ fun SettingToggleRow(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
             modifier = Modifier.weight(1f)
         )
         Switch(
             checked = checked,
             onCheckedChange = onCheckedChange,
             colors = SwitchDefaults.colors(
-                checkedThumbColor = Color.White,
+                checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
                 checkedTrackColor = Color.Transparent,
-                uncheckedThumbColor = Color.LightGray,
-                uncheckedTrackColor = Color.Gray
+                uncheckedThumbColor = MaterialTheme.colorScheme.outline,
+                uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
             ),
             thumbContent = {
                 Box(
@@ -542,5 +595,81 @@ fun SettingToggleRow(
                 )
             }
         )
+    }
+}
+
+
+
+@Composable
+fun TelegramCommunitySection(onJoinTelegram: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onJoinTelegram() },
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Telegram Icon (using a generic icon since Telegram icon might not be available)
+            Box(
+                modifier = Modifier
+                    .size(50.dp)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color(0xFF2AABEE), // Telegram blue
+                                Color(0xFF229ED9)
+                            )
+                        ),
+                        shape = RoundedCornerShape(16.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector =  Icons.Default.Send, // Add telegram icon to drawable
+                    contentDescription = "Telegram",
+                    tint = Color.White,
+                    modifier = Modifier.size(28.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            // Text Content
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.join_community),
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = stringResource(R.string.connect_with_farmers),
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
+                    )
+                )
+            }
+
+            // Arrow Icon
+            Icon(
+                imageVector = Icons.Default.ArrowForward,
+                contentDescription = "Join",
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier.size(24.dp)
+            )
+        }
     }
 }

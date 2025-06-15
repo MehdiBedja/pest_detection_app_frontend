@@ -14,21 +14,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.pest_detection_app.MyApp
 import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.DetectionViewModel
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.model.BoundingBox
-import com.example.pest_detection_app.ui.theme.AccentGreen
-import com.example.pest_detection_app.ui.theme.DarkBackground
 import kotlinx.coroutines.delay
 
 @Composable
@@ -65,7 +60,7 @@ fun DetailItemScreen(
 
     LaunchedEffect(detection) {
         if (detection == null) {
-            Log.e("DetailItemScreen", "❌ Detection data is still NULL, retrying...")
+            Log.e("DetailItemScreen", "Detection data is still NULL, retrying...")
             return@LaunchedEffect
         }
 
@@ -73,12 +68,12 @@ fun DetailItemScreen(
 
         val uriString = detection!!.detection.imageUri
         if (uriString.isNullOrEmpty()) {
-            Log.e("DetailItemScreen", "❌ Error: imageUri is empty! Waiting for data...")
+            Log.e("DetailItemScreen", "Error: imageUri is empty! Waiting for data...")
             return@LaunchedEffect
         }
 
         val imageUri = Uri.parse(uriString)
-        Log.d("DetailItemScreen", "📷 Received image URI: $imageUri")
+        Log.d("DetailItemScreen", "Received image URI: $imageUri")
 
         try {
             // For gallery images, try to take permission
@@ -86,9 +81,9 @@ fun DetailItemScreen(
                 try {
                     val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     context.contentResolver.takePersistableUriPermission(imageUri, takeFlags)
-                    Log.d("DetailItemScreen", "✅ Permission granted for gallery image: $imageUri")
+                    Log.d("DetailItemScreen", " Permission granted for gallery image: $imageUri")
                 } catch (e: SecurityException) {
-                    Log.e("DetailItemScreen", "❌ Failed to take permission, but continuing: ${e.message}")
+                    Log.e("DetailItemScreen", "Failed to take permission, but continuing: ${e.message}")
                 }
             }
 
@@ -104,7 +99,7 @@ fun DetailItemScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(color = DarkBackground)
+                .background(color = MaterialTheme.colorScheme.background)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
 
@@ -123,7 +118,9 @@ fun DetailItemScreen(
                                     modifier = Modifier.fillMaxSize(),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    CircularProgressIndicator()
+                                    CircularProgressIndicator(
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
                                 }
                             } else {
                                 DetectedImage(bitmap)
@@ -152,7 +149,7 @@ fun DetailItemScreen(
                             Text(
                                 stringResource(R.string.note_label),
                                 style = MaterialTheme.typography.titleLarge,
-                                color = AccentGreen
+                                color = MaterialTheme.colorScheme.onBackground
                             )
 
                             if (noteText.isEmpty() && !isEditingNote) {
@@ -160,7 +157,11 @@ fun DetailItemScreen(
                                     onClick = { isEditingNote = true },
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(vertical = 8.dp)
+                                        .padding(vertical = 8.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = MaterialTheme.colorScheme.primary,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary
+                                    )
                                 ) {
                                     Text(stringResource(R.string.add_note))
                                 }
@@ -170,7 +171,7 @@ fun DetailItemScreen(
                                         .fillMaxWidth()
                                         .padding(vertical = 8.dp),
                                     colors = CardDefaults.cardColors(
-                                        containerColor = Color(0xFFF1F1F1)
+                                        containerColor = MaterialTheme.colorScheme.surface
                                     ),
                                     elevation = CardDefaults.cardElevation(6.dp)
                                 ) {
@@ -180,7 +181,11 @@ fun DetailItemScreen(
                                                 value = noteText,
                                                 onValueChange = { noteText = it },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                label = { Text(stringResource(R.string.write_note_hint)) }
+                                                label = { Text(stringResource(R.string.write_note_hint)) },
+                                                colors = OutlinedTextFieldDefaults.colors(
+                                                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                                                    focusedLabelColor = MaterialTheme.colorScheme.primary
+                                                )
                                             )
                                             Row(
                                                 modifier = Modifier
@@ -194,7 +199,8 @@ fun DetailItemScreen(
                                                         noteText = detection?.detection?.note ?: ""
                                                     },
                                                     colors = ButtonDefaults.buttonColors(
-                                                        containerColor = Color.Gray
+                                                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                                                     )
                                                 ) {
                                                     Text(stringResource(R.string.cancel))
@@ -208,7 +214,11 @@ fun DetailItemScreen(
                                                         )
                                                         isEditingNote = false
                                                         getViewModel.getDetectionById(detectionId)
-                                                    }
+                                                    },
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = MaterialTheme.colorScheme.primary,
+                                                        contentColor = MaterialTheme.colorScheme.onPrimary
+                                                    )
                                                 ) {
                                                     Text(stringResource(R.string.save_note))
                                                 }
@@ -217,13 +227,20 @@ fun DetailItemScreen(
                                             Text(
                                                 text = noteText,
                                                 style = MaterialTheme.typography.bodyLarge,
+                                                color = MaterialTheme.colorScheme.onSurface,
                                                 modifier = Modifier.padding(bottom = 8.dp)
                                             )
                                             Row(
                                                 modifier = Modifier.fillMaxWidth(),
                                                 horizontalArrangement = Arrangement.SpaceBetween
                                             ) {
-                                                Button(onClick = { isEditingNote = true }) {
+                                                Button(
+                                                    onClick = { isEditingNote = true },
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = MaterialTheme.colorScheme.primary,
+                                                        contentColor = MaterialTheme.colorScheme.onPrimary
+                                                    )
+                                                ) {
                                                     Text(stringResource(R.string.modify_note))
                                                 }
                                                 Button(
@@ -235,10 +252,11 @@ fun DetailItemScreen(
                                                         noteText = ""
                                                     },
                                                     colors = ButtonDefaults.buttonColors(
-                                                        containerColor = Color.Red
+                                                        containerColor = MaterialTheme.colorScheme.error,
+                                                        contentColor = MaterialTheme.colorScheme.onError
                                                     )
                                                 ) {
-                                                    Text(stringResource(R.string.delete_note), color = Color.White)
+                                                    Text(stringResource(R.string.delete_note))
                                                 }
                                             }
                                         }
@@ -252,12 +270,15 @@ fun DetailItemScreen(
                             Spacer(modifier = Modifier.height(16.dp))
                             Button(
                                 onClick = { showDeleteDialog = true },
-                                colors = ButtonDefaults.buttonColors(Color.Red),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.error,
+                                    contentColor = MaterialTheme.colorScheme.onError
+                                ),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 16.dp)
                             ) {
-                                Text(stringResource(R.string.delete_detection), color = Color.White)
+                                Text(stringResource(R.string.delete_detection))
                             }
                         }
                     }
@@ -270,8 +291,8 @@ fun DetailItemScreen(
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.TopStart),
-                containerColor = Color.Green,
-                contentColor = Color.Black,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = RoundedCornerShape(50)
             ) {
                 Icon(
@@ -283,8 +304,18 @@ fun DetailItemScreen(
             if (showDeleteDialog) {
                 AlertDialog(
                     onDismissRequest = { showDeleteDialog = false },
-                    title = { Text(stringResource(R.string.confirm_delete_title)) },
-                    text = { Text(stringResource(R.string.confirm_delete_text)) },
+                    title = {
+                        Text(
+                            stringResource(R.string.confirm_delete_title),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    },
+                    text = {
+                        Text(
+                            stringResource(R.string.confirm_delete_text),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
                     confirmButton = {
                         Button(
                             onClick = {
@@ -294,16 +325,28 @@ fun DetailItemScreen(
                                 showDeleteDialog = false
                                 navController.popBackStack()
                             },
-                            colors = ButtonDefaults.buttonColors(Color.Red)
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.error,
+                                contentColor = MaterialTheme.colorScheme.onError
+                            )
                         ) {
-                            Text(stringResource(R.string.delete), color = Color.White)
+                            Text(stringResource(R.string.delete))
                         }
                     },
                     dismissButton = {
-                        Button(onClick = { showDeleteDialog = false }) {
+                        Button(
+                            onClick = { showDeleteDialog = false },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        ) {
                             Text(stringResource(R.string.cancel))
                         }
-                    }
+                    },
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    textContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

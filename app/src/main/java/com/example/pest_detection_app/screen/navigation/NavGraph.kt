@@ -139,7 +139,6 @@ fun NavGraph(navController: NavHostController) {
 
 
                     UserProfileScreen(userView, navController , userViewModelRoom) }
-                composable(Screen.PesticideInfo.route) { PesticideInfoScreen(navController) }
                 composable(Screen.Logout.route) { LogoutScreen(navController, userView) }
 
                 composable(
@@ -202,6 +201,26 @@ fun NavGraph(navController: NavHostController) {
 
                     DetailItemScreen(navController, detectionViewModel, detectionSaveViewModel, detectionId, userView)
                 }
+
+
+
+                composable(Screen.Stat.route) {
+                    val context = LocalContext.current.applicationContext as Application
+
+                    val detectionSaveViewModel: DetectionSaveViewModel = androidx.lifecycle.viewmodel.compose.viewModel(
+                        factory = DetectionSaveViewModelFactory(
+                            context,
+                            DatabaseManager.getDatabase(MyApp.getContext()).detectionResultDao(),
+                            DatabaseManager.getDatabase(MyApp.getContext()).boundingBoxDao()
+                        )
+                    )
+
+                    StatsDashboardScreen(
+                        navController = navController,
+                        userViewModel = userView,
+                        detectionSaveViewModel = detectionSaveViewModel
+                    )
+                }
             }
         }
 
@@ -209,7 +228,7 @@ fun NavGraph(navController: NavHostController) {
         val currentRoute = currentRoute(navController)
         if (currentRoute in listOf(
                 Screen.Home.route,
-                Screen.Forum.route,
+                Screen.Stat.route,
                 Screen.Settings.route,
                 Screen.History.route,
                 Screen.UserProfileScreen.route,

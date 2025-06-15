@@ -26,4 +26,6 @@ sealed class Screen(val route: String) {
     }
     object DetailItemScreen : Screen("detailedItem_screen")
 
+    object Stat : Screen("Stat")
+
 }

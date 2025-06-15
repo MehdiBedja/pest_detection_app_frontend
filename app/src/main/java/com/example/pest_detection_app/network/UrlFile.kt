@@ -1,6 +1,6 @@
 package com.example.pest_detection_app.network
 
-const val url = "https://de16-105-108-54-254.ngrok-free.app/"
+const val url = "https://3963-197-207-16-105.ngrok-free.app/"
 
 
 
