@@ -9,6 +9,7 @@ import com.example.pest_detection_app.navigation.NavGraph
 import com.example.pest_detection_app.preferences.initializeSession
 import com.example.pest_detection_app.screen.LanguagePref
 import com.example.pest_detection_app.screen.updateLocale
+import com.example.pest_detection_app.screen.user.DarkModePref
 import com.example.pest_detection_app.ui.theme.Pest_Detection_AppTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Pest_Detection_AppTheme {
+            // Get the saved dark mode preference
+            val isDarkMode = DarkModePref.getDarkMode(this)
+
+            Pest_Detection_AppTheme(darkTheme = isDarkMode) {
                 initializeSession(applicationContext)
                 val navController = rememberNavController()
                 NavGraph(navController)

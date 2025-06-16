@@ -452,7 +452,7 @@ fun ScanButton(navController: NavController) {
                 ) { targetText ->
                     Text(
                         text = targetText,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.surface,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -587,13 +587,13 @@ fun StatSection(navController: NavController) {
                         transitionSpec = {
                             fadeIn(animationSpec = tween(400)) with fadeOut(animationSpec = tween(400))
                         },
-                        label = "ScanText",
+                        label = "stats",
                         modifier = Modifier.align(Alignment.TopCenter)
                             .padding(top = 8.dp)
                     ) { targetText ->
                         Text(
                             text = targetText,
-                            color = MaterialTheme.colorScheme.onSurface,
+                            color = MaterialTheme.colorScheme.surface,
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold
                         )

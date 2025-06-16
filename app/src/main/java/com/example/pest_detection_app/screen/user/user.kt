@@ -420,7 +420,7 @@ fun SignUpScreen(navController: NavHostController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
+                .padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 24.dp), // Custom top spacing
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -433,7 +433,7 @@ fun SignUpScreen(navController: NavHostController) {
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(
-                        modifier = Modifier.padding(24.dp),
+                        modifier = Modifier.padding(top= 10.dp ,start = 24.dp, end = 24.dp, bottom = 24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(

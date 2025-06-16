@@ -28,4 +28,6 @@ sealed class Screen(val route: String) {
 
     object Stat : Screen("Stat")
 
+    object ChangePassword : Screen("Change_Password")
+
 }

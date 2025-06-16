@@ -18,7 +18,7 @@ object DatabaseManager {
                 "pestDetectionDatabase"
             )
                 .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7 ,
-                    MIGRATION_7_8 , MIGRATION_8_9) // Added migration
+                    MIGRATION_7_8 , MIGRATION_8_9 , MIGRATION_9_10) // Added migration
                 .build()
                 .also { instance = it }
         }
@@ -62,6 +62,16 @@ object DatabaseManager {
             database.execSQL("ALTER TABLE detection_results ADD COLUMN isDeleted INTEGER NOT NULL DEFAULT 0")
         }
     }
+
+
+
+    private val MIGRATION_9_10 = object : Migration(9, 10) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            // Add has_password column (nullable Boolean -> INTEGER NULLABLE)
+            database.execSQL("ALTER TABLE users ADD COLUMN has_password INTEGER DEFAULT NULL")
+        }
+    }
+
 
 
 

@@ -19,9 +19,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -38,8 +40,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -77,9 +81,27 @@ object LanguagePref {
             else -> "en" // fallback to English
         }
     }
-
 }
 
+// Dark mode preferences
+object DarkModePref {
+    private const val PREF_NAME = "dark_mode_pref"
+    private const val DARK_MODE_KEY = "dark_mode_key"
+
+    fun saveDarkMode(context: Context, isDark: Boolean) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(DARK_MODE_KEY, isDark)
+            .apply()
+    }
+
+    fun getDarkMode(context: Context): Boolean {
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .getBoolean(DARK_MODE_KEY, false)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , userViewModelRoom : UserViewModelRoom) {
     val userState by viewModel.user
@@ -87,22 +109,13 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
     val error by viewModel.error
     val savedToken by viewModel.token.collectAsState()
 
-
-
     val userid by viewModel.userId.collectAsState()
     val user by userViewModelRoom.user.observeAsState()
-
 
     // Trigger data fetching
     LaunchedEffect(Unit) {
         userid?.let { userViewModelRoom.fetchUserById(it) }
     }
-
-
-
-
-
-    var isDarkMode by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(savedToken) {
         viewModel.getUser()
@@ -114,40 +127,48 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
             .background(MaterialTheme.colorScheme.background)
     ) {
         Column {
-            // Top bar with Back and Logout
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = { navController.navigate(Screen.Home.route) }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
-                        tint = MaterialTheme.colorScheme.onBackground
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.profile),
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
                     )
-                }
-
-                if (user != null) {
-                    IconButton(
-                        onClick = {
-                            viewModel.logout()
-                            navController.navigate("home_screen") {
-                                popUpTo("home_screen") { inclusive = true }
-                            }
-                        }
-                    ) {
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigate(Screen.Home.route) }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.logout),
-                            contentDescription = "Logout",
-                            tint = MaterialTheme.colorScheme.onBackground
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
-                }
-
-            }
+                },
+                actions = {
+                    if (user != null) {
+                        IconButton(
+                            onClick = {
+                                viewModel.logout()
+                                navController.navigate("home_screen") {
+                                    popUpTo("home_screen") { inclusive = true }
+                                }
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.logout),
+                                contentDescription = "Logout",
+                                tint = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -171,7 +192,6 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
         }
     }
 }
-
 
 @Composable
 fun LoginSignupDialog1(navController: NavController, onDismiss: () -> Unit) {
@@ -197,9 +217,6 @@ fun LoginSignupDialog1(navController: NavController, onDismiss: () -> Unit) {
     )
 }
 
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserProfileContent(
@@ -220,11 +237,15 @@ fun UserProfileContent(
         )
     }
 
-    var isDarkMode by rememberSaveable { mutableStateOf(false) }
+    var isDarkMode by rememberSaveable { mutableStateOf(DarkModePref.getDarkMode(context)) }
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
     var showSettingsSheet by remember { mutableStateOf(false) }
+
+    // State for dialogs
+    var showAboutDialog by remember { mutableStateOf(false) }
+    var showRateDialog by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -246,20 +267,21 @@ fun UserProfileContent(
                     .background(MaterialTheme.colorScheme.surfaceVariant)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            /*
+                      Text(
+                          text = "${user.last_name}",
+                          style = MaterialTheme.typography.headlineSmall.copy(
+                              color = MaterialTheme.colorScheme.onBackground,
+                              fontWeight = FontWeight.Bold
+                          )
+                      )
 
-            Text(
-                text = "${user.last_name}",
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontWeight = FontWeight.Bold
-                )
-            )
+                   Text(
+                          text = "@${user.username}",
+                          style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface)
+                      )
 
-            Text(
-                text = "@${user.username}",
-                style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface)
-            )
+                     */
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -270,7 +292,7 @@ fun UserProfileContent(
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text(text = stringResource(R.string.edit_profile) , color = MaterialTheme.colorScheme.onSurface)
+                Text(text = "@${user.username}" , color = MaterialTheme.colorScheme.onSurface)
             }
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -307,7 +329,6 @@ fun UserProfileContent(
                 )
             }
 
-
             Spacer(modifier = Modifier.height(30.dp))
         }
 
@@ -325,7 +346,8 @@ fun UserProfileContent(
             if (user != null) {
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline)
                 ProfileOption(Icons.Default.Lock, label = stringResource(R.string.change_pass)) {
-                    // Navigate to change password
+                    navController.navigate(Screen.ChangePassword.route)
+
                 }
             }
         }
@@ -341,34 +363,6 @@ fun UserProfileContent(
             }
         )
 
-        // Settings Bottom Sheet (existing code)
-        if (showSettingsSheet) {
-            ModalBottomSheet(
-                onDismissRequest = { showSettingsSheet = false },
-                sheetState = sheetState,
-                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-                containerColor = MaterialTheme.colorScheme.surface
-            ) {
-                EmbeddedSettings(
-                    isDarkMode = isDarkMode,
-                    onToggleDarkMode = { isDarkMode = !isDarkMode },
-                    language = currentLanguage,
-                    onLanguageChange = { newLanguage ->
-                        currentLanguage = newLanguage
-                        val langCode = when (newLanguage) {
-                            "English" -> "en"
-                            "Arabic" -> "ar"
-                            "Français" -> "fr"
-                            else -> "en"
-                        }
-                        LanguagePref.saveLanguage(context, langCode)
-                        (context as? Activity)?.recreate()
-                    }
-                )
-            }
-        }
-    }
-
         // Settings Bottom Sheet
         if (showSettingsSheet) {
             ModalBottomSheet(
@@ -379,7 +373,12 @@ fun UserProfileContent(
             ) {
                 EmbeddedSettings(
                     isDarkMode = isDarkMode,
-                    onToggleDarkMode = { isDarkMode = !isDarkMode },
+                    onToggleDarkMode = {
+                        isDarkMode = !isDarkMode
+                        DarkModePref.saveDarkMode(context, isDarkMode)
+                        // Recreate activity to apply theme change
+                        (context as? Activity)?.recreate()
+                    },
                     language = currentLanguage,
                     onLanguageChange = { newLanguage ->
                         currentLanguage = newLanguage
@@ -391,12 +390,32 @@ fun UserProfileContent(
                         }
                         LanguagePref.saveLanguage(context, langCode)
                         (context as? Activity)?.recreate()
-                    }
+                    },
+                    onShowAbout = { showAboutDialog = true },
+                    onShowRate = { showRateDialog = true }
                 )
             }
         }
-    }
 
+        // About Dialog
+        if (showAboutDialog) {
+            AboutAppDialog(
+                onDismiss = { showAboutDialog = false }
+            )
+        }
+
+        // Rate Dialog
+        if (showRateDialog) {
+            RateAppDialog(
+                onDismiss = { showRateDialog = false },
+                onRate = {
+                    // Handle rating action
+                    showRateDialog = false
+                }
+            )
+        }
+    }
+}
 
 @Composable
 fun ProfileOption(icon: ImageVector, label: String, onClick: () -> Unit) {
@@ -437,6 +456,8 @@ fun EmbeddedSettings(
     onToggleDarkMode: () -> Unit,
     language: String,
     onLanguageChange: (String) -> Unit,
+    onShowAbout: () -> Unit,
+    onShowRate: () -> Unit
 ) {
     val gradientColors = listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
     var showLanguageDialog by remember { mutableStateOf(false) }
@@ -517,9 +538,9 @@ fun EmbeddedSettings(
             showLanguageDialog = true
         })
 
-        SettingRow(R.string.about_the_app,"", onClick = { /* Show dialog or bottom sheet */ })
+        SettingRow(R.string.about_the_app,"", onClick = onShowAbout)
 
-        SettingRow(R.string.rate_us, "", onClick = { /* Open play store link */ })
+        SettingRow(R.string.rate_us, "", onClick = onShowRate)
 
         SettingToggleRow(
             label = "Dark Mode",
@@ -530,7 +551,7 @@ fun EmbeddedSettings(
 
         // Support Email
         Text(
-            text = "Support: support@farmshield.com",
+            text = "Support: mahdibedja@gmail.com",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -597,8 +618,6 @@ fun SettingToggleRow(
         )
     }
 }
-
-
 
 @Composable
 fun TelegramCommunitySection(onJoinTelegram: () -> Unit) {
@@ -670,6 +689,183 @@ fun TelegramCommunitySection(onJoinTelegram: () -> Unit) {
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(24.dp)
             )
+        }
+    }
+}
+
+@Composable
+fun AboutAppDialog(onDismiss: () -> Unit) {
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // App Icon
+                Box(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(16.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "App Icon",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // App Name
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // App Description
+                Text(
+                    text = stringResource(R.string.app_description),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // App Version
+                Text(
+                    text = stringResource(R.string.app_version, "1.0.0"),
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // OK Button
+                Button(
+                    onClick = onDismiss,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text(
+                        text = stringResource(R.string.ok),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RateAppDialog(onDismiss: () -> Unit, onRate: () -> Unit) {
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Star Icon
+                Box(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .background(
+                            color = Color(0xFFFFD700), // Gold color
+                            shape = RoundedCornerShape(16.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "Rate",
+                        tint = Color.White,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Title
+                Text(
+                    text = stringResource(R.string.rate_app_title),
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Description
+                Text(
+                    text = stringResource(R.string.rate_app_description),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Buttons
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = onDismiss,
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = MaterialTheme.colorScheme.onSurface
+                        )
+                    ) {
+                        Text(stringResource(R.string.maybe_later))
+                    }
+
+                    Button(
+                        onClick = onRate,
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        Text(
+                            text = stringResource(R.string.rate_now),
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                }
+            }
         }
     }
 }

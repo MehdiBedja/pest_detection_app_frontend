@@ -18,9 +18,10 @@ class Preferences(private val context: Context) {
     }
 
 
-    fun updateValues(connected: Boolean, userId: Int, token: String) {
+    fun updateValues(connected: Boolean, userId: Int, token: String , isGoogle : Boolean) {
         val pref = context.getSharedPreferences("user", Context.MODE_PRIVATE)
         Globals.savedUsername = userId
+        Globals.isGoogle = isGoogle
         pref.edit {
             putInt("userId", userId)
             putString("token", token)  // Save the token
@@ -34,6 +35,7 @@ class Preferences(private val context: Context) {
 
         Globals.savedUsername = null
         Globals.savedToken = null
+        Globals.isGoogle = null
 
         val pref = context.getSharedPreferences("user", Context.MODE_PRIVATE)
         pref.edit {
@@ -49,6 +51,7 @@ class Preferences(private val context: Context) {
 object Globals {
     var savedUsername: Int? = null
     var savedToken: String? = null
+    var isGoogle : Boolean? = null
 }
 
 fun initializeSession(context: Context) {

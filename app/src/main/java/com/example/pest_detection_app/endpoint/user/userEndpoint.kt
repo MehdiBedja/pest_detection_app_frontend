@@ -1,11 +1,14 @@
 package com.example.pest_detection_app.endpoint.user
 
+import com.example.pest_detection_app.data.user.ChangePasswordRequest
 import com.example.pest_detection_app.data.user.GoogleSignInRequest
 import com.example.pest_detection_app.data.user.GoogleSignInResponse
 import com.example.pest_detection_app.data.user.GoogleSignUpRequest
 import com.example.pest_detection_app.data.user.GoogleSignUpResponse
 import com.example.pest_detection_app.data.user.LoginRequest
 import com.example.pest_detection_app.data.user.LoginResponse
+import com.example.pest_detection_app.data.user.PasswordResponse
+import com.example.pest_detection_app.data.user.SetPasswordRequest
 import com.example.pest_detection_app.data.user.SignUpRequest
 import com.example.pest_detection_app.data.user.User
 import com.example.pest_detection_app.network.url
@@ -66,6 +69,21 @@ interface userEndpoint {
         }
 
     }
+
+
+
+
+    @POST("user_management/change_password")
+    suspend fun changePassword(
+        @Body request: ChangePasswordRequest,
+        @Header("Authorization") authHeader: String
+    ): Response<PasswordResponse>
+
+    @POST("user_management/set_password")
+    suspend fun setPassword(
+        @Body request: SetPasswordRequest,
+        @Header("Authorization") authHeader: String
+    ): Response<PasswordResponse>
 
 
 }

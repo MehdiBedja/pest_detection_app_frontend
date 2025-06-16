@@ -86,7 +86,8 @@ class AccountViewModel(private val authRepository: AuthRepository ) : ViewModel(
                             phone_number = null,
                             date_of_birth = user.date_of_birth,
                             date_joined = user.date_joined,
-                            profile_picture = user.profile_picture
+                            profile_picture = user.profile_picture ,
+                            has_password = true
                         )
 
                         // Save user to Room Database in background thread
@@ -161,7 +162,8 @@ class AccountViewModel(private val authRepository: AuthRepository ) : ViewModel(
                             phone_number = user.phone_number,
                             date_of_birth = user.date_of_birth,
                             date_joined = user.date_joined,
-                            profile_picture = user.profile_picture
+                            profile_picture = user.profile_picture ,
+                            has_password = false
                         )
 
                         // Save user to Room Database in background thread
@@ -242,6 +244,9 @@ class LoginViewModel(
     private val _userId = MutableStateFlow<Int?>(Globals.savedUsername)
     val userId = _userId.asStateFlow()
 
+    private val _isGoogle = MutableStateFlow<Boolean?>(null)
+    val isGoogle = _isGoogle.asStateFlow()
+
     val login = mutableStateOf(false)
     val logout = mutableStateOf(false)
 
@@ -256,14 +261,30 @@ class LoginViewModel(
     )
 
 
+    fun loadIsGoogle(userId: Int) {
+        viewModelScope.launch {
+            try {
+                val hasPassword = DatabaseManager.userDao(MyApp.getContext()).getHasPassword(userId)
+                _isGoogle.value = hasPassword?.not()  // If false → Google user
+            } catch (e: Exception) {
+                _isGoogle.value = null
+            }
+        }
+    }
+
+
+
     fun logout() {
         userPreferences.clearCrediantials()
         Globals.savedToken = null  // Update global token
         _token.value = null
         _userId.value = -1 // Update state token
+        _isGoogle.value = null
         logout.value = true
         login.value = false
         user.value = null  // Clear the user data
+        Globals.isGoogle = null
+
 
     }
 
@@ -300,6 +321,8 @@ class LoginViewModel(
     }
 
 
+
+
     fun getUserId(): Int {
         return userPreferences.getUserId().also {
             Globals.savedUsername = it  // Ensure Globals is updated
@@ -320,11 +343,14 @@ class LoginViewModel(
                     val userId = jsonResponse?.user?.id
 
                     if (tokenValue != null && userId != null) {
-                        userPreferences.updateValues(true, userId, tokenValue)
+                        userPreferences.updateValues(true, userId, tokenValue , false)
 
                         Globals.savedToken = tokenValue
+                        Globals.isGoogle = false
                         _token.value = tokenValue
                         _userId.value = userId
+                        _isGoogle.value = false
+
 
                         Log.d("Login", "Login successful. Token: $tokenValue")
 
@@ -352,7 +378,8 @@ class LoginViewModel(
                                             phone_number = userData.phone_number,
                                             date_of_birth = userData.date_of_birth,
                                             date_joined = userData.date_joined,
-                                            profile_picture = userData.profile_picture
+                                            profile_picture = userData.profile_picture ,
+                                            has_password = true
                                         )
 
                                     withContext(Dispatchers.IO) {
@@ -421,12 +448,14 @@ class LoginViewModel(
 
                         if (tokenValue != null && user != null) {
                             // Save credentials to preferences
-                            userPreferences.updateValues(true, user.id, tokenValue)
+                            userPreferences.updateValues(true, user.id, tokenValue , true)
 
                             // Update global state
                             Globals.savedToken = tokenValue
+                            Globals.isGoogle = true
                             _token.value = tokenValue
                             _userId.value = user.id
+                            _isGoogle.value = true
 
                             Log.d("GoogleSignIn", "Sign-in successful. Token: $tokenValue")
 
@@ -454,7 +483,8 @@ class LoginViewModel(
                                     phone_number = user.phone_number,
                                     date_of_birth = user.date_of_birth,
                                     date_joined = user.date_joined,
-                                    profile_picture = user.profile_picture
+                                    profile_picture = user.profile_picture ,
+                                    has_password = false
                                 )
 
                                 // Save user to Room Database
@@ -508,6 +538,79 @@ class LoginViewModel(
         }
     }
 
+
+
+    // Add these to your LoginViewModel class
+
+    // Password change states
+    val passwordLoading = mutableStateOf(false)
+    val passwordError = mutableStateOf<String?>(null)
+    val passwordSuccess = mutableStateOf(false)
+
+    fun changePassword(
+        userId: Int,
+        oldPassword: String?,
+        newPassword: String
+    ) {
+        passwordLoading.value = true
+        passwordError.value = null
+        passwordSuccess.value = false
+
+        viewModelScope.launch {
+            try {
+                val token = Globals.savedToken ?: run {
+                    passwordError.value = "Authentication token not found"
+                    passwordLoading.value = false
+                    return@launch
+                }
+
+                val hasPassword = DatabaseManager.userDao(context = MyApp.getContext()).getHasPassword(userId) // 🟡 Room call
+                val response = if (hasPassword == false) {
+                    // Google user setting password
+                    authRepository.setPassword(newPassword, token)
+                } else {
+                    // Normal user changing password
+                    if (oldPassword.isNullOrBlank()) {
+                        passwordError.value = "Old password is required"
+                        passwordLoading.value = false
+                        return@launch
+                    }
+                    authRepository.changePassword(oldPassword, newPassword, token)
+                }
+
+                if (response.isSuccessful) {
+                    val passwordResponse = response.body()
+                    if (passwordResponse?.success == true) {
+                        passwordSuccess.value = true
+                        Log.d("PasswordChange", "Password ${if (hasPassword == false) "set" else "changed"} successfully")
+                        DatabaseManager.userDao(MyApp.getContext()).updateHasPassword(userId , true)
+                    } else {
+                        passwordError.value = passwordResponse?.message ?: "Failed to ${if (hasPassword == false) "set" else "change"} password"
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    passwordError.value = when (response.code()) {
+                        400 -> "Invalid password format or old password incorrect"
+                        401 -> "Unauthorized. Please login again"
+                        else -> "Failed to ${if (hasPassword == false) "set" else "change"} password: ${response.message()}"
+                    }
+                    Log.e("PasswordChange", "Error: ${response.code()}, Body: $errorBody")
+                }
+            } catch (e: Exception) {
+                passwordError.value = "Failed to change password: ${e.message}"
+                Log.e("PasswordChange", "Exception during password change", e)
+            } finally {
+                passwordLoading.value = false
+            }
+        }
+    }
+
+
+    fun clearPasswordStates() {
+        passwordError.value = null
+        passwordSuccess.value = false
+        passwordLoading.value = false
+    }
 
 
 

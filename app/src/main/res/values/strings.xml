@@ -1,6 +1,6 @@
 <resources>
     <string name="welcome">Welcome</string>
-    <string name="app_name">mehdi</string>
+    <string name="app_name">CropShield</string>
 
     //Home screen
 
@@ -78,6 +78,7 @@
 
     <string name="sort_by_date_desc">Date ▼</string>
     <string name="sort_by_date_asc">Date ▲</string>
+    <string name= "detections_history">Detections Records</string>
 
 
 
@@ -137,6 +138,7 @@
 
     <string name="Sign_in_Sign_Up">Sign in / Sign up</string>
     <string name="Hello_farmer">Hello, farmer</string>
+    <string name="profile">Profile</string>
 
 
 // Dashboard screen
@@ -180,6 +182,38 @@
 
 
 
+    <string name="app_description">Our advanced pest detection app helps farmers identify and manage crop pests using AI technology. Protect your harvest with accurate pest identification, treatment recommendations, and farming insights.</string>
+    <string name="app_version">Version %s</string>
+
+    <!-- Rate App -->
+    <string name="rate_app_title">Rate Our App</string>
+    <string name="rate_app_description">Help us improve by rating our app! Your feedback helps us create better farming solutions.</string>
+    <string name="rate_now">Rate Now</string>
+    <string name="maybe_later">Maybe Later</string>
+
+
+
+
+    <!-- Change Password -->
+    <string name="change_password">Change Password</string>
+    <string name="set_password">Set Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="passwords_match">Passwords match ✓</string>
+    <string name="passwords_dont_match">Passwords don\'t match</string>
+    <string name="confirm">Confirm</string>
+
+    <!-- Instructions -->
+    <string name="change_password_instruction">Enter your current password and choose a new secure password</string>
+    <string name="set_password_instruction">Set a secure password for your account</string>
+
+    <!-- Password Requirements -->
+    <string name="password_requirements">Password Requirements:</string>
+    <string name="password_req_length">At least 8 characters long</string>
+    <string name="password_req_uppercase">At least one uppercase letter</string>
+    <string name="password_req_lowercase">At least one lowercase letter</string>
+    <string name="password_req_number">At least one number</string>
 
 
 </resources>

@@ -2,6 +2,7 @@ package com.example.pest_detection_app.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -87,6 +88,10 @@ fun StatsDashboardScreen(
     var isLoading by remember { mutableStateOf(true) }
     val userId by userViewModel.userId.collectAsState()
 
+
+
+    val isDark = isSystemInDarkTheme()
+    val textColor = if (isDark) Color.White else Color.Black
 
     var selectedTimePeriod by remember { mutableStateOf(TimePeriod.MONTH) }
     var timeOffset by remember { mutableStateOf(0) } // for navigation
@@ -222,9 +227,10 @@ fun StatsDashboardScreen(
                         icon = painterResource(id = R.drawable.barchart)
                     ) {
                         AndroidView(
+
                             factory = { context ->
                                 BarChart(context).apply {
-                                    setupBarChart(this, statsData!!.pestCounts)
+                                    setupBarChart(this, statsData!!.pestCounts,textColor)
                                 }
                             },
                             modifier = Modifier
@@ -566,10 +572,11 @@ data class DayCell(
 
 
 // Chart setup functions
-private fun setupBarChart(chart: BarChart, pestCounts: Map<String, Int>) {
+private fun setupBarChart(chart: BarChart, pestCounts: Map<String, Int> , color: Color) {
     val entries = pestCounts.entries.mapIndexed { index, entry ->
         BarEntry(index.toFloat(), entry.value.toFloat())
     }
+
 
     val dataSet = BarDataSet(entries,"").apply {
         colors = ColorTemplate.MATERIAL_COLORS.toList()
@@ -583,6 +590,9 @@ private fun setupBarChart(chart: BarChart, pestCounts: Map<String, Int>) {
 
     val xAxis = chart.xAxis
     xAxis.position = XAxis.XAxisPosition.BOTTOM
+    xAxis.textColor = color.toArgb()
+
+
     xAxis.valueFormatter = object : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
             val index = value.toInt()

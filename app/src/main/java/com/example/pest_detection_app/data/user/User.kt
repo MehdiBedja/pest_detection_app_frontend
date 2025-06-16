@@ -78,3 +78,22 @@ data class GoogleSignInResponse(
     val user: User,
     val message: String
 )
+
+
+
+
+data class ChangePasswordRequest(
+    val old_password: String? = null, // null for Google users
+    val new_password: String
+)
+
+
+data class SetPasswordRequest(
+    val new_password: String
+)
+
+
+data class PasswordResponse(
+    val message: String,
+    val success: Boolean
+)

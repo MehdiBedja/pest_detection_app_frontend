@@ -16,4 +16,15 @@ interface UserDao {
 
     @Delete
     suspend fun deleteUser(user: User)
+
+    @Query("SELECT has_password FROM users WHERE id = :userId")
+    suspend fun getHasPassword(userId: Int): Boolean?
+
+
+    @Query("UPDATE users SET has_password = :hasPassword WHERE id = :userId")
+    suspend fun updateHasPassword(userId: Int, hasPassword: Boolean)
+
+
+
+
 }

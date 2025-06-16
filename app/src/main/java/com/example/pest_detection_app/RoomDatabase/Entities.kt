@@ -19,7 +19,8 @@ data class User(
     val phone_number: String?,
     val date_of_birth: String?,
     val date_joined: String?,
-    val profile_picture: String?
+    val profile_picture: String? ,
+    val has_password : Boolean ? ,
 )
 
 

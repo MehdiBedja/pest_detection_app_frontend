@@ -14,7 +14,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         DetectionResult::class,
         BoundingBox::class
     ],
-    version= 9,
+    version= 10,
     exportSchema = false
 )
 abstract class PestDetectionDatabase : RoomDatabase() {

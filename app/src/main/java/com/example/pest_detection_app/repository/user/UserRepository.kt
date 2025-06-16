@@ -1,11 +1,14 @@
 package com.example.pest_detection_app.repository.user
 
+import com.example.pest_detection_app.data.user.ChangePasswordRequest
 import com.example.pest_detection_app.data.user.GoogleSignInRequest
 import com.example.pest_detection_app.data.user.GoogleSignInResponse
 import com.example.pest_detection_app.data.user.GoogleSignUpRequest
 import com.example.pest_detection_app.data.user.GoogleSignUpResponse
 import com.example.pest_detection_app.data.user.LoginRequest
 import com.example.pest_detection_app.data.user.LoginResponse
+import com.example.pest_detection_app.data.user.PasswordResponse
+import com.example.pest_detection_app.data.user.SetPasswordRequest
 import com.example.pest_detection_app.data.user.SignUpRequest
 import com.example.pest_detection_app.data.user.User
 import com.example.pest_detection_app.data.user.User_signUp
@@ -66,6 +69,31 @@ class AuthRepository(private val endpoint: userEndpoint) {
         return endpoint.googleSignIn(googleSignInRequest)
     }
 
+
+
+    // Add these functions to your existing AuthRepository class
+
+    suspend fun changePassword(
+        oldPassword: String,
+        newPassword: String,
+        token: String
+    ): Response<PasswordResponse> {
+        val changePasswordRequest = ChangePasswordRequest(
+            old_password = oldPassword,
+            new_password = newPassword
+        )
+        return endpoint.changePassword(changePasswordRequest, "Token $token")
+    }
+
+    suspend fun setPassword(
+        newPassword: String,
+        token: String
+    ): Response<PasswordResponse> {
+        val setPasswordRequest = SetPasswordRequest(
+            new_password = newPassword
+        )
+        return endpoint.setPassword(setPasswordRequest, "Token $token")
+    }
 
 
 }
