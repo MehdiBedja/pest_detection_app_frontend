@@ -247,6 +247,7 @@ class LoginViewModel(
     private val _isGoogle = MutableStateFlow<Boolean?>(null)
     val isGoogle = _isGoogle.asStateFlow()
 
+
     val login = mutableStateOf(false)
     val logout = mutableStateOf(false)
 
@@ -261,16 +262,6 @@ class LoginViewModel(
     )
 
 
-    fun loadIsGoogle(userId: Int) {
-        viewModelScope.launch {
-            try {
-                val hasPassword = DatabaseManager.userDao(MyApp.getContext()).getHasPassword(userId)
-                _isGoogle.value = hasPassword?.not()  // If false → Google user
-            } catch (e: Exception) {
-                _isGoogle.value = null
-            }
-        }
-    }
 
 
 
@@ -342,14 +333,20 @@ class LoginViewModel(
                     val tokenValue = jsonResponse?.token
                     val userId = jsonResponse?.user?.id
 
+
                     if (tokenValue != null && userId != null) {
-                        userPreferences.updateValues(true, userId, tokenValue , false)
+                        userPreferences.updateValues(true, userId, tokenValue)
+
 
                         Globals.savedToken = tokenValue
-                        Globals.isGoogle = false
                         _token.value = tokenValue
                         _userId.value = userId
-                        _isGoogle.value = false
+
+
+
+
+                        loadIsGoogle()
+
 
 
                         Log.d("Login", "Login successful. Token: $tokenValue")
@@ -448,14 +445,16 @@ class LoginViewModel(
 
                         if (tokenValue != null && user != null) {
                             // Save credentials to preferences
-                            userPreferences.updateValues(true, user.id, tokenValue , true)
+                            Log.d("Login", "Login successful. Token: $tokenValue")
 
-                            // Update global state
+                            userPreferences.updateValues(true, user.id, tokenValue )
                             Globals.savedToken = tokenValue
-                            Globals.isGoogle = true
+                            loadIsGoogle()
+                            // Update global state
+                            Globals.isGoogle = _isGoogle.value
                             _token.value = tokenValue
                             _userId.value = user.id
-                            _isGoogle.value = true
+
 
                             Log.d("GoogleSignIn", "Sign-in successful. Token: $tokenValue")
 
@@ -564,8 +563,7 @@ class LoginViewModel(
                     return@launch
                 }
 
-                val hasPassword = DatabaseManager.userDao(context = MyApp.getContext()).getHasPassword(userId) // 🟡 Room call
-                val response = if (hasPassword == false) {
+                val response = if (_isGoogle.value == false) {
                     // Google user setting password
                     authRepository.setPassword(newPassword, token)
                 } else {
@@ -582,17 +580,17 @@ class LoginViewModel(
                     val passwordResponse = response.body()
                     if (passwordResponse?.success == true) {
                         passwordSuccess.value = true
-                        Log.d("PasswordChange", "Password ${if (hasPassword == false) "set" else "changed"} successfully")
+                        Log.d("PasswordChange", "Password ${if (_isGoogle.value == false) "set" else "changed"} successfully")
                         DatabaseManager.userDao(MyApp.getContext()).updateHasPassword(userId , true)
                     } else {
-                        passwordError.value = passwordResponse?.message ?: "Failed to ${if (hasPassword == false) "set" else "change"} password"
+                        passwordError.value = passwordResponse?.message ?: "Failed to ${if (_isGoogle.value == false) "set" else "change"} password"
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
                     passwordError.value = when (response.code()) {
                         400 -> "Invalid password format or old password incorrect"
                         401 -> "Unauthorized. Please login again"
-                        else -> "Failed to ${if (hasPassword == false) "set" else "change"} password: ${response.message()}"
+                        else -> "Failed to ${if (_isGoogle.value == false) "set" else "change"} password: ${response.message()}"
                     }
                     Log.e("PasswordChange", "Error: ${response.code()}, Body: $errorBody")
                 }
@@ -612,6 +610,35 @@ class LoginViewModel(
         passwordLoading.value = false
     }
 
+
+    suspend fun loadIsGoogle() {
+        try {
+            val token = Globals.savedToken
+            if (token != null) {
+                Log.d("LoadIsGoogle", "Starting loadIsGoogle with token: ${token.take(20)}...")
+                val response = authRepository.checkIsGoogleUser(token)
+                if (response.isSuccessful) {
+                    val isGoogleResponse = response.body()
+                    _isGoogle.value = isGoogleResponse?.has_usable_password
+                    Globals.isGoogle = isGoogleResponse?.has_usable_password
+                    Log.d("LoadIsGoogle", "Successfully loaded isGoogle: ${isGoogleResponse?.is_google_user}")
+                    Log.d("LoadIsGoogle", "has_usable_password: ${isGoogleResponse?.has_usable_password}")
+                } else {
+                    Log.e("LoadIsGoogle", "Failed to load isGoogle: ${response.message()}")
+                    _isGoogle.value = null
+                    Globals.isGoogle = null
+                }
+            } else {
+                Log.w("LoadIsGoogle", "Token is null, cannot load isGoogle")
+                _isGoogle.value = null
+                Globals.isGoogle = null
+            }
+        } catch (e: Exception) {
+            Log.e("LoadIsGoogle", "Exception loading isGoogle: ${e.message}")
+            _isGoogle.value = null
+            Globals.isGoogle = null
+        }
+    }
 
 
 //    class Factory(private val authRepository: AuthRepository) : ViewModelProvider.Factory {

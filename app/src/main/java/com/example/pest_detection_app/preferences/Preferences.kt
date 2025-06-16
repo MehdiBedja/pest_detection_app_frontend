@@ -18,10 +18,9 @@ class Preferences(private val context: Context) {
     }
 
 
-    fun updateValues(connected: Boolean, userId: Int, token: String , isGoogle : Boolean) {
+    fun updateValues(connected: Boolean, userId: Int, token: String ) {
         val pref = context.getSharedPreferences("user", Context.MODE_PRIVATE)
         Globals.savedUsername = userId
-        Globals.isGoogle = isGoogle
         pref.edit {
             putInt("userId", userId)
             putString("token", token)  // Save the token

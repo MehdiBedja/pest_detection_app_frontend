@@ -123,6 +123,23 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
         }
     }
 
+
+
+    fun startGoogleSignIn() {
+        // Sign out first to force account selection dialog
+        googleSignInClient.signOut().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("GoogleSignIn", "Successfully signed out, showing account picker")
+                // Launch sign-in intent - this will now show account picker
+                launcher.launch(googleSignInClient.signInIntent)
+            } else {
+                Log.e("GoogleSignIn", "Failed to sign out: ${task.exception}")
+                // Launch anyway, might still work
+                launcher.launch(googleSignInClient.signInIntent)
+            }
+        }
+    }
+
     if (viewModel.login.value) {
         LaunchedEffect(Unit) {
             navController.navigate(Screen.Home.route) {
@@ -230,7 +247,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
 
                             // Google Sign In Button
                             GoogleSignInButton {
-                                launcher.launch(googleSignInClient.signInIntent)
+                                startGoogleSignIn()
                             }
                         }
 
@@ -392,8 +409,7 @@ fun SignUpScreen(navController: NavHostController) {
             val account = task.getResult(ApiException::class.java)
             val idToken = account?.idToken
             if (idToken != null) {
-                Log.d("GoogleSignUptoken","$idToken")
-
+                Log.d("GoogleSignUptoken", "$idToken")
                 viewModel.googleSignUp(idToken, context)
             } else {
                 viewModel.error.value = "Failed to get Google ID token"
@@ -403,6 +419,22 @@ fun SignUpScreen(navController: NavHostController) {
             Log.e("GoogleSignUp", "Google Sign-In failed with API Exception: ${e.statusCode}", e)
         }
     }
+
+    fun startGoogleSignUp() {
+        // Sign out first to force account selection dialog
+        googleSignInClient.signOut().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("GoogleSignUp", "Successfully signed out, showing account picker")
+                // Launch sign-up intent - this will now show account picker
+                googleSignUpLauncher.launch(googleSignInClient.signInIntent)
+            } else {
+                Log.e("GoogleSignUp", "Failed to sign out: ${task.exception}")
+                // Launch anyway, might still work
+                googleSignUpLauncher.launch(googleSignInClient.signInIntent)
+            }
+        }
+    }
+
 
     // Navigate to login on success
     if (viewModel.createdSuccess.value) {
@@ -610,7 +642,7 @@ fun SignUpScreen(navController: NavHostController) {
 
                             // Google Sign Up Button
                             GoogleSignUpButton {
-                                googleSignUpLauncher.launch(googleSignInClient.signInIntent)
+                                startGoogleSignUp()
                             }
                         }
 

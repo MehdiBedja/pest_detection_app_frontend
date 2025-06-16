@@ -5,6 +5,7 @@ import com.example.pest_detection_app.data.user.GoogleSignInRequest
 import com.example.pest_detection_app.data.user.GoogleSignInResponse
 import com.example.pest_detection_app.data.user.GoogleSignUpRequest
 import com.example.pest_detection_app.data.user.GoogleSignUpResponse
+import com.example.pest_detection_app.data.user.IsGoogleUserResponse
 import com.example.pest_detection_app.data.user.LoginRequest
 import com.example.pest_detection_app.data.user.LoginResponse
 import com.example.pest_detection_app.data.user.PasswordResponse
@@ -96,4 +97,9 @@ class AuthRepository(private val endpoint: userEndpoint) {
     }
 
 
-}
+    suspend fun checkIsGoogleUser(token: String): Response<IsGoogleUserResponse> {
+        return endpoint.checkIsGoogleUser("Token $token")
+
+    }
+
+    }

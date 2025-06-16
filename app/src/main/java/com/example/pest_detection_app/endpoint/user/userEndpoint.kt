@@ -5,6 +5,7 @@ import com.example.pest_detection_app.data.user.GoogleSignInRequest
 import com.example.pest_detection_app.data.user.GoogleSignInResponse
 import com.example.pest_detection_app.data.user.GoogleSignUpRequest
 import com.example.pest_detection_app.data.user.GoogleSignUpResponse
+import com.example.pest_detection_app.data.user.IsGoogleUserResponse
 import com.example.pest_detection_app.data.user.LoginRequest
 import com.example.pest_detection_app.data.user.LoginResponse
 import com.example.pest_detection_app.data.user.PasswordResponse
@@ -85,5 +86,11 @@ interface userEndpoint {
         @Header("Authorization") authHeader: String
     ): Response<PasswordResponse>
 
+
+
+    @GET("user_management/check_is_google_user")
+    suspend fun checkIsGoogleUser(
+        @Header("Authorization") token: String
+    ): Response<IsGoogleUserResponse>
 
 }

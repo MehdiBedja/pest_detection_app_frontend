@@ -97,3 +97,10 @@ data class PasswordResponse(
     val message: String,
     val success: Boolean
 )
+
+
+
+data class IsGoogleUserResponse(
+    val is_google_user: Boolean,
+    val has_usable_password: Boolean
+)

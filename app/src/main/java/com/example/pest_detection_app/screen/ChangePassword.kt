@@ -37,7 +37,7 @@ fun ChangePasswordScreen(
 
     LaunchedEffect(userId) {
         userId?.let { id ->
-            viewModel.loadIsGoogle(id)
+            viewModel.loadIsGoogle()
         }
     }
     val isGoogle by viewModel.isGoogle.collectAsState()
@@ -97,7 +97,7 @@ fun ChangePasswordScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(if (isGoogle == true) R.string.set_password else R.string.change_password),
+                        text = stringResource(if (isGoogle == false) R.string.set_password else R.string.change_password),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.fillMaxWidth(),
@@ -132,7 +132,7 @@ fun ChangePasswordScreen(
                 // Instructions
                 Text(
                     text = stringResource(
-                        if (isGoogle == true) R.string.set_password_instruction
+                        if (isGoogle == false) R.string.set_password_instruction
                         else R.string.change_password_instruction
                     ),
                     style = MaterialTheme.typography.bodyMedium,
@@ -156,7 +156,7 @@ fun ChangePasswordScreen(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         // Old Password Field (only for non-Google users)
-                        if (isGoogle==false) {
+                        if (isGoogle==true) {
                             OutlinedTextField(
                                 value = oldPassword,
                                 onValueChange = { oldPassword = it },
@@ -254,18 +254,18 @@ fun ChangePasswordScreen(
                         Button(
                             onClick = {
                                 if (passwordsMatch && newPassword.isNotEmpty() &&
-                                    (isGoogle ==true  || oldPassword.isNotEmpty())) {
+                                    (isGoogle ==false  || oldPassword.isNotEmpty())) {
                                     userId?.let {
                                         viewModel.changePassword(
                                             it,
-                                            oldPassword = if (isGoogle ==true) null else oldPassword,
+                                            oldPassword = if (isGoogle ==false) null else oldPassword,
                                             newPassword = newPassword,
                                         )
                                     }
                                 }
                             },
                             enabled = !loading && passwordsMatch && newPassword.isNotEmpty() &&
-                                    (isGoogle == true  || oldPassword.isNotEmpty()),
+                                    (isGoogle == false  || oldPassword.isNotEmpty()),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),
