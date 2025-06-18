@@ -1,6 +1,7 @@
 package com.example.pest_detection_app.navigation
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -26,6 +28,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.example.pest_detection_app.MyApp
+import com.example.pest_detection_app.R
 import com.example.pest_detection_app.RoomDatabase.DatabaseManager
 import com.example.pest_detection_app.ViewModels.DetectionSaveViewModelFactory
 import com.example.pest_detection_app.ViewModels.DetectionViewModel
@@ -62,6 +65,11 @@ val application = MyApp.getContext()
 fun NavGraph(navController: NavHostController) {
     val isLoggedIn by userView.isLoggedIn.collectAsState()
     val context = LocalContext.current.applicationContext as Application
+
+
+
+    val context1 = LocalContext.current
+
     var showSyncBanner by remember { mutableStateOf(true) }
 
     val detectionSaveViewModel: DetectionSaveViewModel = viewModel(
@@ -72,20 +80,73 @@ fun NavGraph(navController: NavHostController) {
         )
     )
 
-    // Collect sync completion events
+
+    val currentLanguage = LocalContext.current.resources.configuration.locales[0].language
+
+    // Helper function to get localized messages
+    fun getLocalizedMessage(key: String, language: String): String {
+        return when (language) {
+            "fr" -> when (key) {
+                "sync_success" -> "Synchronisation terminée avec succès"
+                "sync_failed" -> "Échec de la synchronisation"
+                "failed_sync_cloud" -> "Échec de la synchronisation avec le cloud"
+                "failed_soft_deletes" -> "Échec de la gestion des suppressions"
+                "failed_sync_deleted" -> "Échec de la synchronisation des éléments supprimés"
+                "failed_sync_notes" -> "Échec de la synchronisation des notes"
+                "unknown_error" -> "Erreur inconnue"
+                else -> "Erreur inconnue"
+            }
+            "ar" -> when (key) {
+                "sync_success" -> "تمت المزامنة بنجاح"
+                "sync_failed" -> "فشلت المزامنة"
+                "failed_sync_cloud" -> "فشل في المزامنة مع السحابة"
+                "failed_soft_deletes" -> "فشل في معالجة الحذف"
+                "failed_sync_deleted" -> "فشل في مزامنة العناصر المحذوفة"
+                "failed_sync_notes" -> "فشل في مزامنة الملاحظات"
+                "unknown_error" -> "خطأ غير معروف"
+                else -> "خطأ غير معروف"
+            }
+            else -> when (key) { // Default to English
+                "sync_success" -> "Sync completed successfully"
+                "sync_failed" -> "Sync failed"
+                "failed_sync_cloud" -> "Failed to sync with cloud"
+                "failed_soft_deletes" -> "Failed to handle soft deletes"
+                "failed_sync_deleted" -> "Failed to sync deleted items"
+                "failed_sync_notes" -> "Failed to sync notes"
+                "unknown_error" -> "Unknown error occurred"
+                else -> "Unknown error occurred"
+            }
+        }
+    }
+
+
+
+
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(Unit) {
         detectionSaveViewModel.syncCompletedEvent.collect { result ->
             when (result) {
                 is DetectionSaveViewModel.SyncResult.Success -> {
-                    snackbarHostState.showSnackbar("Sync completed successfully")
+                    snackbarHostState.showSnackbar(
+                        getLocalizedMessage("sync_success", currentLanguage)
+                    )
                 }
+
                 is DetectionSaveViewModel.SyncResult.Failure -> {
-                    snackbarHostState.showSnackbar("Sync failed: ${result.errorMessage}")
+                    val errorMessage = "${
+                        getLocalizedMessage(
+                            "sync_failed",
+                            currentLanguage
+                        )
+                    }: ${result.errorMessage}"
+                    snackbarHostState.showSnackbar(errorMessage)
                 }
             }
         }
     }
+
+
+
 
     // Trigger automatic sync at app launch if user is logged in
     LaunchedEffect(isLoggedIn) {

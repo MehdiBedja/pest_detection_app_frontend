@@ -37,6 +37,7 @@ import java.net.URL
 import java.util.UUID
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import java.util.Locale
 
 class DetectionSaveViewModel(
     application: Application, // Pass Application as a constructor parameter
@@ -238,32 +239,87 @@ class DetectionSaveViewModel(
         viewModelScope.launch {
             try {
                 _isSyncing.value = true
-                
+
                 // Step 1: Sync local server IDs with cloud
                 val syncResult = syncLocalServerIdsWithCloud(userId)
-                if (!syncResult) throw Exception("Failed to sync with cloud")
-                
+                if (!syncResult) throw SyncException("failed_sync_cloud")
+
                 // Step 2: Handle soft deletes
                 val deleteResult = softDeleteLocalDetections(authToken, userId)
-                if (!deleteResult) throw Exception("Failed to handle soft deletes")
-                
+                if (!deleteResult) throw SyncException("failed_soft_deletes")
+
                 // Step 3: Sync soft deleted items
                 val syncDeletedResult = syncSoftDeletedDetections()
-                if (!syncDeletedResult) throw Exception("Failed to sync deleted items")
-                
+                if (!syncDeletedResult) throw SyncException("failed_sync_deleted")
+
                 // Step 4: Sync notes
                 val notesResult = syncNotes(authToken, userId)
-                if (!notesResult) throw Exception("Failed to sync notes")
-                
+                if (!notesResult) throw SyncException("failed_sync_notes")
+
                 _syncCompletedEvent.emit(SyncResult.Success)
+            } catch (e: SyncException) {
+                val localizedError = getLocalizedErrorMessage(e.errorKey)
+                _syncCompletedEvent.emit(SyncResult.Failure(localizedError))
+                Log.e("SyncAll", "Sync failed: ${e.errorKey}", e)
             } catch (e: Exception) {
-                _syncCompletedEvent.emit(SyncResult.Failure(e.localizedMessage ?: "Unknown error occurred"))
+                val localizedError = getLocalizedErrorMessage("unknown_error")
+                _syncCompletedEvent.emit(SyncResult.Failure(localizedError))
                 Log.e("SyncAll", "Sync failed", e)
             } finally {
                 _isSyncing.value = false
             }
         }
     }
+
+    // Custom exception class for sync errors
+    class SyncException(val errorKey: String) : Exception(errorKey)
+
+    // Helper function in ViewModel to get localized error messages
+    private fun getLocalizedErrorMessage(errorKey: String): String {
+        // You can get the current language from your app's locale
+        val currentLanguage = getCurrentLanguage() // Implement this method based on your app's language management
+
+        return when (currentLanguage) {
+            "fr" -> when (errorKey) {
+                "failed_sync_cloud" -> "Échec de la synchronisation avec le cloud"
+                "failed_soft_deletes" -> "Échec de la gestion des suppressions"
+                "failed_sync_deleted" -> "Échec de la synchronisation des éléments supprimés"
+                "failed_sync_notes" -> "Échec de la synchronisation des notes"
+                "unknown_error" -> "Erreur inconnue"
+                else -> "Erreur inconnue"
+            }
+            "ar" -> when (errorKey) {
+                "failed_sync_cloud" -> "فشل في المزامنة مع السحابة"
+                "failed_soft_deletes" -> "فشل في معالجة الحذف"
+                "failed_sync_deleted" -> "فشل في مزامنة العناصر المحذوفة"
+                "failed_sync_notes" -> "فشل في مزامنة الملاحظات"
+                "unknown_error" -> "خطأ غير معروف"
+                else -> "خطأ غير معروف"
+            }
+            else -> when (errorKey) { // Default to English
+                "failed_sync_cloud" -> "Failed to sync with cloud"
+                "failed_soft_deletes" -> "Failed to handle soft deletes"
+                "failed_sync_deleted" -> "Failed to sync deleted items"
+                "failed_sync_notes" -> "Failed to sync notes"
+                "unknown_error" -> "Unknown error occurred"
+                else -> "Unknown error occurred"
+            }
+        }
+    }
+
+
+
+
+
+
+    fun getCurrentLanguage(): String {
+        return Locale.getDefault().language // e.g. "en", "fr", "ar"
+    }
+
+
+
+
+
 
     suspend fun syncLocalServerIdsWithCloud(userId: Int): Boolean {
         return try {

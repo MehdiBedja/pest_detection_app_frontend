@@ -224,7 +224,8 @@ fun UserGreeting(navController: NavController , userViewModel: LoginViewModel, u
         Text(
             text = stringResource(R.string.welcomefarmer),
             color = MaterialTheme.colorScheme.onBackground,
-            fontSize = 32.sp, // reduce a bit
+            fontSize = 28.sp, // reduce a bit
+            lineHeight = 36.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.Serif,
             modifier = Modifier
@@ -365,7 +366,7 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
         Spacer(modifier = Modifier.height(8.dp)) // Add some space between card and text
 
         Text(
-            text = pestName,
+            text = getTranslatedPestName(pestName),
             color = MaterialTheme.colorScheme.onBackground,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold ,
@@ -538,7 +539,8 @@ fun StatSection(navController: NavController) {
             .padding(vertical = 16.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -562,6 +564,7 @@ fun StatSection(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp)
+
         ) {
             Button(
                 onClick = { navController.navigate(Screen.Stat.route) },

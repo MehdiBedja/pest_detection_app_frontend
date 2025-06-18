@@ -129,13 +129,17 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
         Column {
             TopAppBar(
                 title = {
-                    Text(
-                        text = stringResource(R.string.profile),
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold,
+                    Box(
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = if (user == null) stringResource(R.string.settings) else stringResource(R.string.profile),
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigate(Screen.Home.route) }) {
@@ -162,6 +166,9 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
                                 tint = MaterialTheme.colorScheme.onPrimary
                             )
                         }
+                    } else {
+                        // Invisible spacer to balance the navigation icon for proper centering
+                        Spacer(modifier = Modifier.width(48.dp))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -169,6 +176,7 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
+
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -201,18 +209,19 @@ fun LoginSignupDialog1(navController: NavController, onDismiss: () -> Unit) {
         confirmButton = {
             Button(onClick = {
                 onDismiss()
-                navController.navigate("login")
-            }) {
-                Text(stringResource(R.string.login))
-            }
-        },
-        dismissButton = {
-            Button(onClick = {
-                onDismiss()
                 navController.navigate("signup")
             }) {
                 Text(stringResource(R.string.sign_up))
             }
+        },
+        dismissButton = {
+            Button(onClick = {
+                navController.navigate("login")
+            }) {
+                Text(stringResource(R.string.login))
+            }
+
+
         }
     )
 }
@@ -505,7 +514,7 @@ fun EmbeddedSettings(
             },
             confirmButton = {
                 TextButton(onClick = { showLanguageDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -551,7 +560,7 @@ fun EmbeddedSettings(
 
         // Support Email
         Text(
-            text = "Support: mahdibedja@gmail.com",
+            text = stringResource(R.string.support_contact),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -668,7 +677,7 @@ fun TelegramCommunitySection(onJoinTelegram: () -> Unit) {
                     text = stringResource(R.string.join_community),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 )
 
@@ -677,7 +686,7 @@ fun TelegramCommunitySection(onJoinTelegram: () -> Unit) {
                 Text(
                     text = stringResource(R.string.connect_with_farmers),
                     style = MaterialTheme.typography.bodySmall.copy(
-                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 )
             }

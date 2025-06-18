@@ -7,7 +7,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 
 @Composable
@@ -34,8 +36,8 @@ fun GlobalSyncBanner(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            color = MaterialTheme.colorScheme.primaryContainer,
+                .background(MaterialTheme.colorScheme.surface),
+            color = MaterialTheme.colorScheme.surface,
         ) {
             Row(
                 modifier = Modifier
@@ -50,11 +52,11 @@ fun GlobalSyncBanner(
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(16.dp),
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = "Syncing data...",
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        text = stringResource(R.string.syncing_data),
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
                 

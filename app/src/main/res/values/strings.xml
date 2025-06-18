@@ -73,7 +73,7 @@
     <string name="detected_pest">Detected Pest</string>
     <string name="no_detection">No detection found.</string>
     <string name="confirm_delete_all">Are you sure you want to delete all detections?</string>
-    <string name="confirm_delete_filtered">Are you sure you want to delete all detections of %1$s?</string>
+    <string name="confirm_delete_filtered">Are you sure you want to delete all detections of </string>
     <string name="confirm_delete_one">Are you sure you want to delete this detection?</string>
 
     <string name="sort_by_date_desc">Date ▼</string>
@@ -139,9 +139,11 @@
     <string name="Sign_in_Sign_Up">Sign in / Sign up</string>
     <string name="Hello_farmer">Hello, farmer</string>
     <string name="profile">Profile</string>
+    <string name="support_contact">Support: mahdibedja@gmail.com</string>
 
 
-// Dashboard screen
+
+    // Dashboard screen
 
     <!-- Stats Dashboard Screen -->
     <string name="stats_dashboard">Stats Dashboard</string>
@@ -222,6 +224,30 @@
     <string name="version_text">Version 1.0</string>
 
 
+    <string name="syncing_data">Syncing data...</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //sync messages
+
+    <string name="sync_success">Sync completed successfully</string>
+    <string name="sync_failed">Sync failed</string>
+    <string name="failed_sync_cloud">Failed to sync with cloud</string>
+    <string name="failed_soft_deletes">Failed to handle soft deletes</string>
+    <string name="failed_sync_deleted">Failed to sync deleted items</string>
+    <string name="failed_sync_notes">Failed to sync notes</string>
+    <string name="unknown_error">Unknown error occurred</string>
 
 
 </resources>

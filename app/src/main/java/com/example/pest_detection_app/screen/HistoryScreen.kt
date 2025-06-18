@@ -28,12 +28,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -45,7 +48,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@Composable
+fun getTranslatedPestName(pestName: String): String {
+    val currentLanguage = LocalContext.current.resources.configuration.locales[0].language
 
+    return when (currentLanguage) {
+        "ar" -> pestNameTranslationsAr[pestName] ?: pestNameTranslationsFr[pestName] ?: pestName
+        "fr" -> pestNameTranslationsFr[pestName] ?: pestNameTranslationsAr[pestName] ?: pestName
+        else -> pestName // English fallback
+    }
+}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,34 +104,43 @@ fun DetectionHistoryScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between buttons
             ) {
                 // 🔹 Pest Selection Dropdown
                 var expanded by remember { mutableStateOf(false) }
-                Box {
+                Box(
+                    modifier = Modifier.weight(1f) // Give equal weight to each button
+                ) {
                     Button(
                         onClick = { expanded = true },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             contentColor = MaterialTheme.colorScheme.onSecondary
-                        )
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 48.dp) // Minimum height for accessibility
                     ) {
                         Text(
                             text = if (selectedPest == "None") stringResource(R.string.select_pest) else selectedPest,
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            textAlign = TextAlign.Center,
+                            maxLines = 2, // Allow text to wrap to 2 lines
+                            overflow = TextOverflow.Ellipsis,
+                            lineHeight = 16.sp // Adjust line height for better readability
                         )
                     }
                     DropdownMenu(
                         expanded = expanded,
                         onDismissRequest = { expanded = false },
-                        modifier = Modifier.heightIn(max = 300.dp) // Limiting dropdown height
+                        modifier = Modifier.heightIn(max = 300.dp)
                     ) {
                         listOf("None", "Grub", "Mole Cricket", "Wireworm", "Corn Borer", "Aphids",
                             "Beet Armyworm", "Flax Budworm", "Lytta Polita", "Legume Blister beetle",
                             "Blister Beetle", "Miridae", "Prodenia Litura", "Cicadellidae"
                         ).forEach { pest ->
                             DropdownMenuItem(
-                                text = { Text(pest) },
+                                text = { Text(if (pest =="None") stringResource(R.string.select_pest) else getTranslatedPestName(pest)  ) },
                                 onClick = {
                                     selectedPest = pest
                                     expanded = false
@@ -134,29 +155,63 @@ fun DetectionHistoryScreen(
                 }
 
                 // 🔹 Sorting Button
-                SortButton(stringResource(R.string.date), isDescending) {
-                    isDescending = !isDescending
-                    viewModel.getDetectionsByPestName(
-                        if (selectedPest == "None") "" else selectedPest,
-                        isDescending
-                    )
+                Box(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Button(
+                        onClick = {
+                            isDescending = !isDescending
+                            viewModel.getDetectionsByPestName(
+                                if (selectedPest == "None") "" else selectedPest,
+                                isDescending
+                            )
+                        },
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondary
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 48.dp)
+                    ) {
+                        Text(
+                            text = if (isDescending) "${stringResource(R.string.date)} ▼" else "${stringResource(R.string.date)} ▲",
+                            color = MaterialTheme.colorScheme.onSecondary,
+                            textAlign = TextAlign.Center,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            lineHeight = 16.sp
+                        )
+                    }
                 }
 
-                // 🔹 Delete Button (Deletes all or only filtered detections)
-                Button(
-                    onClick = { showDeleteDialog = true },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.error,
-                        contentColor = MaterialTheme.colorScheme.onError
-                    ),
-                    modifier = Modifier.padding(start = 8.dp)
+                // 🔹 Delete Button
+                Box(
+                    modifier = Modifier.weight(1f)
                 ) {
-                    Text(
-                        text = if (selectedPest == "None") stringResource(R.string.delete_all) else stringResource(R.string.delete_all),
-                        color = MaterialTheme.colorScheme.onError
-                    )
+                    Button(
+                        onClick = { showDeleteDialog = true },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.error,
+                            contentColor = MaterialTheme.colorScheme.onError
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 48.dp)
+                    ) {
+                        Text(
+                            text = if (selectedPest == "None") stringResource(R.string.delete_all) else stringResource(R.string.delete_all),
+                            color = MaterialTheme.colorScheme.onError,
+                            textAlign = TextAlign.Center,
+                            maxLines = 2, // Allow text to wrap
+                            overflow = TextOverflow.Ellipsis,
+                            lineHeight = 16.sp
+                        )
+                    }
                 }
             }
+
 
             // 🔹 Confirmation Dialog for Deleting
             if (showDeleteDialog) {
@@ -164,7 +219,7 @@ fun DetectionHistoryScreen(
                     message = if (selectedPest == "None")
                         stringResource(R.string.confirm_delete_all)
                     else
-                        stringResource(R.string.confirm_delete_filtered)  +"$selectedPest?",
+                        stringResource(R.string.confirm_delete_filtered)  +"${getTranslatedPestName(selectedPest)}?",
 
                     onConfirm = {
                         savedUserId?.let {
@@ -247,7 +302,7 @@ fun DetectionItem(
                         detection.boundingBoxes.forEachIndexed { index, box ->
                             Column {
                                 Text(
-                                    text = stringResource(R.string.detected_pest) + " ${box.clsName}",
+                                    text = stringResource(R.string.detected_pest) + " ${getTranslatedPestName(box.clsName) }",
                                     fontWeight = FontWeight.Medium,
                                     overflow = TextOverflow.Ellipsis,
                                     maxLines = 1,
@@ -313,14 +368,8 @@ fun ConfirmDeleteDialog(message: String, onConfirm: () -> Unit, onDismiss: () ->
         onDismissRequest = { onDismiss() },
         title = {
             Text(
-                stringResource(R.string.confirm_delete_text),
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        text = {
-            Text(
                 message,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurface
             )
         },
         confirmButton = {

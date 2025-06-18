@@ -64,7 +64,7 @@ val pestNameTranslationsAr = mapOf(
     "Beet Armyworm" to "دودة الجيش",
     "Flax Budworm" to "يرقة براعم الكتان",
     "Lytta Polita" to "ذبابة الزيتون",
-    "Legume Blister Beetle" to "خنفساء التقرح البقولية",
+    "Legume Blister beetle" to "خنفساء التقرح البقولية",
     "Blister Beetle" to "خنفساء التقرح",
     "Miridae" to "حشرات الميري",
     "Prodenia Litura" to "يرقة الحشد",
@@ -80,7 +80,7 @@ val pestNameTranslationsFr = mapOf(
     "Beet Armyworm" to "Chenille de la betterave",
     "Flax Budworm" to "Chenille du lin",
     "Lytta Polita" to "Mouche de l'olive",
-    "Legume Blister Beetle" to "Cantharide des légumineuses",
+    "Legume Blister beetle" to "Cantharide des légumineuses",
     "Blister Beetle" to "Cantharide",
     "Miridae" to "Mirides",
     "Prodenia Litura" to "Chenille défoliatrice",
@@ -143,14 +143,18 @@ fun ResultsScreen(
         }
     }
 
+    val resultsSaved =stringResource(R.string.results_saved)
+    val resultsFailed =stringResource(R.string.results_save_failed)
+
+
     LaunchedEffect(saveStatus) {
         saveStatus?.let { success ->
             coroutineScope.launch {
                 val message = if (success) {
                     hasSavedOnce = true
-                    "Results saved successfully!"
+                    resultsSaved
                 } else {
-                    "Failed to save results."
+                    resultsFailed
                 }
                 val toast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL, 0, 0)
