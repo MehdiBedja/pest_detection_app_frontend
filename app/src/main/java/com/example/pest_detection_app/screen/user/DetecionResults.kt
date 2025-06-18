@@ -94,7 +94,7 @@ fun AppHeader(pageTitle: String, onBackClick: () -> Unit) {
         },
         actions = {
             Image(
-                painter = painterResource(id = R.drawable.logo), // Replace with your actual logo
+                painter = painterResource(id = R.drawable.logo6), // Replace with your actual logo
                 contentDescription = "App Logo",
                 modifier = Modifier.size(40.dp).padding(end = 8.dp)
             )

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="welcome">مرحبا</string>
-    <string name="app_name">mehdi</string>
+    <string name="app_name">ScanPest AI</string>
 
 
     //Home screen
@@ -215,5 +215,12 @@
     <string name="password_req_uppercase">At least one uppercase letter</string>
     <string name="password_req_lowercase">At least one lowercase letter</string>
     <string name="password_req_number">At least one number</string>
+
+    //Splash screen
+    <string name="app_tagline">الكشف الذكي عن الآفات</string>
+    <string name="version_text">Version 1.0</string>
+
+
+
 
 </resources>

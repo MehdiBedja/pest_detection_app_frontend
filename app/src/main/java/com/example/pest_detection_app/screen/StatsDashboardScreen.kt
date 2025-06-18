@@ -189,7 +189,7 @@ fun StatsDashboardScreen(
                             SummaryCard(
                                 title = stringResource(R.string.total_detections),
                                 value = statsData!!.totalDetections.toString(),
-                                icon = painterResource(id = R.drawable.bugreport) ,
+                                icon = painterResource(id = R.drawable.assessment) ,
                                 color = MarronColor
                             )
                         }
@@ -197,7 +197,7 @@ fun StatsDashboardScreen(
                             SummaryCard(
                                 title = stringResource(R.string.most_frequent_pest),
                                 value = statsData!!.mostFrequentPest,
-                                icon = painterResource(id = R.drawable.pestcontrol),
+                                icon = painterResource(id = R.drawable.assessment),
                                 color = MarronColor
                             )
                         }
@@ -205,7 +205,7 @@ fun StatsDashboardScreen(
                             SummaryCard(
                                 title = stringResource(R.string.last_detected),
                                 value = statsData!!.lastDetectedPest,
-                                icon = painterResource(id = R.drawable.schedule),
+                                icon = painterResource(id = R.drawable.assessment),
                                 color = Color(0xFF8B5CF6)
                             )
                         }
@@ -213,7 +213,7 @@ fun StatsDashboardScreen(
                             SummaryCard(
                                 title = stringResource(R.string.detection_trend),
                                 value = statsData!!.detectionTrend,
-                                icon = if (statsData!!.detectionTrend == "↗ Increasing")  painterResource(id = R.drawable.trendingup1) else painterResource(id=R.drawable.trendingdown),
+                                icon = if (statsData!!.detectionTrend == "↗ Increasing")  painterResource(id = R.drawable.trendingup1) else painterResource(id=R.drawable.assessment),
                                 color = if (statsData!!.detectionTrend == "↗ Increasing") Color(0xFFEF4444) else AccentGreen
                             )
                         }
@@ -224,7 +224,7 @@ fun StatsDashboardScreen(
                 item {
                     ChartCard(
                         title = stringResource(R.string.detections_per_pest),
-                        icon = painterResource(id = R.drawable.barchart)
+                        icon = painterResource(id = R.drawable.assessment)
                     ) {
                         AndroidView(
 
@@ -244,7 +244,7 @@ fun StatsDashboardScreen(
                 item {
                     ChartCard(
                         title = stringResource(R.string.detections_over_time),
-                        icon = painterResource(id = R.drawable.timeline)
+                        icon = painterResource(id = R.drawable.assessment)
                     ) {
                         Column {
                             // Time Period Selection Row
@@ -335,7 +335,7 @@ fun StatsDashboardScreen(
                 item {
                     ChartCard(
                         title = stringResource(R.string.detection_distribution),
-                        icon = painterResource(id = R.drawable.piechart)
+                        icon = painterResource(id = R.drawable.assessment)
                     ) {
                         AndroidView(
                             factory = { context ->
@@ -354,7 +354,7 @@ fun StatsDashboardScreen(
                 item {
                     ChartCard(
                         title = stringResource(R.string.crop_type_distribution),
-                        icon = painterResource(id= R.drawable.agriculture)
+                        icon = painterResource(id= R.drawable.assessment)
                     ) {
                         AndroidView(
                             factory = { context ->
@@ -373,7 +373,7 @@ fun StatsDashboardScreen(
                 item {
                     ChartCard(
                         title = stringResource(R.string.detection_calendar),
-                        icon = painterResource(id=R.drawable.calendarmonth)
+                        icon = painterResource(id=R.drawable.assessment)
                     ) {
                         CalendarHeatmapView(statsData!!.dailyDetections)
                     }

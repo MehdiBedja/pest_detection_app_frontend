@@ -189,7 +189,7 @@ fun ChangePasswordScreen(
                             trailingIcon = {
                                 IconButton(onClick = { newPasswordVisible = !newPasswordVisible }) {
                                     Icon(
-                                        painter = if (oldPasswordVisible) painterResource(id = R.drawable.visible)  else painterResource( id =R.drawable.notvisible),
+                                        painter = if (newPasswordVisible) painterResource(id = R.drawable.visible)  else painterResource( id =R.drawable.notvisible),
                                         contentDescription = if (newPasswordVisible) "Hide password" else "Show password"
                                     )
                                 }
@@ -211,7 +211,7 @@ fun ChangePasswordScreen(
                             trailingIcon = {
                                 IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
                                     Icon(
-                                        painter = if (oldPasswordVisible) painterResource(id = R.drawable.visible)  else painterResource( id =R.drawable.notvisible),
+                                        painter = if (confirmPasswordVisible) painterResource(id = R.drawable.visible)  else painterResource( id =R.drawable.notvisible),
                                         contentDescription = if (confirmPasswordVisible) "Hide password" else "Show password"
                                     )
                                 }

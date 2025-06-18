@@ -1,6 +1,6 @@
 <resources>
     <string name="welcome">Bienvenue</string>
-    <string name="app_name">mehdi</string>
+    <string name="app_name">ScanPest AI</string>
 
     <!-- Home screen -->
     <string name="sign_in">Se connecter</string>
@@ -201,6 +201,14 @@
     <string name="password_req_uppercase">At least one uppercase letter</string>
     <string name="password_req_lowercase">At least one lowercase letter</string>
     <string name="password_req_number">At least one number</string>
+
+
+    //Splash screen
+    <string name="app_tagline">Détection intelligente des nuisibles</string>
+    <string name="version_text">Version 1.0</string>
+
+
+
 
 
 </resources>

@@ -452,7 +452,7 @@ fun ScanButton(navController: NavController) {
                 ) { targetText ->
                     Text(
                         text = targetText,
-                        color = MaterialTheme.colorScheme.surface,
+                        color = MaterialTheme.colorScheme.primary,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -593,7 +593,7 @@ fun StatSection(navController: NavController) {
                     ) { targetText ->
                         Text(
                             text = targetText,
-                            color = MaterialTheme.colorScheme.surface,
+                            color = MaterialTheme.colorScheme.primary,
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold
                         )
