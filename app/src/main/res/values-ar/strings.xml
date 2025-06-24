@@ -138,6 +138,8 @@
     <string name="Hello_farmer">مرحبًا أيها الفلاح</string>
     <string name="profile">الملف الشخصي</string>
     <string name="support_contact">الدعم: mahdibedja@gmail.com</string>
+    <string name="view_all_pests_info">استكشف جميع الآفات التي يمكن لتطبيقنا اكتشافها وتحديدها</string>
+
 
 
 
@@ -233,5 +235,20 @@
 
 
     <string name="syncing_data">جارٍ مزامنة البيانات ...</string>
+
+
+    <!-- Pest List Screen -->
+    <string name="detectable_pests">الآفات القابلة للكشف</string>
+    <string name="pest_detection_info">يمكن لتطبيقنا اكتشاف مختلف الآفات الزراعية التي قد تؤثر على محاصيلك</string>
+    <string name="detected_pests_count">%d آفات قابلة للكشف</string>
+    <string name="category_label">الفئة</string>
+    <string name="view_details">عرض التفاصيل</string>
+
+    <!-- Pest Detail Screen -->
+    <string name="pest_details">تفاصيل الآفة</string>
+    <string name="pest_not_found">لم يتم العثور على معلومات الآفة</string>
+    <string name="treatment_recommendation">توصيات العلاج</string>
+    <string name="detection_info">معلومات الكشف</string>
+    <string name="pest_detection_capability">يمكن لنظام الكشف المتقدم لدينا تحديد هذه الآفة بدقة عالية بناءً على الخصائص البصرية.</string>
 
 </resources>

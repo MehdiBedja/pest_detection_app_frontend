@@ -48,6 +48,8 @@ import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.screen.user.LogInScreen
 import com.example.pest_detection_app.screen.user.LogoutScreen
 import com.example.pest_detection_app.screen.ResultsScreen
+import com.example.pest_detection_app.screen.pest.PestDetailScreen
+import com.example.pest_detection_app.screen.pest.PestListScreen
 import com.example.pest_detection_app.screen.user.ChangePasswordScreen
 import com.example.pest_detection_app.screen.user.SignUpScreen
 import com.example.pest_detection_app.screen.user.UserProfileScreen
@@ -289,6 +291,25 @@ fun NavGraph(navController: NavHostController) {
                         navController = navController,
                         viewModel = userView // pass your login view model instance
                     )
+                }
+
+                composable(Screen.PestList.route) {
+                    PestListScreen(
+                        navController = navController
+                    )
+                }
+
+
+                composable(
+                    route = Screen.PestDetail.route,
+                    arguments = listOf(
+                        navArgument("pestName") {
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val pestName = backStackEntry.arguments?.getString("pestName") ?: ""
+                    PestDetailScreen(navController, pestName)
                 }
             }
         }

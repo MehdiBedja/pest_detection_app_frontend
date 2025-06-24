@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
             // Get the saved dark mode preference
             val isDarkMode = DarkModePref.getDarkMode(this)
 
-            Pest_Detection_AppTheme(darkTheme = isDarkMode) {
+            Pest_Detection_AppTheme(darkTheme = isDarkMode,dynamicColor = false) {
                 initializeSession(applicationContext)
                 val navController = rememberNavController()
                 NavGraph(navController)

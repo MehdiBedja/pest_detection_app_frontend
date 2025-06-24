@@ -126,7 +126,9 @@ fun StatsDashboardScreen(
             title = {
                 Text(
                     text = stringResource(R.string.stats_dashboard),
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = CustomTextStyles.sectionHeader.copy(
+                        color = MaterialTheme.colorScheme.onPrimary
+                    ),
                     fontWeight = FontWeight.Bold
                 )
             },
@@ -160,7 +162,7 @@ fun StatsDashboardScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = stringResource(R.string.no_detection_data),
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = AppTypography.bodyLarge,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }
@@ -175,7 +177,7 @@ fun StatsDashboardScreen(
                 item {
                     Text(
                         text = stringResource(R.string.summary),
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = AppTypography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(bottom = 8.dp)
@@ -304,7 +306,7 @@ fun StatsDashboardScreen(
 
                                 Text(
                                     text = timeSeriesData.title,
-                                    style = MaterialTheme.typography.titleSmall,
+                                    style = AppTypography.titleSmall,
                                     fontWeight = FontWeight.Medium
                                 )
 
@@ -405,7 +407,7 @@ fun SummaryCard(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = value,
-                style = MaterialTheme.typography.headlineSmall,
+                style = AppTypography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center
@@ -413,7 +415,7 @@ fun SummaryCard(
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = title,
-                style = MaterialTheme.typography.bodySmall,
+                style = AppTypography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                 textAlign = TextAlign.Center
             )
@@ -446,7 +448,7 @@ fun ChartCard(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = AppTypography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -506,7 +508,7 @@ fun CalendarHeatmapView(dailyDetections: Map<String, Int>) {
             }
             Text(
                 text = monthTitle,
-                style = MaterialTheme.typography.titleMedium,
+                style = AppTypography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             IconButton(onClick = { monthOffset++ }) {
@@ -519,7 +521,7 @@ fun CalendarHeatmapView(dailyDetections: Map<String, Int>) {
         // 🗓 Weekday headers
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
             listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat").forEach {
-                Text(text = it, style = MaterialTheme.typography.labelSmall)
+                Text(text = it, style = AppTypography.labelSmall)
             }
         }
 
@@ -555,7 +557,7 @@ fun CalendarHeatmapView(dailyDetections: Map<String, Int>) {
                     if (day.label.isNotEmpty()) {
                         Text(
                             text = day.label,
-                            style = MaterialTheme.typography.labelSmall,
+                            style = AppTypography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }

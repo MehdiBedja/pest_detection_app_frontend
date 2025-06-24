@@ -1,5 +1,7 @@
 package com.example.pest_detection_app.screen.navigation
 
+import com.example.pest_detection_app.R
+
 sealed class Screen(val route: String) {
     object Splash : Screen("splash_screen")
     object Home : Screen("home_screen")
@@ -29,5 +31,10 @@ sealed class Screen(val route: String) {
     object Stat : Screen("Stat")
 
     object ChangePassword : Screen("Change_Password")
+
+
+    object PestList : Screen("pest_list")
+    object PestDetail : Screen("pest_detail/{pestName}") {
+        fun createRoute(pestName: String) = "pest_detail/$pestName"}
 
 }

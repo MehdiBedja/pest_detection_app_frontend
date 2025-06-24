@@ -35,11 +35,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -51,6 +49,8 @@ import com.example.pest_detection_app.ViewModels.user.UserViewModelRoom
 import com.example.pest_detection_app.data.user.DetectionWithBoundingBoxes
 import com.example.pest_detection_app.preferences.Globals
 import com.example.pest_detection_app.screen.navigation.Screen
+import com.example.pest_detection_app.ui.theme.AppTypography
+import com.example.pest_detection_app.ui.theme.CustomTextStyles
 import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
@@ -112,7 +112,10 @@ fun SyncNowButton(detectionSaveViewModel: DetectionSaveViewModel , userViewModel
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
-                Text("Sync Now")
+                Text(
+                    text = "Sync Now",
+                    style = CustomTextStyles.buttonText
+                )
             }
 
             if (isSyncing) {
@@ -188,18 +191,17 @@ fun UserGreeting(navController: NavController , userViewModel: LoginViewModel, u
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .fillMaxWidth() // Make Row take all width
-                .padding(vertical = 24.dp, horizontal = 16.dp) // Add horizontal padding
+                .fillMaxWidth()
+                .padding(vertical = 24.dp, horizontal = 16.dp)
         ) {
             Text(
                 text = stringResource(R.string.welcomefarmer) + " ${user?.last_name}",
                 color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 24.sp, // reduce size to fit better
-                fontFamily = FontFamily.Serif,
+                style = CustomTextStyles.welcomeText,
                 modifier = Modifier
-                    .weight(1f) // Text takes all available space
-                    .padding(end = 8.dp), // Space between text and icon
-                maxLines = 2, // Avoid overflow
+                    .weight(1f)
+                    .padding(end = 8.dp),
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
 
@@ -215,8 +217,7 @@ fun UserGreeting(navController: NavController , userViewModel: LoginViewModel, u
                 Text(
                     text = "${user?.username?.firstOrNull()?.uppercase() ?: ""}${user?.last_name?.firstOrNull()?.uppercase() ?: ""}",
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    style = CustomTextStyles.buttonText
                 )
             }
         }
@@ -224,10 +225,7 @@ fun UserGreeting(navController: NavController , userViewModel: LoginViewModel, u
         Text(
             text = stringResource(R.string.welcomefarmer),
             color = MaterialTheme.colorScheme.onBackground,
-            fontSize = 28.sp, // reduce a bit
-            lineHeight = 36.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.Serif,
+            style = AppTypography.displayMedium,
             modifier = Modifier
                 .padding(vertical = 24.dp, horizontal = 16.dp)
         )
@@ -266,13 +264,8 @@ fun RecentDetectionsSection(
             Text(
                 text = stringResource(R.string.recentdetections),
                 color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = FontFamily.Serif,
-                letterSpacing = 0.5.sp ,
-
+                style = CustomTextStyles.sectionTitle,
                 modifier = Modifier.padding(bottom = 8.dp)
-
             )
 
             TextButton(
@@ -283,8 +276,7 @@ fun RecentDetectionsSection(
             ) {
                 Text(
                     text = stringResource(R.string.seemore),
-                    fontWeight = FontWeight.Medium,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = AppTypography.labelLarge
                 )
             }
         }
@@ -302,8 +294,7 @@ fun RecentDetectionsSection(
                 Text(
                     text = stringResource(R.string.nodetectionsmadeyet),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
+                    style = AppTypography.bodyLarge
                 )
             }
         } else {
@@ -329,18 +320,15 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
     val formattedDate = formatDate(detection.detection.detectionDate)
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally // Center content below the card
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(
             modifier = Modifier
                 .width(200.dp)
                 .height(200.dp)
-                .clickable { navController.navigate("detail_screen/${detection.detection.id}") }
-            ,
-
+                .clickable { navController.navigate("detail_screen/${detection.detection.id}") },
             shape = RoundedCornerShape(24.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
-
         ) {
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -349,13 +337,13 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
                     painter = rememberAsyncImagePainter(detection.detection.imageUri),
                     contentDescription = pestName,
                     modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop // Ensure image fills the card
+                    contentScale = ContentScale.Crop
                 )
 
                 Text(
                     text = formattedDate,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                    fontSize = 14.sp,
+                    style = CustomTextStyles.dateText,
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(8.dp)
@@ -363,21 +351,18 @@ fun DetectionCard(navController: NavController,  detection: DetectionWithBoundin
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp)) // Add some space between card and text
+        Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             text = getTranslatedPestName(pestName),
             color = MaterialTheme.colorScheme.onBackground,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold ,
-            fontFamily = FontFamily.Serif,
-
-            )
+            style = CustomTextStyles.pestName
+        )
 
         Text(
             text = stringResource(R.string.confidence) +" $confidence%",
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
-            fontSize = 16.sp
+            style = CustomTextStyles.confidence
         )
     }
 }
@@ -390,11 +375,10 @@ fun ScanButton(navController: NavController) {
     var showOptions by remember { mutableStateOf(false) }
 
     val galleryLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.OpenDocument()  // ✅ Use OpenDocument for persistable access
+        ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
         uri?.let {
             try {
-                // ✅ Persist permission immediately
                 context.contentResolver.takePersistableUriPermission(
                     it,
                     Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -453,9 +437,8 @@ fun ScanButton(navController: NavController) {
                 ) { targetText ->
                     Text(
                         text = targetText,
-                        color = MaterialTheme.colorScheme.primary,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold
+                        color = MaterialTheme.colorScheme.secondary,
+                        style = CustomTextStyles.scanButtonText
                     )
                 }
             }
@@ -464,14 +447,23 @@ fun ScanButton(navController: NavController) {
         if (showOptions) {
             AlertDialog(
                 onDismissRequest = { showOptions = false },
-                title = { Text(stringResource(R.string.chooseOption)) },
-                text = { Text(stringResource(R.string.How_would_you_like_to_scan_for_pests)) },
+                title = {
+                    Text(
+                        text = stringResource(R.string.chooseOption),
+                        style = AppTypography.headlineSmall
+                    )
+                },
+                text = {
+                    Text(
+                        text = stringResource(R.string.How_would_you_like_to_scan_for_pests),
+                        style = AppTypography.bodyMedium
+                    )
+                },
                 confirmButton = {
                     Column {
                         Button(
                             onClick = {
                                 showOptions = false
-                                // ✅ Launch OpenDocument with array
                                 galleryLauncher.launch(arrayOf("image/*"))
                             },
                             colors = ButtonDefaults.buttonColors(
@@ -480,7 +472,10 @@ fun ScanButton(navController: NavController) {
                             ),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text(stringResource(R.string.upload_from_gallery))
+                            Text(
+                                text = stringResource(R.string.upload_from_gallery),
+                                style = CustomTextStyles.buttonText
+                            )
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -506,7 +501,10 @@ fun ScanButton(navController: NavController) {
                             ),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text(stringResource(R.string.takeiimage))
+                            Text(
+                                text = stringResource(R.string.takeiimage),
+                                style = CustomTextStyles.buttonText
+                            )
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -516,8 +514,9 @@ fun ScanButton(navController: NavController) {
                             modifier = Modifier.align(Alignment.End)
                         ) {
                             Text(
-                                stringResource(R.string.cancel),
-                                color = MaterialTheme.colorScheme.primary
+                                text = stringResource(R.string.cancel),
+                                color = MaterialTheme.colorScheme.primary,
+                                style = AppTypography.labelLarge
                             )
                         }
                     }
@@ -547,24 +546,15 @@ fun StatSection(navController: NavController) {
             Text(
                 text = stringResource(R.string.stats),
                 color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = FontFamily.Serif,
-                letterSpacing = 0.5.sp ,
-
+                style = CustomTextStyles.sectionTitle,
                 modifier = Modifier.padding(bottom = 8.dp)
-
             )
-
-
         }
-
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp)
-
         ) {
             Button(
                 onClick = { navController.navigate(Screen.Stat.route) },
@@ -596,15 +586,16 @@ fun StatSection(navController: NavController) {
                     ) { targetText ->
                         Text(
                             text = targetText,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold
+                            color = MaterialTheme.colorScheme.secondary,
+                            style = CustomTextStyles.scanButtonText
                         )
                     }
                 }
             }
+        }
     }
-}}
+}
+
 @Composable
 fun AuthButtons(navController: NavController) {
     Row(
@@ -619,7 +610,10 @@ fun AuthButtons(navController: NavController) {
                     contentColor = MaterialTheme.colorScheme.onSurface
                 )
             ) {
-                Text(stringResource(R.string.sign_in))
+                Text(
+                    text = stringResource(R.string.sign_in),
+                    style = CustomTextStyles.buttonText
+                )
             }
             Button(
                 onClick = { navController.navigate("signup") },
@@ -628,7 +622,10 @@ fun AuthButtons(navController: NavController) {
                     contentColor = MaterialTheme.colorScheme.onSurface
                 )
             ) {
-                Text(stringResource(R.string.sign_up))
+                Text(
+                    text = stringResource(R.string.sign_up),
+                    style = CustomTextStyles.buttonText
+                )
             }
         }
     }

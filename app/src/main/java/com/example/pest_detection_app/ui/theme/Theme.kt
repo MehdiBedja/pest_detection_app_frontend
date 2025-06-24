@@ -16,6 +16,7 @@ private val LightSurface = Color(0xFFFFFFFF) // Card background
 private val LightOnPrimary = Color.White
 private val LightOnBackground = Color(0xFF503D23) // MarronColor for text
 private val LightOnSurface = Color(0xFF000000) // black
+private val LightSecondary = Color(0xFF503D23)
 
 // Dark Theme Colors (inferred for good contrast and design harmony)
 private val DarkPrimary = Color(0xFFB5C89A) // Softer green for dark mode
@@ -24,6 +25,7 @@ private val DarkSurface = Color(0xFF2A2A2A) // Slightly lighter than background
 private val DarkOnPrimary = Color.Black
 private val DarkOnBackground = Color(0xFFF6F4E8) // Light text on dark
 private val DarkOnSurface = Color(0xFFCCCCCC) // Light gray for secondary text
+private val DarkSecondary = Color(0xFF000000)
 
 // === Light Theme Color Scheme ===
 private val LightColorScheme = lightColorScheme(
@@ -33,7 +35,8 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = LightOnPrimary,
     onBackground = LightOnBackground,
     onSurface = LightOnSurface ,
-    secondaryContainer = Color.Black
+    secondaryContainer = Color.Black ,
+    secondary = LightSecondary
 )
 
 // === Dark Theme Color Scheme ===
@@ -44,7 +47,8 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = DarkOnPrimary,
     onBackground = DarkOnBackground,
     onSurface = DarkOnSurface ,
-    secondaryContainer = Color.White
+    secondaryContainer = Color.White,
+    secondary = DarkSecondary
 )
 
 // === Theme Composable ===
@@ -53,7 +57,7 @@ private val DarkColorScheme = darkColorScheme(
 @Composable
 fun Pest_Detection_AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -68,7 +72,7 @@ fun Pest_Detection_AppTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = AppTypography, // ✅ Use your custom typography here
         content = content
     )
 }

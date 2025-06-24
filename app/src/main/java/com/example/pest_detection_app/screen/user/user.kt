@@ -80,7 +80,8 @@ import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.ViewModels.user.AccountViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.navigation.userView
-import com.example.pest_detection_app.ui.theme.*
+import com.example.pest_detection_app.ui.theme.AppTypography
+import com.example.pest_detection_app.ui.theme.CustomTextStyles
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -103,7 +104,6 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
     }
     val googleSignInClient = remember { GoogleSignIn.getClient(context, gso) }
 
-    // Updated Google Sign-In launcher
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -123,18 +123,13 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
         }
     }
 
-
-
     fun startGoogleSignIn() {
-        // Sign out first to force account selection dialog
         googleSignInClient.signOut().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d("GoogleSignIn", "Successfully signed out, showing account picker")
-                // Launch sign-in intent - this will now show account picker
                 launcher.launch(googleSignInClient.signInIntent)
             } else {
                 Log.e("GoogleSignIn", "Failed to sign out: ${task.exception}")
-                // Launch anyway, might still work
                 launcher.launch(googleSignInClient.signInIntent)
             }
         }
@@ -192,8 +187,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                     ) {
                         Text(
                             text = stringResource(R.string.login_title),
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
+                            style = CustomTextStyles.welcomeText,
                             color = MaterialTheme.colorScheme.primary
                         )
 
@@ -224,12 +218,14 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                                 ),
                                 shape = RoundedCornerShape(12.dp)
                             ) {
-                                Text(stringResource(R.string.login_button), fontWeight = FontWeight.Bold)
+                                Text(
+                                    stringResource(R.string.login_button),
+                                    style = CustomTextStyles.buttonText
+                                )
                             }
 
                             Spacer(modifier = Modifier.height(12.dp))
 
-                            // OR Divider
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier.fillMaxWidth()
@@ -238,6 +234,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                                 Text(
                                     text = "OR",
                                     modifier = Modifier.padding(horizontal = 16.dp),
+                                    style = AppTypography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Divider(modifier = Modifier.weight(1f))
@@ -245,7 +242,6 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
 
                             Spacer(modifier = Modifier.height(12.dp))
 
-                            // Google Sign In Button
                             GoogleSignInButton {
                                 startGoogleSignIn()
                             }
@@ -256,8 +252,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                             Text(
                                 text = viewModel.error.value ?: "",
                                 color = MaterialTheme.colorScheme.error,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(top = 4.dp)
+                                style = CustomTextStyles.warningText
                             )
                         }
                     }
@@ -269,12 +264,16 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(text = stringResource(R.string.not_registered), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(
+                        text = stringResource(R.string.not_registered),
+                        style = AppTypography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = stringResource(R.string.sign_up_now),
+                        style = CustomTextStyles.buttonText,
                         color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
                             navController.navigate(Screen.SignUp.route)
                         }
@@ -305,7 +304,10 @@ fun GoogleSignInButton(onClick: () -> Unit) {
             modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text("Sign in with Google", fontWeight = FontWeight.Bold)
+        Text(
+            "Sign in with Google",
+            style = CustomTextStyles.buttonText
+        )
     }
 }
 
@@ -322,7 +324,7 @@ fun LoginTextField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(text = label) },
+        label = { Text(text = label, style = AppTypography.labelLarge) },
         visualTransformation = visualTransformation,
         leadingIcon = {
             Icon(
@@ -340,14 +342,14 @@ fun LoginTextField(
     )
 }
 
-
 @Composable
 fun LogoutScreen(navController: NavController, viewModel: LoginViewModel) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp),
-        onClick = { viewModel.logout()
+        onClick = {
+            viewModel.logout()
             navController.navigate("home_screen") {
                 popUpTo("profile") { inclusive = true }
             }
@@ -360,15 +362,11 @@ fun LogoutScreen(navController: NavController, viewModel: LoginViewModel) {
     ) {
         Text(
             text = "LogOut",
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = FontWeight.Medium
+            style = CustomTextStyles.buttonText
         )
     }
 }
 
-
-
-// 6. Updated SignUpScreen Composable
 @Composable
 fun SignUpScreen(navController: NavHostController) {
     var email by remember { mutableStateOf(TextFieldValue()) }
@@ -377,7 +375,6 @@ fun SignUpScreen(navController: NavHostController) {
     var password by remember { mutableStateOf(TextFieldValue()) }
     var repeatPassword by remember { mutableStateOf(TextFieldValue()) }
 
-    // Error state for validations
     var emailError by remember { mutableStateOf<String?>(null) }
     var usernameError by remember { mutableStateOf<String?>(null) }
     var lastNameError by remember { mutableStateOf<String?>(null) }
@@ -391,7 +388,6 @@ fun SignUpScreen(navController: NavHostController) {
     val context = LocalContext.current
     val activity = context as? Activity
 
-    // Google Sign-In setup
     val gso = remember {
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("374837935478-pr8pgbl7aa5hjio476on3e5bhrjk18mg.apps.googleusercontent.com")
@@ -400,7 +396,6 @@ fun SignUpScreen(navController: NavHostController) {
     }
     val googleSignInClient = remember { GoogleSignIn.getClient(context, gso) }
 
-    // Google Sign-Up launcher
     val googleSignUpLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -421,22 +416,17 @@ fun SignUpScreen(navController: NavHostController) {
     }
 
     fun startGoogleSignUp() {
-        // Sign out first to force account selection dialog
         googleSignInClient.signOut().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d("GoogleSignUp", "Successfully signed out, showing account picker")
-                // Launch sign-up intent - this will now show account picker
                 googleSignUpLauncher.launch(googleSignInClient.signInIntent)
             } else {
                 Log.e("GoogleSignUp", "Failed to sign out: ${task.exception}")
-                // Launch anyway, might still work
                 googleSignUpLauncher.launch(googleSignInClient.signInIntent)
             }
         }
     }
 
-
-    // Navigate to login on success
     if (viewModel.createdSuccess.value) {
         LaunchedEffect(Unit) {
             navController.navigate(Screen.Login.route) {
@@ -452,7 +442,7 @@ fun SignUpScreen(navController: NavHostController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 24.dp), // Custom top spacing
+                .padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -470,8 +460,7 @@ fun SignUpScreen(navController: NavHostController) {
                     ) {
                         Text(
                             text = stringResource(R.string.sign_up_title),
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
+                            style = CustomTextStyles.welcomeText,
                             color = MaterialTheme.colorScheme.primary
                         )
 
@@ -487,7 +476,7 @@ fun SignUpScreen(navController: NavHostController) {
                         if (emailError != null) Text(
                             emailError!!,
                             color = MaterialTheme.colorScheme.error,
-                            fontSize = 12.sp
+                            style = CustomTextStyles.warningText
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
@@ -501,7 +490,7 @@ fun SignUpScreen(navController: NavHostController) {
                         if (usernameError != null) Text(
                             usernameError!!,
                             color = MaterialTheme.colorScheme.error,
-                            fontSize = 12.sp
+                            style = CustomTextStyles.warningText
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
@@ -515,7 +504,7 @@ fun SignUpScreen(navController: NavHostController) {
                         if (lastNameError != null) Text(
                             lastNameError!!,
                             color = MaterialTheme.colorScheme.error,
-                            fontSize = 12.sp
+                            style = CustomTextStyles.warningText
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
@@ -531,7 +520,7 @@ fun SignUpScreen(navController: NavHostController) {
                         if (passwordError != null) Text(
                             passwordError!!,
                             color = MaterialTheme.colorScheme.error,
-                            fontSize = 12.sp
+                            style = CustomTextStyles.warningText
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
@@ -547,17 +536,15 @@ fun SignUpScreen(navController: NavHostController) {
                         if (repeatPasswordError != null) Text(
                             repeatPasswordError!!,
                             color = MaterialTheme.colorScheme.error,
-                            fontSize = 12.sp
+                            style = CustomTextStyles.warningText
                         )
                         Spacer(modifier = Modifier.height(20.dp))
 
                         if (viewModel.loading.value) {
                             CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                         } else {
-                            // Regular Sign Up Button
                             Button(
                                 onClick = {
-                                    // Your existing validation logic...
                                     var isValid = true
                                     if (email.text.isBlank()) {
                                         emailError = context.getString(R.string.email_empty_error)
@@ -619,12 +606,14 @@ fun SignUpScreen(navController: NavHostController) {
                                 ),
                                 shape = RoundedCornerShape(12.dp)
                             ) {
-                                Text(stringResource(R.string.sign_up), fontWeight = FontWeight.Bold)
+                                Text(
+                                    stringResource(R.string.sign_up),
+                                    style = CustomTextStyles.buttonText
+                                )
                             }
 
                             Spacer(modifier = Modifier.height(12.dp))
 
-                            // OR Divider
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier.fillMaxWidth()
@@ -633,6 +622,7 @@ fun SignUpScreen(navController: NavHostController) {
                                 Text(
                                     text = "OR",
                                     modifier = Modifier.padding(horizontal = 16.dp),
+                                    style = AppTypography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Divider(modifier = Modifier.weight(1f))
@@ -640,7 +630,6 @@ fun SignUpScreen(navController: NavHostController) {
 
                             Spacer(modifier = Modifier.height(12.dp))
 
-                            // Google Sign Up Button
                             GoogleSignUpButton {
                                 startGoogleSignUp()
                             }
@@ -651,7 +640,7 @@ fun SignUpScreen(navController: NavHostController) {
                             Text(
                                 text = viewModel.error.value ?: "",
                                 color = MaterialTheme.colorScheme.error,
-                                fontWeight = FontWeight.Bold
+                                style = CustomTextStyles.warningText
                             )
                         }
                     }
@@ -663,12 +652,16 @@ fun SignUpScreen(navController: NavHostController) {
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = stringResource(R.string.already_have_account), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(
+                        text = stringResource(R.string.already_have_account),
+                        style = AppTypography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = stringResource(R.string.login),
+                        style = CustomTextStyles.buttonText,
                         color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
                             navController.navigate(Screen.Login.route)
                         }
@@ -678,7 +671,6 @@ fun SignUpScreen(navController: NavHostController) {
         }
     }
 }
-
 
 @Composable
 fun GoogleSignUpButton(onClick: () -> Unit) {
@@ -700,10 +692,12 @@ fun GoogleSignUpButton(onClick: () -> Unit) {
             modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text("Sign up with Google", fontWeight = FontWeight.Bold)
+        Text(
+            "Sign up with Google",
+            style = CustomTextStyles.buttonText
+        )
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -718,7 +712,7 @@ fun SignUpTextField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(label) },
+        label = { Text(label, style = AppTypography.labelLarge) },
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         singleLine = true,
@@ -731,11 +725,10 @@ fun SignUpTextField(
                     Icon(
                         painter = painterResource(id = iconRes),
                         contentDescription = "Toggle password visibility",
-                        tint = Color.Unspecified // Keep original image color
+                        tint = Color.Unspecified
                     )
                 }
             }
-
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = MaterialTheme.colorScheme.primary,

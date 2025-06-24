@@ -51,6 +51,7 @@ import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.ViewModels.user.UserViewModelRoom
 import com.example.pest_detection_app.screen.navigation.Screen
+import com.example.pest_detection_app.ui.theme.CustomTextStyles
 import java.util.Locale
 
 // Language preference utilities
@@ -135,8 +136,9 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
                     ) {
                         Text(
                             text = if (user == null) stringResource(R.string.settings) else stringResource(R.string.profile),
-                            style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.Bold,
+                            style = CustomTextStyles.sectionHeader.copy(
+                                color = MaterialTheme.colorScheme.onPrimary
+                            ),
                             textAlign = TextAlign.Center
                         )
                     }
@@ -177,51 +179,53 @@ fun UserProfileScreen(viewModel: LoginViewModel, navController: NavController , 
                 )
             )
 
-
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Main Content
             Box(modifier = Modifier.fillMaxSize()) {
-                when {
-                    loading -> CircularProgressIndicator(
+                if (loading) {
+                    CircularProgressIndicator(
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.align(Alignment.Center)
                     )
-
-                    error != null -> Text(
-                        "Error: $error",
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-
-                    else -> UserProfileContent(user, navController, viewModel)
+                } else {
+                    UserProfileContent(user, navController, viewModel)
                 }
-            }
-        }
-    }
-}
+            }}}}
 
 @Composable
 fun LoginSignupDialog1(navController: NavController, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = { onDismiss() },
-        title = { Text (stringResource(R.string.Hello_farmer) ) },
+        title = {
+            Text(
+                text = stringResource(R.string.Hello_farmer),
+                style = CustomTextStyles.sectionHeader
+            )
+        },
         confirmButton = {
             Button(onClick = {
                 onDismiss()
                 navController.navigate("signup")
             }) {
-                Text(stringResource(R.string.sign_up))
+                Text(
+                    text = stringResource(R.string.sign_up),
+                    style = CustomTextStyles.buttonText.copy(
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                )
             }
         },
         dismissButton = {
             Button(onClick = {
                 navController.navigate("login")
             }) {
-                Text(stringResource(R.string.login))
+                Text(
+                    text = stringResource(R.string.login),
+                    style = CustomTextStyles.buttonText.copy(
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                )
             }
-
-
         }
     )
 }
@@ -276,32 +280,21 @@ fun UserProfileContent(
                     .background(MaterialTheme.colorScheme.surfaceVariant)
             )
 
-            /*
-                      Text(
-                          text = "${user.last_name}",
-                          style = MaterialTheme.typography.headlineSmall.copy(
-                              color = MaterialTheme.colorScheme.onBackground,
-                              fontWeight = FontWeight.Bold
-                          )
-                      )
-
-                   Text(
-                          text = "@${user.username}",
-                          style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface)
-                      )
-
-                     */
-
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Edit Profile
+            // Username Button
             OutlinedButton(
                 onClick = { /* Navigate to edit profile */ },
                 shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text(text = "@${user.username}" , color = MaterialTheme.colorScheme.onSurface)
+                Text(
+                    text = "@${user.username}",
+                    style = CustomTextStyles.profileUsername.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                )
             }
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -310,9 +303,8 @@ fun UserProfileContent(
 
             Text(
                 text = "",
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontWeight = FontWeight.Bold
+                style = CustomTextStyles.welcomeText.copy(
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             )
 
@@ -327,7 +319,9 @@ fun UserProfileContent(
             ) {
                 Text(
                     text = stringResource(R.string.Sign_in_Sign_Up),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    style = CustomTextStyles.buttonText.copy(
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
                 )
             }
 
@@ -340,6 +334,14 @@ fun UserProfileContent(
 
             Spacer(modifier = Modifier.height(30.dp))
         }
+
+        PestDetectionSection(
+            onViewPests = {
+                navController.navigate(Screen.PestList.route) // Navigate to your PestListScreen
+            }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Settings Section (available for everyone)
         Column(
@@ -356,7 +358,6 @@ fun UserProfileContent(
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline)
                 ProfileOption(Icons.Default.Lock, label = stringResource(R.string.change_pass)) {
                     navController.navigate(Screen.ChangePassword.route)
-
                 }
             }
         }
@@ -446,8 +447,9 @@ fun ProfileOption(icon: ImageVector, label: String, onClick: () -> Unit) {
 
         Text(
             text = label,
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onSurface,
+            style = CustomTextStyles.settingItem.copy(
+                color = MaterialTheme.colorScheme.onSurface
+            ),
             modifier = Modifier.weight(1f)
         )
 
@@ -475,11 +477,17 @@ fun EmbeddedSettings(
     if (showLanguageDialog) {
         AlertDialog(
             onDismissRequest = { showLanguageDialog = false },
-            title = { Text(text = stringResource(R.string.choose_language)) },
+            title = {
+                Text(
+                    text = stringResource(R.string.choose_language),
+                    style = CustomTextStyles.sectionHeader
+                )
+            },
             text = {
                 Column {
                     Text(
                         text = stringResource(R.string.english),
+                        style = CustomTextStyles.settingItem,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
@@ -491,6 +499,7 @@ fun EmbeddedSettings(
                     HorizontalDivider()
                     Text(
                         text = stringResource(R.string.arabic),
+                        style = CustomTextStyles.settingItem,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
@@ -502,6 +511,7 @@ fun EmbeddedSettings(
                     HorizontalDivider()
                     Text(
                         text = stringResource(R.string.french),
+                        style = CustomTextStyles.settingItem,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
@@ -514,7 +524,10 @@ fun EmbeddedSettings(
             },
             confirmButton = {
                 TextButton(onClick = { showLanguageDialog = false }) {
-                    Text(stringResource(R.string.cancel))
+                    Text(
+                        text = stringResource(R.string.cancel),
+                        style = CustomTextStyles.buttonText
+                    )
                 }
             }
         )
@@ -528,8 +541,7 @@ fun EmbeddedSettings(
     ) {
         Text(
             text = stringResource(R.string.settings),
-            style = MaterialTheme.typography.headlineSmall.copy(
-                fontWeight = FontWeight.Bold,
+            style = CustomTextStyles.sectionHeader.copy(
                 color = MaterialTheme.colorScheme.onSurface
             )
         )
@@ -538,7 +550,9 @@ fun EmbeddedSettings(
 
         Text(
             text = stringResource(R.string.account_settings),
-            style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
+            style = CustomTextStyles.detectionSubtitle.copy(
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -561,8 +575,9 @@ fun EmbeddedSettings(
         // Support Email
         Text(
             text = stringResource(R.string.support_contact),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = CustomTextStyles.detectionSubtitle.copy(
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
     }
@@ -578,8 +593,10 @@ fun SettingRow(@StringRes text :Int, label: String, onClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text =stringResource(id = text)+   label,
-            style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
+            text = stringResource(id = text) + label,
+            style = CustomTextStyles.settingItem.copy(
+                color = MaterialTheme.colorScheme.onSurface
+            ),
             modifier = Modifier.weight(1f)
         )
         Icon(
@@ -605,7 +622,9 @@ fun SettingToggleRow(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
+            style = CustomTextStyles.settingItem.copy(
+                color = MaterialTheme.colorScheme.onSurface
+            ),
             modifier = Modifier.weight(1f)
         )
         Switch(
@@ -675,8 +694,7 @@ fun TelegramCommunitySection(onJoinTelegram: () -> Unit) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = stringResource(R.string.join_community),
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold,
+                    style = CustomTextStyles.cardTitle.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 )
@@ -685,7 +703,7 @@ fun TelegramCommunitySection(onJoinTelegram: () -> Unit) {
 
                 Text(
                     text = stringResource(R.string.connect_with_farmers),
-                    style = MaterialTheme.typography.bodySmall.copy(
+                    style = CustomTextStyles.detectionSubtitle.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 )
@@ -741,8 +759,7 @@ fun AboutAppDialog(onDismiss: () -> Unit) {
                 // App Name
                 Text(
                     text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.Bold,
+                    style = CustomTextStyles.welcomeText.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 )
@@ -752,7 +769,7 @@ fun AboutAppDialog(onDismiss: () -> Unit) {
                 // App Description
                 Text(
                     text = stringResource(R.string.app_description),
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    style = CustomTextStyles.noteContent.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
@@ -763,7 +780,7 @@ fun AboutAppDialog(onDismiss: () -> Unit) {
                 // App Version
                 Text(
                     text = stringResource(R.string.app_version, "1.0.0"),
-                    style = MaterialTheme.typography.bodySmall.copy(
+                    style = CustomTextStyles.dateText.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 )
@@ -780,7 +797,9 @@ fun AboutAppDialog(onDismiss: () -> Unit) {
                 ) {
                     Text(
                         text = stringResource(R.string.ok),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        style = CustomTextStyles.buttonText.copy(
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
                     )
                 }
             }
@@ -827,8 +846,7 @@ fun RateAppDialog(onDismiss: () -> Unit, onRate: () -> Unit) {
                 // Title
                 Text(
                     text = stringResource(R.string.rate_app_title),
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.Bold,
+                    style = CustomTextStyles.welcomeText.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 )
@@ -838,7 +856,7 @@ fun RateAppDialog(onDismiss: () -> Unit, onRate: () -> Unit) {
                 // Description
                 Text(
                     text = stringResource(R.string.rate_app_description),
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    style = CustomTextStyles.noteContent.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
@@ -858,7 +876,10 @@ fun RateAppDialog(onDismiss: () -> Unit, onRate: () -> Unit) {
                             contentColor = MaterialTheme.colorScheme.onSurface
                         )
                     ) {
-                        Text(stringResource(R.string.maybe_later))
+                        Text(
+                            text = stringResource(R.string.maybe_later),
+                            style = CustomTextStyles.buttonText
+                        )
                     }
 
                     Button(
@@ -870,10 +891,116 @@ fun RateAppDialog(onDismiss: () -> Unit, onRate: () -> Unit) {
                     ) {
                         Text(
                             text = stringResource(R.string.rate_now),
-                            color = MaterialTheme.colorScheme.onPrimary
+                            style = CustomTextStyles.buttonText.copy(
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+
+
+
+
+@Composable
+fun PestDetectionSection(onViewPests: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onViewPests() },
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Pest Icon with gradient background
+            Box(
+                modifier = Modifier
+                    .size(60.dp)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color(0xFF4CAF50), // Green for agriculture/nature
+                                Color(0xFF2E7D32)  // Darker green
+                            )
+                        ),
+                        shape = RoundedCornerShape(16.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                // Using a bug/pest related icon - you can replace this with a custom pest icon
+            }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            // Text Content
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.detectable_pests),
+                    style = CustomTextStyles.cardTitle.copy(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = stringResource(R.string.view_all_pests_info),
+                    style = CustomTextStyles.detectionSubtitle.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                // Pest count badge
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .padding(horizontal = 12.dp, vertical = 4.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.detected_pests_count, 13),
+                        style = CustomTextStyles.buttonText.copy(
+                            color = MaterialTheme.colorScheme.primary,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    )
+                }
+            }
+
+            // Arrow Icon
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                        shape = CircleShape
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowForward,
+                    contentDescription = "View Pests",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
             }
         }
     }

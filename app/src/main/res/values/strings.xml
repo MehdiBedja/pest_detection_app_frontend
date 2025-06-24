@@ -140,6 +140,8 @@
     <string name="Hello_farmer">Hello, farmer</string>
     <string name="profile">Profile</string>
     <string name="support_contact">Support: mahdibedja@gmail.com</string>
+    <string name="view_all_pests_info">Explore all pests our app can detect and identify</string>
+
 
 
 
@@ -248,6 +250,22 @@
     <string name="failed_sync_deleted">Failed to sync deleted items</string>
     <string name="failed_sync_notes">Failed to sync notes</string>
     <string name="unknown_error">Unknown error occurred</string>
+
+
+
+    <!-- Pest List Screen -->
+    <string name="detectable_pests">Detectable Pests</string>
+    <string name="pest_detection_info">Our app can detect various agricultural pests that may affect your crops</string>
+    <string name="detected_pests_count">%d pests detectable</string>
+    <string name="category_label">Category</string>
+    <string name="view_details">View details</string>
+
+    <!-- Pest Detail Screen -->
+    <string name="pest_details">Pest Details</string>
+    <string name="pest_not_found">Pest information not found</string>
+    <string name="treatment_recommendation">Treatment Recommendation</string>
+    <string name="detection_info">Detection Information</string>
+    <string name="pest_detection_capability">Our advanced detection system can identify this pest with high accuracy based on visual characteristics.</string>
 
 
 </resources>

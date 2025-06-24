@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
+import com.example.pest_detection_app.ui.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,7 +99,7 @@ fun ChangePasswordScreen(
                 title = {
                     Text(
                         text = stringResource(if (isGoogle == false) R.string.set_password else R.string.change_password),
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = AppTypography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
@@ -135,7 +136,7 @@ fun ChangePasswordScreen(
                         if (isGoogle == false) R.string.set_password_instruction
                         else R.string.change_password_instruction
                     ),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = AppTypography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )

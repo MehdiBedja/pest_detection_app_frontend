@@ -46,6 +46,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.screen.navigation.Screen
+import com.example.pest_detection_app.ui.theme.AppTypography
+import com.example.pest_detection_app.ui.theme.CustomTextStyles
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import java.io.File
@@ -210,12 +212,12 @@ fun ResultsScreen(
 
                     itemsIndexed(boundingBoxes) { index, box ->
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            PestInfoCard(
+                            PestDetectionCard(
                                 pestIndex = index + 1,
                                 pestName = box.clsName,
-                                confidenceScore = box.cnf
+                                confidenceScore = box.cnf,
+                                context =context
                             )
-                            PesticideRecommendationCard(pestName = box.clsName, context = context)
                         }
                     }
                 }
@@ -349,51 +351,21 @@ fun DetectedImage(bitmap: Bitmap?) {
 
 
 @Composable
-fun PestInfoCard(pestIndex: Int, pestName: String, confidenceScore: Float) {
+fun PestDetectionCard(
+    pestIndex: Int,
+    pestName: String,
+    confidenceScore: Float,
+    context: Context
+) {
     val currentLanguage = LocalContext.current.resources.configuration.locales[0].language
 
     val displayedPestName = when (currentLanguage) {
         "ar" -> pestNameTranslationsAr[pestName] ?: pestNameTranslationsFr[pestName] ?: pestName
         "fr" -> pestNameTranslationsFr[pestName] ?: pestNameTranslationsAr[pestName] ?: pestName
-        else -> pestName // English fallback
+        else -> pestName
     }
 
-    Card(
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .shadow(4.dp, RoundedCornerShape(16.dp)),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = stringResource(R.string.detected_pest) + " $pestIndex",
-                fontSize = 20.sp,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Serif
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = displayedPestName,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = stringResource(R.string.confidence) + " ${"%.2f".format(confidenceScore * 100)}%",
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    }
-}
-
-@Composable
-fun PesticideRecommendationCard(pestName: String, context: Context) {
-
-    val currentLanguage = LocalConfiguration.current.locales[0].language
+    // Load pesticide recommendation data
     val jsonString = remember(currentLanguage) { loadLocalizedJson(context) }
     val jsonArray = remember(jsonString) { JSONArray(jsonString) }
 
@@ -403,48 +375,105 @@ fun PesticideRecommendationCard(pestName: String, context: Context) {
             .find { it.optString("pest") == pestName }
     }
 
-    val cropCategory = pestInfo?.optString("category") ?: "Unknown"
-    val pesticideRecommendation = pestInfo?.optString("recommendation") ?: "No recommendation available"
+    val cropCategory = pestInfo?.optString("category") ?:"unknown_category"
+    val pesticideRecommendation = pestInfo?.optString("recommendation")
+        ?: "no_recommendation_available"
 
     Card(
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(24.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(4.dp, RoundedCornerShape(16.dp)),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .shadow(6.dp, RoundedCornerShape(24.dp)),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = stringResource(R.string.crop_category),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontFamily = FontFamily.Serif,
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Pest Info Section
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "${stringResource(R.string.detected_pest)} #$pestIndex",
+                        style = CustomTextStyles.treatmentTitle,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text(
+                            text = stringResource(R.string.confidence),
+                            style = AppTypography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                        )
+                        Text(
+                            text = "${"%.2f".format(confidenceScore * 100)}%",
+                            style = CustomTextStyles.confidenceBadge,
+                            color = MaterialTheme.colorScheme.tertiary
+                        )
+                    }
+                }
+
+                Text(
+                    text = displayedPestName,
+                    style = CustomTextStyles.pestName,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+
+            Divider(
+                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
+                thickness = 1.dp,
+                modifier = Modifier.padding(vertical = 4.dp)
             )
-            Text(
-                text = cropCategory,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+
+            // Crop Category Section
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.crop_category),
+                    style = CustomTextStyles.treatmentTitle,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = cropCategory,
+                    style = AppTypography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+
+            Divider(
+                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
+                thickness = 1.dp,
+                modifier = Modifier.padding(vertical = 4.dp)
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = stringResource(R.string.pesticide_recommendation),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontFamily = FontFamily.Serif,
-            )
-            Text(
-                text = pesticideRecommendation,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+
+            // Pesticide Recommendation Section
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.pesticide_recommendation),
+                    style = CustomTextStyles.treatmentTitle,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = pesticideRecommendation,
+                    style = AppTypography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
     }
 }
-
 
 fun loadLocalizedJson(context: Context): String {
     val language = Locale.getDefault().language

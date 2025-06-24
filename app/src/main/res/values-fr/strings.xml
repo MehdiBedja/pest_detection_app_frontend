@@ -124,6 +124,8 @@
     <string name="Hello_farmer">Bonjour, agriculteur</string>
     <string name="profile">Profil</string>
     <string name="support_contact">Support : mahdibedja@gmail.com</string>
+    <string name="view_all_pests_info">Explorez tous les parasites que notre application peut détecter et identifier</string>
+
 
 
 
@@ -223,5 +225,20 @@
     <string name="failed_sync_deleted">Échec de la synchronisation des éléments supprimés</string>
     <string name="failed_sync_notes">Échec de la synchronisation des notes</string>
     <string name="unknown_error">Erreur inconnue</string>
+
+
+    <!-- Pest List Screen -->
+    <string name="detectable_pests">Ravageurs Détectables</string>
+    <string name="pest_detection_info">Notre application peut détecter divers ravageurs agricoles qui peuvent affecter vos cultures</string>
+    <string name="detected_pests_count">%d ravageurs détectables</string>
+    <string name="category_label">Catégorie</string>
+    <string name="view_details">Voir les détails</string>
+
+    <!-- Pest Detail Screen -->
+    <string name="pest_details">Détails du Ravageur</string>
+    <string name="pest_not_found">Informations sur le ravageur non trouvées</string>
+    <string name="treatment_recommendation">Recommandation de Traitement</string>
+    <string name="detection_info">Information de Détection</string>
+    <string name="pest_detection_capability">Notre système de détection avancé peut identifier ce ravageur avec une grande précision basée sur ses caractéristiques visuelles.</string>
 
 </resources>

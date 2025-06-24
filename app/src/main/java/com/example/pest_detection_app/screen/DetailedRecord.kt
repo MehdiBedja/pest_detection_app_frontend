@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -24,6 +25,8 @@ import com.example.pest_detection_app.ViewModels.DetectionViewModel
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.model.BoundingBox
+import com.example.pest_detection_app.ui.theme.AppTypography
+import com.example.pest_detection_app.ui.theme.CustomTextStyles
 import kotlinx.coroutines.delay
 
 @Composable
@@ -35,62 +38,32 @@ fun DetailItemScreen(
     userViewModel: LoginViewModel
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
-    var noteText by remember { mutableStateOf("") }
-    var isEditingNote by remember { mutableStateOf(false) }
-
     val context = LocalContext.current
 
-    Log.d("DetailItemScreen", "Fetching detection with ID: $detectionId")
     getViewModel.getDetectionById(detectionId)
-
     val detection by getViewModel.detection.collectAsState()
     val bitmap by viewModel.bitmap1.collectAsState()
     val savedUserId by userViewModel.userId.collectAsState()
 
-    val boundingBoxesModel = detection?.boundingBoxes?.map { box ->
-        BoundingBox(
-            x1 = box.x1, y1 = box.y1,
-            x2 = box.x2, y2 = box.y2,
-            cx = box.cx, cy = box.cy,
-            w = box.w, h = box.h,
-            cnf = box.cnf, cls = box.cls,
-            clsName = box.clsName
-        )
+    val boundingBoxesModel = detection?.boundingBoxes?.map {
+        BoundingBox(it.x1, it.y1, it.x2, it.y2, it.cx, it.cy, it.w, it.h, it.cnf, it.cls, it.clsName)
     }
 
     LaunchedEffect(detection) {
-        if (detection == null) {
-            Log.e("DetailItemScreen", "Detection data is still NULL, retrying...")
-            return@LaunchedEffect
-        }
+        detection?.detection?.imageUri?.takeIf { it.isNotEmpty() }?.let { uriString ->
+            val imageUri = Uri.parse(uriString)
 
-        noteText = detection?.detection?.note ?: ""
-
-        val uriString = detection!!.detection.imageUri
-        if (uriString.isNullOrEmpty()) {
-            Log.e("DetailItemScreen", "Error: imageUri is empty! Waiting for data...")
-            return@LaunchedEffect
-        }
-
-        val imageUri = Uri.parse(uriString)
-        Log.d("DetailItemScreen", "Received image URI: $imageUri")
-
-        try {
-            // For gallery images, try to take permission
             if (imageUri.toString().startsWith("content://com.android.providers.media")) {
                 try {
                     val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     context.contentResolver.takePersistableUriPermission(imageUri, takeFlags)
-                    Log.d("DetailItemScreen", " Permission granted for gallery image: $imageUri")
                 } catch (e: SecurityException) {
-                    Log.e("DetailItemScreen", "Failed to take permission, but continuing: ${e.message}")
+                    Log.e("DetailItemScreen", "Failed to take permission: ${e.message}")
                 }
             }
 
             delay(500)
             viewModel.loadPastDetection(boundingBoxesModel ?: emptyList(), imageUri)
-        } catch (e: Exception) {
-            Log.e("DetailItemScreen", "❌ Error loading detection: ${e.message}", e)
         }
     }
 
@@ -101,191 +74,37 @@ fun DetailItemScreen(
                 .padding(paddingValues)
                 .background(color = MaterialTheme.colorScheme.background)
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                item { DetectionImageSection(bitmap) }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 12.dp)
-                ) {
-                    LazyColumn(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        item {
-                            if (bitmap == null) {
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    CircularProgressIndicator(
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
-                                }
-                            } else {
-                                DetectedImage(bitmap)
-                            }
-                        }
-
-                        detection?.let {
-                            itemsIndexed(it.boundingBoxes) { index, box ->
-                                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    PestInfoCard(
-                                        pestIndex = index + 1,
-                                        pestName = box.clsName,
-                                        confidenceScore = box.cnf
-                                    )
-                                    PesticideRecommendationCard(
-                                        pestName = box.clsName,
-                                        context = context
-                                    )
-                                }
-                            }
-                        }
-
-                        // Note Section
-                        item {
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(
-                                stringResource(R.string.note_label),
-                                style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-
-                            if (noteText.isEmpty() && !isEditingNote) {
-                                Button(
-                                    onClick = { isEditingNote = true },
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 8.dp),
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = MaterialTheme.colorScheme.primary,
-                                        contentColor = MaterialTheme.colorScheme.onPrimary
-                                    )
-                                ) {
-                                    Text(stringResource(R.string.add_note))
-                                }
-                            } else {
-                                Card(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 8.dp),
-                                    colors = CardDefaults.cardColors(
-                                        containerColor = MaterialTheme.colorScheme.surface
-                                    ),
-                                    elevation = CardDefaults.cardElevation(6.dp)
-                                ) {
-                                    Column(modifier = Modifier.padding(16.dp)) {
-                                        if (isEditingNote) {
-                                            OutlinedTextField(
-                                                value = noteText,
-                                                onValueChange = { noteText = it },
-                                                modifier = Modifier.fillMaxWidth(),
-                                                label = { Text(stringResource(R.string.write_note_hint)) },
-                                                colors = OutlinedTextFieldDefaults.colors(
-                                                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                                                    focusedLabelColor = MaterialTheme.colorScheme.primary
-                                                )
-                                            )
-                                            Row(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(top = 8.dp),
-                                                horizontalArrangement = Arrangement.SpaceBetween
-                                            ) {
-                                                Button(
-                                                    onClick = {
-                                                        isEditingNote = false
-                                                        noteText = detection?.detection?.note ?: ""
-                                                    },
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                                                    )
-                                                ) {
-                                                    Text(stringResource(R.string.cancel))
-                                                }
-
-                                                Button(
-                                                    onClick = {
-                                                        getViewModel.setNoteForDetection(
-                                                            detectionId,
-                                                            noteText
-                                                        )
-                                                        isEditingNote = false
-                                                        getViewModel.getDetectionById(detectionId)
-                                                    },
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        containerColor = MaterialTheme.colorScheme.primary,
-                                                        contentColor = MaterialTheme.colorScheme.onPrimary
-                                                    )
-                                                ) {
-                                                    Text(stringResource(R.string.save_note))
-                                                }
-                                            }
-                                        } else {
-                                            Text(
-                                                text = noteText,
-                                                style = MaterialTheme.typography.bodyLarge,
-                                                color = MaterialTheme.colorScheme.onSurface,
-                                                modifier = Modifier.padding(bottom = 8.dp)
-                                            )
-                                            Row(
-                                                modifier = Modifier.fillMaxWidth(),
-                                                horizontalArrangement = Arrangement.SpaceBetween
-                                            ) {
-                                                Button(
-                                                    onClick = { isEditingNote = true },
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        containerColor = MaterialTheme.colorScheme.primary,
-                                                        contentColor = MaterialTheme.colorScheme.onPrimary
-                                                    )
-                                                ) {
-                                                    Text(stringResource(R.string.modify_note))
-                                                }
-                                                Button(
-                                                    onClick = {
-                                                        getViewModel.setNoteForDetection(
-                                                            detectionId,
-                                                            ""
-                                                        )
-                                                        noteText = ""
-                                                    },
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        containerColor = MaterialTheme.colorScheme.error,
-                                                        contentColor = MaterialTheme.colorScheme.onError
-                                                    )
-                                                ) {
-                                                    Text(stringResource(R.string.delete_note))
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        // Delete Button
-                        item {
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Button(
-                                onClick = { showDeleteDialog = true },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.error,
-                                    contentColor = MaterialTheme.colorScheme.onError
-                                ),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp)
-                            ) {
-                                Text(stringResource(R.string.delete_detection))
-                            }
-                        }
+                detection?.let {
+                    itemsIndexed(it.boundingBoxes) { index, box ->
+                        PestDetectionCard(
+                            pestIndex = index + 1,
+                            pestName = box.clsName,
+                            confidenceScore = box.cnf,
+                            context =context
+                        )
                     }
+                }
+
+                item {
+                    DetectionNoteSection(
+                        detectionId = detectionId,
+                        getViewModel = getViewModel
+                    )
+                }
+
+                item {
+                    DetectionDeleteSection(onDeleteClick = { showDeleteDialog = true })
                 }
             }
 
-            // Back Button
             FloatingActionButton(
                 onClick = { navController.popBackStack() },
                 modifier = Modifier
@@ -306,14 +125,14 @@ fun DetailItemScreen(
                     onDismissRequest = { showDeleteDialog = false },
                     title = {
                         Text(
-                            stringResource(R.string.confirm_delete_title),
-                            color = MaterialTheme.colorScheme.onSurface
+                            text = stringResource(R.string.confirm_delete_title),
+                            style = CustomTextStyles.dangerZoneTitle
                         )
                     },
                     text = {
                         Text(
-                            stringResource(R.string.confirm_delete_text),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            text = stringResource(R.string.confirm_delete_text),
+                            style = AppTypography.bodyMedium
                         )
                     },
                     confirmButton = {
@@ -326,29 +145,176 @@ fun DetailItemScreen(
                                 navController.popBackStack()
                             },
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.error,
-                                contentColor = MaterialTheme.colorScheme.onError
+                                containerColor = MaterialTheme.colorScheme.error
                             )
                         ) {
-                            Text(stringResource(R.string.delete))
+                            Text(
+                                text = stringResource(R.string.delete),
+                                style = CustomTextStyles.buttonText
+                            )
                         }
                     },
                     dismissButton = {
-                        Button(
-                            onClick = { showDeleteDialog = false },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        Button(onClick = { showDeleteDialog = false }) {
+                            Text(
+                                text = stringResource(R.string.cancel),
+                                style = CustomTextStyles.buttonText
                             )
-                        ) {
-                            Text(stringResource(R.string.cancel))
                         }
                     },
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    textContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             }
         }
+    }
+}
+
+@Composable
+fun DetectionImageSection(bitmap: android.graphics.Bitmap?) {
+    if (bitmap == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        DetectedImage(bitmap)
+    }
+}
+
+@Composable
+fun DetectionNoteSection(
+    detectionId: Int,
+    getViewModel: DetectionSaveViewModel
+) {
+    val detection by getViewModel.detection.collectAsState()
+    var noteText by remember { mutableStateOf(detection?.detection?.note ?: "") }
+    var isEditingNote by remember { mutableStateOf(false) }
+
+    Card(
+        shape = RoundedCornerShape(24.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .shadow(4.dp, RoundedCornerShape(24.dp)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Text(
+                text = stringResource(R.string.note_label),
+                style = CustomTextStyles.noteHeader,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+
+            if (noteText.isEmpty() && !isEditingNote) {
+                Button(
+                    onClick = { isEditingNote = true },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.add_note),
+                        style = CustomTextStyles.buttonText
+                    )
+                }
+            } else {
+                if (isEditingNote) {
+                    OutlinedTextField(
+                        value = noteText,
+                        onValueChange = { noteText = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 100.dp),
+                        label = {
+                            Text(
+                                text = stringResource(R.string.write_note_hint),
+                                style = AppTypography.labelMedium
+                            )
+                        },
+                        textStyle = CustomTextStyles.noteContent
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        OutlinedButton(onClick = {
+                            isEditingNote = false
+                            noteText = detection?.detection?.note ?: ""
+                        }) {
+                            Text(
+                                text = stringResource(R.string.cancel),
+                                style = CustomTextStyles.buttonText
+                            )
+                        }
+                        Button(onClick = {
+                            getViewModel.setNoteForDetection(detectionId, noteText)
+                            isEditingNote = false
+                        }) {
+                            Text(
+                                text = stringResource(R.string.save_note),
+                                style = CustomTextStyles.buttonText
+                            )
+                        }
+                    }
+                } else {
+                    Text(
+                        text = noteText,
+                        style = CustomTextStyles.noteContent,
+                        modifier = Modifier.padding(bottom = 12.dp)
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        OutlinedButton(onClick = { isEditingNote = true }) {
+                            Text(
+                                text = stringResource(R.string.modify_note),
+                                style = CustomTextStyles.buttonText
+                            )
+                        }
+                        OutlinedButton(
+                            onClick = {
+                                getViewModel.setNoteForDetection(detectionId, "")
+                                noteText = ""
+                            },
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colorScheme.error
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(R.string.delete_note),
+                                style = CustomTextStyles.buttonText
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DetectionDeleteSection(onDeleteClick: () -> Unit) {
+    Spacer(modifier = Modifier.height(16.dp))
+    Button(
+        onClick = onDeleteClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.error
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.delete_detection),
+            style = CustomTextStyles.buttonText
+        )
     }
 }

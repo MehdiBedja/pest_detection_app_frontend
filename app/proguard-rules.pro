@@ -1,21 +1,19 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# --- Jetpack Compose Core ---
+-keep class androidx.compose.** { *; }
+-keep class androidx.activity.** { *; }
+-keep class androidx.lifecycle.** { *; }
+-keep class androidx.navigation.** { *; }
+-keep class androidx.savedstate.** { *; }
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# --- Material & UI (Optional but Recommended) ---
+-keep class androidx.compose.material.** { *; }
+-keep class androidx.compose.material3.** { *; }
+-keep class androidx.compose.animation.** { *; }
+-keep class androidx.compose.ui.** { *; }
+-keep class androidx.compose.runtime.saveable.** { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# --- Keep your resource references (themes/colors/fonts) ---
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile

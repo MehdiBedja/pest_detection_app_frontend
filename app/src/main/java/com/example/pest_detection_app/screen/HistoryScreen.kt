@@ -44,6 +44,8 @@ import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.data.user.DetectionWithBoundingBoxes
+import com.example.pest_detection_app.ui.theme.AppTypography
+import com.example.pest_detection_app.ui.theme.CustomTextStyles
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -58,7 +60,6 @@ fun getTranslatedPestName(pestName: String): String {
         else -> pestName // English fallback
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,14 +86,14 @@ fun DetectionHistoryScreen(
                 .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            // 🔹 Top Actions Row (Dropdown + Sort + Delete)
-
+            // Top App Bar with custom typography
             TopAppBar(
                 title = {
                     Text(
                         text = stringResource(R.string.detections_history),
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
+                        style = CustomTextStyles.sectionTitle,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -100,16 +101,18 @@ fun DetectionHistoryScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
+
+            // Action buttons row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between buttons
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // 🔹 Pest Selection Dropdown
+                // Pest Selection Dropdown
                 var expanded by remember { mutableStateOf(false) }
                 Box(
-                    modifier = Modifier.weight(1f) // Give equal weight to each button
+                    modifier = Modifier.weight(1f)
                 ) {
                     Button(
                         onClick = { expanded = true },
@@ -119,15 +122,15 @@ fun DetectionHistoryScreen(
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(min = 48.dp) // Minimum height for accessibility
+                            .heightIn(min = 48.dp)
                     ) {
                         Text(
                             text = if (selectedPest == "None") stringResource(R.string.select_pest) else selectedPest,
+                            style = CustomTextStyles.buttonText,
                             color = MaterialTheme.colorScheme.onPrimary,
                             textAlign = TextAlign.Center,
-                            maxLines = 2, // Allow text to wrap to 2 lines
-                            overflow = TextOverflow.Ellipsis,
-                            lineHeight = 16.sp // Adjust line height for better readability
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                     DropdownMenu(
@@ -140,7 +143,12 @@ fun DetectionHistoryScreen(
                             "Blister Beetle", "Miridae", "Prodenia Litura", "Cicadellidae"
                         ).forEach { pest ->
                             DropdownMenuItem(
-                                text = { Text(if (pest =="None") stringResource(R.string.select_pest) else getTranslatedPestName(pest)  ) },
+                                text = {
+                                    Text(
+                                        text = if (pest =="None") stringResource(R.string.select_pest) else getTranslatedPestName(pest),
+                                        style = AppTypography.bodyMedium
+                                    )
+                                },
                                 onClick = {
                                     selectedPest = pest
                                     expanded = false
@@ -154,7 +162,7 @@ fun DetectionHistoryScreen(
                     }
                 }
 
-                // 🔹 Sorting Button
+                // Sorting Button
                 Box(
                     modifier = Modifier.weight(1f)
                 ) {
@@ -177,16 +185,16 @@ fun DetectionHistoryScreen(
                     ) {
                         Text(
                             text = if (isDescending) "${stringResource(R.string.date)} ▼" else "${stringResource(R.string.date)} ▲",
+                            style = CustomTextStyles.buttonText,
                             color = MaterialTheme.colorScheme.onSecondary,
                             textAlign = TextAlign.Center,
                             maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            lineHeight = 16.sp
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
 
-                // 🔹 Delete Button
+                // Delete Button
                 Box(
                     modifier = Modifier.weight(1f)
                 ) {
@@ -202,24 +210,23 @@ fun DetectionHistoryScreen(
                     ) {
                         Text(
                             text = if (selectedPest == "None") stringResource(R.string.delete_all) else stringResource(R.string.delete_all),
+                            style = CustomTextStyles.buttonText,
                             color = MaterialTheme.colorScheme.onError,
                             textAlign = TextAlign.Center,
-                            maxLines = 2, // Allow text to wrap
-                            overflow = TextOverflow.Ellipsis,
-                            lineHeight = 16.sp
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
             }
 
-
-            // 🔹 Confirmation Dialog for Deleting
+            // Confirmation Dialog for Deleting
             if (showDeleteDialog) {
                 ConfirmDeleteDialog(
                     message = if (selectedPest == "None")
                         stringResource(R.string.confirm_delete_all)
                     else
-                        stringResource(R.string.confirm_delete_filtered)  +"${getTranslatedPestName(selectedPest)}?",
+                        stringResource(R.string.confirm_delete_filtered) + "${getTranslatedPestName(selectedPest)}?",
 
                     onConfirm = {
                         savedUserId?.let {
@@ -227,7 +234,7 @@ fun DetectionHistoryScreen(
                                 viewModel.deleteAllDetections(it, isDescending)
                             } else {
                                 viewModel.deleteDetectionsByPestName(it, selectedPest)
-                                selectedPest = "None" // 🔥 Reset selection after deletion!
+                                selectedPest = "None"
                             }
                         }
                         showDeleteDialog = false
@@ -236,7 +243,7 @@ fun DetectionHistoryScreen(
                 )
             }
 
-            // 🔹 Detection List
+            // Detection List
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -246,14 +253,13 @@ fun DetectionHistoryScreen(
                 items(detectionList) { detection ->
                     DetectionItem(
                         navController, detection, viewModel, savedUserId, isDescending, {
-                            selectedPest = "None" // Reset pest selection after deletion
+                            selectedPest = "None"
                         })
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun DetectionItem(
@@ -262,7 +268,7 @@ fun DetectionItem(
     viewModel: DetectionSaveViewModel,
     userId: Int?,
     isDescending: Boolean,
-    resetPestSelection: () -> Unit // Add this callback
+    resetPestSelection: () -> Unit
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
 
@@ -290,11 +296,11 @@ fun DetectionItem(
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = stringResource(R.string.date) +" ${formatDate(detection.detection.detectionDate)}",
+                        text = stringResource(R.string.date) + " ${formatDate(detection.detection.detectionDate)}",
+                        style = CustomTextStyles.dateText,
                         fontWeight = FontWeight.Bold,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1,
-                        fontFamily = FontFamily.Serif,
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
@@ -302,16 +308,17 @@ fun DetectionItem(
                         detection.boundingBoxes.forEachIndexed { index, box ->
                             Column {
                                 Text(
-                                    text = stringResource(R.string.detected_pest) + " ${getTranslatedPestName(box.clsName) }",
+                                    text = stringResource(R.string.detected_pest) + " ${getTranslatedPestName(box.clsName)}",
+                                    style = CustomTextStyles.pestName,
                                     fontWeight = FontWeight.Medium,
                                     overflow = TextOverflow.Ellipsis,
                                     maxLines = 1,
-                                    fontFamily = FontFamily.Serif,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
 
                                 Text(
-                                    text = stringResource(R.string.confidence) +" ${box.cnf?.times(100)?.toInt() ?: 0}%",
+                                    text = stringResource(R.string.confidence) + " ${box.cnf?.times(100)?.toInt() ?: 0}%",
+                                    style = CustomTextStyles.confidence,
                                     fontWeight = FontWeight.Light,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -328,6 +335,7 @@ fun DetectionItem(
                     } else {
                         Text(
                             text = stringResource(R.string.no_detection),
+                            style = CustomTextStyles.cardTitle,
                             fontWeight = FontWeight.Medium,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
@@ -352,7 +360,7 @@ fun DetectionItem(
                     message = stringResource(R.string.confirm_delete_one),
                     onConfirm = {
                         viewModel.deleteDetection(detection.detection.id, userId ?: 0, isDescending)
-                        resetPestSelection() // Reset the pest selection after deletion
+                        resetPestSelection()
                         showDeleteDialog = false
                     },
                     onDismiss = { showDeleteDialog = false }
@@ -368,7 +376,8 @@ fun ConfirmDeleteDialog(message: String, onConfirm: () -> Unit, onDismiss: () ->
         onDismissRequest = { onDismiss() },
         title = {
             Text(
-                message,
+                text = message,
+                style = AppTypography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
         },
@@ -381,7 +390,8 @@ fun ConfirmDeleteDialog(message: String, onConfirm: () -> Unit, onDismiss: () ->
                 )
             ) {
                 Text(
-                    stringResource(R.string.delete),
+                    text = stringResource(R.string.delete),
+                    style = CustomTextStyles.buttonText,
                     color = MaterialTheme.colorScheme.onError
                 )
             }
@@ -395,14 +405,14 @@ fun ConfirmDeleteDialog(message: String, onConfirm: () -> Unit, onDismiss: () ->
                 )
             ) {
                 Text(
-                    stringResource(R.string.cancel),
+                    text = stringResource(R.string.cancel),
+                    style = CustomTextStyles.buttonText,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
     )
 }
-
 
 @Composable
 fun SortButton(text: String, isDescending: Boolean, onClick: () -> Unit) {
@@ -417,11 +427,11 @@ fun SortButton(text: String, isDescending: Boolean, onClick: () -> Unit) {
     ) {
         Text(
             text = if (isDescending) "$text ▼" else "$text ▲",
+            style = CustomTextStyles.buttonText,
             color = MaterialTheme.colorScheme.onSecondary
         )
     }
 }
-
 
 // Function to format the timestamp into a readable date
 fun formatDate(timestamp: Long): String {
