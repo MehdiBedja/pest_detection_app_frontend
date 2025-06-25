@@ -112,24 +112,24 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
             val account = task.getResult(ApiException::class.java)
             val idToken = account?.idToken
             if (idToken != null) {
-                Log.d("GoogleSignInToken", "$idToken")
+                //       Log.d("GoogleSignInToken", "$idToken")
                 viewModel.loginWithGoogle(idToken)
             } else {
                 viewModel.error.value = "Failed to get Google ID token"
             }
         } catch (e: ApiException) {
             viewModel.error.value = "Google Sign-In Error: ${e.statusCode} - ${e.message}"
-            Log.e("GoogleSignIn", "Google Sign-In failed with API Exception: ${e.statusCode}", e)
+            //       Log.e("GoogleSignIn", "Google Sign-In failed with API Exception: ${e.statusCode}", e)
         }
     }
 
     fun startGoogleSignIn() {
         googleSignInClient.signOut().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.d("GoogleSignIn", "Successfully signed out, showing account picker")
+                //        Log.d("GoogleSignIn", "Successfully signed out, showing account picker")
                 launcher.launch(googleSignInClient.signInIntent)
             } else {
-                Log.e("GoogleSignIn", "Failed to sign out: ${task.exception}")
+                //       Log.e("GoogleSignIn", "Failed to sign out: ${task.exception}")
                 launcher.launch(googleSignInClient.signInIntent)
             }
         }
@@ -404,24 +404,24 @@ fun SignUpScreen(navController: NavHostController) {
             val account = task.getResult(ApiException::class.java)
             val idToken = account?.idToken
             if (idToken != null) {
-                Log.d("GoogleSignUptoken", "$idToken")
+                //        Log.d("GoogleSignUptoken", "$idToken")
                 viewModel.googleSignUp(idToken, context)
             } else {
                 viewModel.error.value = "Failed to get Google ID token"
             }
         } catch (e: ApiException) {
             viewModel.error.value = "Google Sign-In Error: ${e.statusCode} - ${e.message}"
-            Log.e("GoogleSignUp", "Google Sign-In failed with API Exception: ${e.statusCode}", e)
+            //       Log.e("GoogleSignUp", "Google Sign-In failed with API Exception: ${e.statusCode}", e)
         }
     }
 
     fun startGoogleSignUp() {
         googleSignInClient.signOut().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.d("GoogleSignUp", "Successfully signed out, showing account picker")
+                //         Log.d("GoogleSignUp", "Successfully signed out, showing account picker")
                 googleSignUpLauncher.launch(googleSignInClient.signInIntent)
             } else {
-                Log.e("GoogleSignUp", "Failed to sign out: ${task.exception}")
+                //          Log.e("GoogleSignUp", "Failed to sign out: ${task.exception}")
                 googleSignUpLauncher.launch(googleSignInClient.signInIntent)
             }
         }

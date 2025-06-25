@@ -75,7 +75,7 @@ private fun createImageUri(context: Context): Uri? {
             imageFile
         )
     } catch (e: IllegalArgumentException) {
-        Log.e("FileProvider", "Failed to get URI for file", e)
+        //    Log.e("FileProvider", "Failed to get URI for file", e)
         null
     }
 }
@@ -405,9 +405,9 @@ fun ScanButton(navController: NavController) {
                     it,
                     Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
-                Log.d("Gallery", "✅ Persisted URI permission for: $it")
+                //       Log.d("Gallery", "✅ Persisted URI permission for: $it")
             } catch (e: SecurityException) {
-                Log.e("Gallery", "❌ Failed to persist permission", e)
+                //       Log.e("Gallery", "❌ Failed to persist permission", e)
             }
             navController.navigate("results/${Uri.encode(it.toString())}")
         }

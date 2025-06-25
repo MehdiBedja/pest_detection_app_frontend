@@ -20,7 +20,7 @@ class DetectionRepository(private val endpoint: detectionEndpoint) {
 
     suspend fun sendIds(localServerIds: List<String>, authToken: String): Response<SyncDetectionsResponse> {
         // Filter out any empty UUIDs
-        Log.d("API Request", "Filtered IDs: $localServerIds")
+        //  Log.d("API Request", "Filtered IDs: $localServerIds")
 
         val requestBody = ServerIdsRequest(ids = localServerIds)
         val token = "Token $authToken"
@@ -47,7 +47,7 @@ class DetectionRepository(private val endpoint: detectionEndpoint) {
         val requestBody = ServerIdsRequestDel(server_ids = localServerIds)
         val token = "Token $authToken"
 
-        Log.d("API Request", "Deleting IDs: $localServerIds")
+        //     Log.d("API Request", "Deleting IDs: $localServerIds")
 
         return endpoint.softDeleteDetections(token, requestBody)
     }

@@ -58,7 +58,7 @@ fun DetailItemScreen(
                     val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     context.contentResolver.takePersistableUriPermission(imageUri, takeFlags)
                 } catch (e: SecurityException) {
-                    Log.e("DetailItemScreen", "Failed to take permission: ${e.message}")
+                    //        Log.e("DetailItemScreen", "Failed to take permission: ${e.message}")
                 }
             }
 

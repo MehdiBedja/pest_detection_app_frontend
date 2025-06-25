@@ -82,12 +82,12 @@ class DetectionSaveViewModel(
                     val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     try {
                         contentResolver.takePersistableUriPermission(uri, takeFlags)
-                        Log.d("DetectionSaveViewModel", "✅ Persistable permission granted for URI: $uri")
+                       // Log.d("DetectionSaveViewModel", "✅ Persistable permission granted for URI: $uri")
                     } catch (e: SecurityException) {
-                        Log.w("DetectionSaveViewModel", "⚠️ Persistable permission NOT granted (maybe already persisted or not granted temporarily): ${e.message}")
+                       // Log.w("DetectionSaveViewModel", "⚠️ Persistable permission NOT granted (maybe already persisted or not granted temporarily): ${e.message}")
                     }
                 } else {
-                    Log.d("DetectionSaveViewModel", "📸 Not a gallery content URI, skipping persistable permission: $uri")
+                   // Log.d("DetectionSaveViewModel", "📸 Not a gallery content URI, skipping persistable permission: $uri")
                 }
 
                 // ✅ Save detection metadata to Room
@@ -116,10 +116,10 @@ class DetectionSaveViewModel(
                 boundingBoxDao.insertBoundingBoxes(roomBoundingBoxes)
 
                 _saveStatus.value = true
-                Log.d("DetectionSaveViewModel", "✅ Detection and bounding boxes saved successfully")
+               // Log.d("DetectionSaveViewModel", "✅ Detection and bounding boxes saved successfully")
 
             } catch (e: Exception) {
-                Log.e("DetectionSaveViewModel", "❌ Error saving detection or bounding boxes", e)
+              //  Log.e("DetectionSaveViewModel", "❌ Error saving detection or bounding boxes", e)
                 _saveStatus.value = false
             }
         }
@@ -260,11 +260,11 @@ class DetectionSaveViewModel(
             } catch (e: SyncException) {
                 val localizedError = getLocalizedErrorMessage(e.errorKey)
                 _syncCompletedEvent.emit(SyncResult.Failure(localizedError))
-                Log.e("SyncAll", "Sync failed: ${e.errorKey}", e)
+             //   Log.e("SyncAll", "Sync failed: ${e.errorKey}", e)
             } catch (e: Exception) {
                 val localizedError = getLocalizedErrorMessage("unknown_error")
                 _syncCompletedEvent.emit(SyncResult.Failure(localizedError))
-                Log.e("SyncAll", "Sync failed", e)
+             //   Log.e("SyncAll", "Sync failed", e)
             } finally {
                 _isSyncing.value = false
             }
@@ -330,7 +330,7 @@ class DetectionSaveViewModel(
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    Log.d("SYNC", "Server response received: $body")
+                 //   Log.d("SYNC", "Server response received: $body")
                     
                     body.detectionsToSend.forEach { detectionToSend ->
                         val detection = detectionToSend.detection
@@ -374,18 +374,18 @@ class DetectionSaveViewModel(
                         processDetectionsNeededFromPhone(neededServerIds, authToken, userId)
                     }
 
-                    Log.d("SYNC", "✅ Sync success! ${body.detectionsToSend.size} detections saved.")
+                  //  Log.d("SYNC", "✅ Sync success! ${body.detectionsToSend.size} detections saved.")
                     true
                 } else {
-                    Log.e("SYNC", "❌ Empty response body")
+                  //  Log.e("SYNC", "❌ Empty response body")
                     false
                 }
             } else {
-                Log.e("SYNC", "❌ Server returned error: ${response.code()}")
+                //   Log.e("SYNC", "❌ Server returned error: ${response.code()}")
                 false
             }
         } catch (e: Exception) {
-            Log.e("SYNC", "❌ Exception during sync", e)
+            //    Log.e("SYNC", "❌ Exception during sync", e)
             false
         }
     }
@@ -394,21 +394,21 @@ class DetectionSaveViewModel(
         return try {
             val softDeletedIds = detectionResultDao.getSoftDeletedServerIds(userId)
             if (softDeletedIds.isEmpty()) {
-                Log.d("SoftDelete", "No soft deleted IDs found locally.")
+                //    Log.d("SoftDelete", "No soft deleted IDs found locally.")
                 return true
             }
 
             val response = detRepository.softDeleteLocalDetections(softDeletedIds, authToken)
             if (response.isSuccessful) {
                 detectionResultDao.deleteDetectionsByServerIds(softDeletedIds)
-                Log.d("SoftDelete", "Successfully deleted detections locally and on server.")
+                //    Log.d("SoftDelete", "Successfully deleted detections locally and on server.")
                 true
             } else {
-                Log.e("SoftDelete", "Error deleting on server: ${response.errorBody()?.string()}")
+                //    Log.e("SoftDelete", "Error deleting on server: ${response.errorBody()?.string()}")
                 false
             }
         } catch (e: Exception) {
-            Log.e("SoftDelete", "Exception during soft delete", e)
+            //    Log.e("SoftDelete", "Exception during soft delete", e)
             false
         }
     }
@@ -422,15 +422,15 @@ class DetectionSaveViewModel(
                 val deletedIds = response.body()?.deletedIds ?: emptyList()
                 if (deletedIds.isNotEmpty()) {
                     detectionResultDao.deleteDetectionsByServerIds(deletedIds)
-                    Log.d("SyncSoftDelete", "Successfully deleted local detections: $deletedIds")
+                    //     Log.d("SyncSoftDelete", "Successfully deleted local detections: $deletedIds")
                 }
                 true
             } else {
-                Log.e("SyncSoftDelete", "Server error: ${response.errorBody()?.string()}")
+                //    Log.e("SyncSoftDelete", "Server error: ${response.errorBody()?.string()}")
                 false
             }
         } catch (e: Exception) {
-            Log.e("SyncSoftDelete", "Exception during sync", e)
+            //    Log.e("SyncSoftDelete", "Exception during sync", e)
             false
         }
     }
@@ -454,14 +454,14 @@ class DetectionSaveViewModel(
                         )
                     }
                 }
-                Log.d("SyncNotes", "Successfully synced notes with server.")
+                //    Log.d("SyncNotes", "Successfully synced notes with server.")
                 true
             } else {
-                Log.e("SyncNotes", "Server error: ${response.errorBody()?.string()}")
+                //     Log.e("SyncNotes", "Server error: ${response.errorBody()?.string()}")
                 false
             }
         } catch (e: Exception) {
-            Log.e("SyncNotes", "Error syncing notes", e)
+            //    Log.e("SyncNotes", "Error syncing notes", e)
             false
         }
     }
@@ -520,7 +520,7 @@ class DetectionSaveViewModel(
                     detRepository
                 )
             } catch (e: Exception) {
-                Log.e("SYNC", "❌ Failed to process needed detections", e)
+                //     Log.e("SYNC", "❌ Failed to process needed detections", e)
             }
         }
     }
@@ -572,9 +572,9 @@ class DetectionSaveViewModel(
                         val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
                                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                         context.contentResolver.takePersistableUriPermission(uri, takeFlags)
-                        Log.d("SYNC", "✅ Persistable permission granted for URI: $uri")
+                        //    Log.d("SYNC", "✅ Persistable permission granted for URI: $uri")
                     } catch (e: SecurityException) {
-                        Log.e("SYNC", "❌ Failed to take persistable permission: ${e.message}")
+                        //    Log.e("SYNC", "❌ Failed to take persistable permission: ${e.message}")
                         // Continue anyway as we might still be able to open the stream
                     }
                 }
@@ -588,11 +588,11 @@ class DetectionSaveViewModel(
                     imageKeyToFileMap[imageKey] = tempFile
                     inputStream.close()
                 } else {
-                    Log.w("SYNC", "⚠️ Could not resolve image URI to file: ${detection.imageUri}")
+                    //    Log.w("SYNC", "⚠️ Could not resolve image URI to file: ${detection.imageUri}")
                     return@forEachIndexed
                 }
             } catch (e: Exception) {
-                Log.e("SYNC", "❌ Error reading image file: ${detection.imageUri}", e)
+                //     Log.e("SYNC", "❌ Error reading image file: ${detection.imageUri}", e)
                 return@forEachIndexed
             }
 
@@ -633,12 +633,12 @@ class DetectionSaveViewModel(
                 val response = repository.sendDetectionsToServer(authToken, detectionsJson, imageParts)
 
                 if (response.isSuccessful) {
-                    Log.d("SYNC", "Detections successfully sent to server.")
+                    //     Log.d("SYNC", "Detections successfully sent to server.")
                 } else {
-                    Log.e("SYNC", "Failed to sync: ${response.code()} - ${response.errorBody()?.string()}")
+                    //    Log.e("SYNC", "Failed to sync: ${response.code()} - ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                Log.e("SYNC", "Error during sync: ${e.localizedMessage}")
+                //     Log.e("SYNC", "Error during sync: ${e.localizedMessage}")
             }
         }
     }

@@ -21,9 +21,9 @@ class UserViewModelRoom(
         viewModelScope.launch {
             val fetchedUser = userDao.getUserById(userId)
             if (fetchedUser != null) {
-                Log.d("UserFetch", "✅ Loaded user from local Room DB (not from server)")
+                //       Log.d("UserFetch", "✅ Loaded user from local Room DB (not from server)")
             } else {
-                Log.d("UserFetch", "⚠️ No user found in local DB with id: $userId")
+                //       Log.d("UserFetch", "⚠️ No user found in local DB with id: $userId")
             }
             _user.postValue(fetchedUser)
         }

@@ -89,7 +89,7 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch(Dispatchers.IO) {
             _boundingBoxes.value = boundingBoxes
             _inferenceTime.value = inferenceTime
-            Log.d("DetectionViewModel", "Inference time updated: $inferenceTime ms")
+            //  Log.d("DetectionViewModel", "Inference time updated: $inferenceTime ms")
 
 
             _bitmap.value?.let { originalBitmap ->
@@ -108,7 +108,7 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
      * Callback when no objects are detected.
      */
     override fun onEmptyDetect() {
-        Log.e("DetectionViewModel", "No objects detected.")
+        // Log.e("DetectionViewModel", "No objects detected.")
 
         viewModelScope.launch {
             _boundingBoxes.value = emptyList()
@@ -136,7 +136,7 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
                     contentResolver.takePersistableUriPermission(uri, takeFlags)
                 } catch (e: SecurityException) {
                     // Ignore if permission was already granted or can't be taken
-                    Log.w("DetectionViewModel", "Persistable permission not granted: ${e.message}")
+                    //         Log.w("DetectionViewModel", "Persistable permission not granted: ${e.message}")
                 }
             }
 
@@ -144,7 +144,7 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
                 BitmapFactory.decodeStream(inputStream)
             }
         } catch (e: Exception) {
-            Log.e("DetectionViewModel", "Error loading image from URI: $uri", e)
+            //     Log.e("DetectionViewModel", "Error loading image from URI: $uri", e)
             null
         }
     }
@@ -177,10 +177,10 @@ class DetectionViewModel(application: Application) : AndroidViewModel(applicatio
             }
 
         } catch (e: SecurityException) {
-            Log.e("DetectionViewModel", "❌ Permission error: ${e.message}", e)
+            //     Log.e("DetectionViewModel", "❌ Permission error: ${e.message}", e)
             null
         } catch (e: Exception) {
-            Log.e("DetectionViewModel", "❌ Error loading image: ${e.message}", e)
+            //     Log.e("DetectionViewModel", "❌ Error loading image: ${e.message}", e)
             null
         }
     }

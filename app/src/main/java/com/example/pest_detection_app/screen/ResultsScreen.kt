@@ -564,9 +564,9 @@ fun ScanButton1(navController: NavController) {
                     it,
                     Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
-                Log.d("ScanButton1", "✅ Persistable URI permission granted: $it")
+                //     Log.d("ScanButton1", "✅ Persistable URI permission granted: $it")
             } catch (e: SecurityException) {
-                Log.e("ScanButton1", "❌ Failed to persist URI permission", e)
+                //     Log.e("ScanButton1", "❌ Failed to persist URI permission", e)
             }
             navController.navigate("results/${Uri.encode(it.toString())}")
         }
@@ -742,7 +742,7 @@ private fun createImageUri(context: Context): Uri? {
             imageFile
         )
     } catch (e: IllegalArgumentException) {
-        Log.e("FileProvider", "Failed to get URI for file", e)
+        //    Log.e("FileProvider", "Failed to get URI for file", e)
         null
     }
 }

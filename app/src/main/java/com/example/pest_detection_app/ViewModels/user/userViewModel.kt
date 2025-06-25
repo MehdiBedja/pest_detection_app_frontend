@@ -97,19 +97,19 @@ class AccountViewModel(private val authRepository: AuthRepository ) : ViewModel(
 
                         // Sign-up success
                         createdSuccess.value = true
-                        Log.d("SignUp", "User successfully signed up and stored in Room DB: $user")
+                        //   Log.d("SignUp", "User successfully signed up and stored in Room DB: $user")
 
                     } else {
                         error.value = "Failed to get user data from server"
-                        Log.e("SignUp", "Failed to get user data from server")
+                        //     Log.e("SignUp", "Failed to get user data from server")
                     }
                 } else {
                     error.value = "Failed to sign up: ${response.message()}"
-                    Log.e("SignUp", "Failed to sign up: ${response.message()}")
+                    //    Log.e("SignUp", "Failed to sign up: ${response.message()}")
                 }
             } catch (e: Exception) {
                 error.value = "Failed to sign up: ${e.message}"
-                Log.e("SignUp", "Failed to sign up: ${e.message}")
+                //     Log.e("SignUp", "Failed to sign up: ${e.message}")
             } finally {
                 loading.value = false
             }
@@ -131,20 +131,20 @@ class AccountViewModel(private val authRepository: AuthRepository ) : ViewModel(
         loading.value = true
         error.value = null
 
-        Log.d("GoogleSignUpViewModel", "Starting Google sign-up process")
-        Log.d("GoogleSignUpViewModel", "ID Token being sent: ${idToken.take(50)}...") // Only show first 50 chars for security
+        //   Log.d("GoogleSignUpViewModel", "Starting Google sign-up process")
+        //   Log.d("GoogleSignUpViewModel", "ID Token being sent: ${idToken.take(50)}...") // Only show first 50 chars for security
 
         viewModelScope.launch {
             try {
                 val request = GoogleSignUpRequest(idToken, "client")
-                Log.d("GoogleSignUpViewModel", "Request object created: id_token length=${idToken.length}, user_type=client")
+                //   Log.d("GoogleSignUpViewModel", "Request object created: id_token length=${idToken.length}, user_type=client")
 
                 val response = authRepository.googleSignUp(idToken, "client")
-                Log.d("GoogleSignUpViewModel", "Response received: code=${response.code()}, isSuccessful=${response.isSuccessful}")
+                //  Log.d("GoogleSignUpViewModel", "Response received: code=${response.code()}, isSuccessful=${response.isSuccessful}")
 
                 if (response.isSuccessful) {
                     val googleResponse = response.body()
-                    Log.d("GoogleSignUpViewModel", "Response body: $googleResponse")
+                    //     Log.d("GoogleSignUpViewModel", "Response body: $googleResponse")
 
                     if (googleResponse != null) {
                         val user = googleResponse.user
@@ -173,14 +173,14 @@ class AccountViewModel(private val authRepository: AuthRepository ) : ViewModel(
 
                         // Sign-up success
                         createdSuccess.value = true
-                        Log.d("GoogleSignUp", "User successfully signed up with Google and stored in Room DB: $user")
+                        //      Log.d("GoogleSignUp", "User successfully signed up with Google and stored in Room DB: $user")
                     } else {
                         error.value = "Failed to get user data from server"
-                        Log.e("GoogleSignUp", "Response body was null")
+                        //      Log.e("GoogleSignUp", "Response body was null")
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    Log.e("GoogleSignUpViewModel", "Error response: code=${response.code()}, body=$errorBody")
+                    //     Log.e("GoogleSignUpViewModel", "Error response: code=${response.code()}, body=$errorBody")
 
                     error.value = when {
                         response.code() == 400 && errorBody?.contains("already exists") == true ->
@@ -199,7 +199,7 @@ class AccountViewModel(private val authRepository: AuthRepository ) : ViewModel(
                 }
             } catch (e: Exception) {
                 error.value = "Failed to sign up with Google: ${e.message}"
-                Log.e("GoogleSignUpViewModel", "Exception during Google sign-up", e)
+                //     Log.e("GoogleSignUpViewModel", "Exception during Google sign-up", e)
             } finally {
                 loading.value = false
             }
@@ -349,7 +349,7 @@ class LoginViewModel(
 
 
 
-                        Log.d("Login", "Login successful. Token: $tokenValue")
+                        //     Log.d("Login", "Login successful. Token: $tokenValue")
 
                         login.value = true
                         logout.value = false
@@ -359,7 +359,7 @@ class LoginViewModel(
                             withContext(Dispatchers.IO) { userDao.getUserById(userId) }
 
                         if (existingUser == null) {
-                            Log.d("Login", "User not found in Room, fetching from backend...")
+                            //      Log.d("Login", "User not found in Room, fetching from backend...")
 
                             val userResponse = authRepository.getUser(tokenValue)
                             if (userResponse.isSuccessful) {
@@ -383,16 +383,13 @@ class LoginViewModel(
                                         userDao.insertUser(userEntity)
                                     }
 
-                                    Log.d("Login", "User successfully stored in Room database")
+                                    //        Log.d("Login", "User successfully stored in Room database")
                                 }
                             } else {
-                                Log.e(
-                                    "Login",
-                                    "Failed to fetch user from backend: ${userResponse.message()}"
-                                )
+                                //    Log.e("Login", "Failed to fetch user from backend: ${userResponse.message()}")
                             }
                         } else {
-                            Log.d("Login", "User already exists in Room, no need to fetch.")
+                            //    Log.d("Login", "User already exists in Room, no need to fetch.")
                         }
                     }
                 } else {
@@ -401,13 +398,13 @@ class LoginViewModel(
                     } else {
                         "Login failed: ${response.message()}"
                     }
-                    Log.e("Login", "Failed to login: ${response.message()}")
+                    //   Log.e("Login", "Failed to login: ${response.message()}")
                     _token.value = null
                     Globals.savedToken = null
                 }
             } catch (e: Exception) {
                 error.value = "Failed to login: ${e.message}"
-                Log.e("Login", "Failed to login: ${e.message}")
+                //  Log.e("Login", "Failed to login: ${e.message}")
                 _token.value = null
                 Globals.savedToken = null
             } finally {
@@ -421,23 +418,17 @@ class LoginViewModel(
         loading.value = true
         error.value = null
 
-        Log.d("GoogleSignInViewModel", "Starting Google sign-in process")
-        Log.d(
-            "GoogleSignInViewModel",
-            "ID Token being sent: ${idToken.take(50)}..."
-        ) // Only show first 50 chars for security
+        //    Log.d("GoogleSignInViewModel", "Starting Google sign-in process")
+        //    Log.d("GoogleSignInViewModel", "ID Token being sent: ${idToken.take(50)}...") // Only show first 50 chars for security
 
         viewModelScope.launch {
             try {
                 val response = authRepository.googleSignIn(idToken)
-                Log.d(
-                    "GoogleSignInViewModel",
-                    "Response received: code=${response.code()}, isSuccessful=${response.isSuccessful}"
-                )
+                //      Log.d("GoogleSignInViewModel", "Response received: code=${response.code()}, isSuccessful=${response.isSuccessful}")
 
                 if (response.isSuccessful) {
                     val googleResponse = response.body()
-                    Log.d("GoogleSignInViewModel", "Response body: $googleResponse")
+                    //      Log.d("GoogleSignInViewModel", "Response body: $googleResponse")
 
                     if (googleResponse != null) {
                         val tokenValue = googleResponse.token
@@ -445,7 +436,7 @@ class LoginViewModel(
 
                         if (tokenValue != null && user != null) {
                             // Save credentials to preferences
-                            Log.d("Login", "Login successful. Token: $tokenValue")
+                            //      Log.d("Login", "Login successful. Token: $tokenValue")
 
                             userPreferences.updateValues(true, user.id, tokenValue )
                             Globals.savedToken = tokenValue
@@ -456,7 +447,7 @@ class LoginViewModel(
                             _userId.value = user.id
 
 
-                            Log.d("GoogleSignIn", "Sign-in successful. Token: $tokenValue")
+                            //       Log.d("GoogleSignIn", "Sign-in successful. Token: $tokenValue")
 
                             login.value = true
                             logout.value = false
@@ -467,10 +458,7 @@ class LoginViewModel(
                                 withContext(Dispatchers.IO) { userDao.getUserById(user.id) }
 
                             if (existingUser == null) {
-                                Log.d(
-                                    "GoogleSignIn",
-                                    "User not found in Room, storing user data..."
-                                )
+                                //      Log.d("GoogleSignIn", "User not found in Room, storing user data...")
 
                                 // Convert API response to Room Entity
                                 val userEntity = com.example.pest_detection_app.RoomDatabase.User(
@@ -491,27 +479,21 @@ class LoginViewModel(
                                     userDao.insertUser(userEntity)
                                 }
 
-                                Log.d("GoogleSignIn", "User successfully stored in Room database")
+                                //      Log.d("GoogleSignIn", "User successfully stored in Room database")
                             } else {
-                                Log.d(
-                                    "GoogleSignIn",
-                                    "User already exists in Room, no need to store."
-                                )
+                                //        Log.d("GoogleSignIn", "User already exists in Room, no need to store.")
                             }
                         } else {
                             error.value = "Failed to get authentication data from server"
-                            Log.e("GoogleSignIn", "Token or user data was null")
+                            //     Log.e("GoogleSignIn", "Token or user data was null")
                         }
                     } else {
                         error.value = "Failed to get response data from server"
-                        Log.e("GoogleSignIn", "Response body was null")
+                        //    Log.e("GoogleSignIn", "Response body was null")
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    Log.e(
-                        "GoogleSignInViewModel",
-                        "Error response: code=${response.code()}, body=$errorBody"
-                    )
+                    //     Log.e("GoogleSignInViewModel", "Error response: code=${response.code()}, body=$errorBody")
 
                     error.value = when {
                         response.code() == 404 -> "Account not found. Please sign up first."
@@ -530,7 +512,7 @@ class LoginViewModel(
                 }
             } catch (e: Exception) {
                 error.value = "Failed to sign in with Google: ${e.message}"
-                Log.e("GoogleSignInViewModel", "Exception during Google sign-in", e)
+                //        Log.e("GoogleSignInViewModel", "Exception during Google sign-in", e)
             } finally {
                 loading.value = false
             }
@@ -580,7 +562,7 @@ class LoginViewModel(
                     val passwordResponse = response.body()
                     if (passwordResponse?.success == true) {
                         passwordSuccess.value = true
-                        Log.d("PasswordChange", "Password ${if (_isGoogle.value == false) "set" else "changed"} successfully")
+                        //     Log.d("PasswordChange", "Password ${if (_isGoogle.value == false) "set" else "changed"} successfully")
                         DatabaseManager.userDao(MyApp.getContext()).updateHasPassword(userId , true)
                     } else {
                         passwordError.value = passwordResponse?.message ?: "Failed to ${if (_isGoogle.value == false) "set" else "change"} password"
@@ -592,11 +574,11 @@ class LoginViewModel(
                         401 -> "Unauthorized. Please login again"
                         else -> "Failed to ${if (_isGoogle.value == false) "set" else "change"} password: ${response.message()}"
                     }
-                    Log.e("PasswordChange", "Error: ${response.code()}, Body: $errorBody")
+                    //      Log.e("PasswordChange", "Error: ${response.code()}, Body: $errorBody")
                 }
             } catch (e: Exception) {
                 passwordError.value = "Failed to change password: ${e.message}"
-                Log.e("PasswordChange", "Exception during password change", e)
+                //     Log.e("PasswordChange", "Exception during password change", e)
             } finally {
                 passwordLoading.value = false
             }
@@ -615,26 +597,26 @@ class LoginViewModel(
         try {
             val token = Globals.savedToken
             if (token != null) {
-                Log.d("LoadIsGoogle", "Starting loadIsGoogle with token: ${token.take(20)}...")
+                //       Log.d("LoadIsGoogle", "Starting loadIsGoogle with token: ${token.take(20)}...")
                 val response = authRepository.checkIsGoogleUser(token)
                 if (response.isSuccessful) {
                     val isGoogleResponse = response.body()
                     _isGoogle.value = isGoogleResponse?.has_usable_password
                     Globals.isGoogle = isGoogleResponse?.has_usable_password
-                    Log.d("LoadIsGoogle", "Successfully loaded isGoogle: ${isGoogleResponse?.is_google_user}")
-                    Log.d("LoadIsGoogle", "has_usable_password: ${isGoogleResponse?.has_usable_password}")
+                    //         Log.d("LoadIsGoogle", "Successfully loaded isGoogle: ${isGoogleResponse?.is_google_user}")
+                    //         Log.d("LoadIsGoogle", "has_usable_password: ${isGoogleResponse?.has_usable_password}")
                 } else {
-                    Log.e("LoadIsGoogle", "Failed to load isGoogle: ${response.message()}")
+                    //       Log.e("LoadIsGoogle", "Failed to load isGoogle: ${response.message()}")
                     _isGoogle.value = null
                     Globals.isGoogle = null
                 }
             } else {
-                Log.w("LoadIsGoogle", "Token is null, cannot load isGoogle")
+                //       Log.w("LoadIsGoogle", "Token is null, cannot load isGoogle")
                 _isGoogle.value = null
                 Globals.isGoogle = null
             }
         } catch (e: Exception) {
-            Log.e("LoadIsGoogle", "Exception loading isGoogle: ${e.message}")
+            //      Log.e("LoadIsGoogle", "Exception loading isGoogle: ${e.message}")
             _isGoogle.value = null
             Globals.isGoogle = null
         }

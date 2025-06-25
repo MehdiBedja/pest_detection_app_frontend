@@ -1,7 +1,6 @@
 package com.example.pest_detection_app.navigation
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -28,7 +26,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.example.pest_detection_app.MyApp
-import com.example.pest_detection_app.R
 import com.example.pest_detection_app.RoomDatabase.DatabaseManager
 import com.example.pest_detection_app.ViewModels.DetectionSaveViewModelFactory
 import com.example.pest_detection_app.ViewModels.DetectionViewModel
