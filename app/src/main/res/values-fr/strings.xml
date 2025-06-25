@@ -250,4 +250,58 @@
     <string name="detection_info">Information de Détection</string>
     <string name="pest_detection_capability">Notre système de détection avancé peut identifier ce ravageur avec une grande précision basée sur ses caractéristiques visuelles.</string>
 
+
+    <string name="onboarding_title_1">Détection Intelligente de Nuisibles à Portée de Main</string>
+    <string name="onboarding_subtitle_1">Utilisez votre caméra pour détecter instantanément les insectes sur vos cultures grâce à l\'IA et obtenez des recommandations de pesticides pour les nuisibles détectés.</string>
+    <string name="skip">Passer</string>
+    <string name="continue_button">Continuer</string>
+
+    <string name="onboarding_title_2">Détectez les Nuisibles Sans Internet</string>
+    <string name="onboarding_subtitle_2">Notre modèle IA avancé fonctionne hors ligne. Que vous soyez dans les champs, en serre ou en forêt — vous pouvez scanner les nuisibles instantanément.</string>
+    <string name="previous">Précédent</string>
+    <string name="next">Suivant</string>
+
+    <string name="onboarding_title_3">Débloquez Toutes les Fonctionnalités avec un Compte</string>
+    <string name="onboarding_subtitle_3">Créez un compte gratuit pour sauvegarder toutes les détections, accéder aux enregistrements complets et statistiques, profiter des fonctionnalités complètes du tableau de bord, et synchroniser sur tous les appareils plus de nombreuses autres fonctionnalités.</string>
+    <string name="create_account">Créer un Compte</string>
+    <string name="continue_without_account">Continuer Sans Compte</string>
+
+
+
+    <string name="file_access_title">Activer l\'accès aux fichiers</string>
+    <string name="file_access_subtitle">Autorisez l\'accès aux fichiers pour améliorer votre expérience avec une synchronisation transparente et des capacités hors ligne</string>
+
+    <!-- Benefits -->
+    <string name="benefit_sync_title">Synchroniser vos données</string>
+    <string name="benefit_sync_description">Gardez vos résultats de détection synchronisés sur tous les appareils</string>
+
+    <string name="benefit_storage_title">Stocker les images en sécurité</string>
+    <string name="benefit_storage_description">Sauvegardez vos images capturées et résultats de détection localement</string>
+
+    <string name="benefit_offline_title">Travailler hors ligne</string>
+    <string name="benefit_offline_description">Accédez à vos données même sans connexion internet</string>
+
+    <!-- Buttons -->
+    <string name="dont_show_again">Ne plus afficher</string>
+
+    <!-- Confirmation Dialog -->
+    <string name="confirm_skip_title">Êtes-vous sûr ?</string>
+    <string name="confirm_skip_message">Sans accès aux fichiers, la synchronisation sera désactivée et vous ne pourrez pas télécharger ou sauvegarder vos données.</string>
+    <string name="yes_skip">Oui, ignorer</string>
+
+
+
+    <string name="deny_button">Refuser</string>
+
+
+
+    <string name="skip_options_title">Ignorer l\'accès aux fichiers</string>
+    <string name="skip_options_message">Voulez-vous ignorer cette fois ou désactiver définitivement cette invite ?</string>
+    <string name="skip_this_time">Ignorer cette fois</string>
+    <string name="skip_button">Ignorer</string>
+
+
+
+
+
 </resources>

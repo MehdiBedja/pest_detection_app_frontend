@@ -276,5 +276,60 @@
     <string name="detection_info">Detection Information</string>
     <string name="pest_detection_capability">Our advanced detection system can identify this pest with high accuracy based on visual characteristics.</string>
 
+    <!-- Onboarding Strings - English -->
+    <string name="onboarding_title_1">Smart Pest Detection at Your Fingertips</string>
+    <string name="onboarding_subtitle_1">Use your camera to detect insects on your crops instantly using AI and get pesticide recommendations for the detected pests.</string>
+    <string name="skip">Skip</string>
+    <string name="continue_button">Continue</string>
+
+    <string name="onboarding_title_2">Detect Pests Without Internet</string>
+    <string name="onboarding_subtitle_2">Our advanced AI model works offline. Whether you\'re in the field, greenhouse, or forest — you can still scan pests instantly.</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+
+    <string name="onboarding_title_3">Unlock Full Features with Account</string>
+    <string name="onboarding_subtitle_3">Create a free account to save all detections, access complete records and stats, enjoy full dashboard features, and sync across all devices plus many other features.</string>
+    <string name="create_account">Create Account</string>
+    <string name="continue_without_account">Continue Without Account</string>
+
+
+
+
+    <string name="file_access_title">Enable File Access</string>
+    <string name="file_access_subtitle">Allow file access to enhance your experience with seamless syncing and offline capabilities</string>
+
+    <!-- Benefits -->
+    <string name="benefit_sync_title">Sync Your Data</string>
+    <string name="benefit_sync_description">Keep your detection results synchronized across devices</string>
+
+    <string name="benefit_storage_title">Store Images Securely</string>
+    <string name="benefit_storage_description">Save your captured images and detection results locally</string>
+
+    <string name="benefit_offline_title">Work Offline</string>
+    <string name="benefit_offline_description">Access your data even without internet connection</string>
+
+    <!-- Buttons -->
+    <string name="dont_show_again">Don\'t show again</string>
+
+    <!-- Confirmation Dialog -->
+    <string name="confirm_skip_title">Are you sure?</string>
+    <string name="confirm_skip_message">Without file access, syncing will be disabled and you won\'t be able to download or back up your data.</string>
+    <string name="yes_skip">Yes, skip</string>
+
+
+    <string name="deny_button">Deny</string>
+
+
+    <string name="skip_options_title">Skip File Access</string>
+    <string name="skip_options_message">Would you like to skip this time or permanently disable this prompt?</string>
+    <string name="skip_this_time">Skip This Time</string>
+    <string name="skip_button">Skip</string>
+
+
+
+
+
+
+
 
 </resources>

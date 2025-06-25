@@ -259,4 +259,59 @@
     <string name="detection_info">معلومات الكشف</string>
     <string name="pest_detection_capability">يمكن لنظام الكشف المتقدم لدينا تحديد هذه الآفة بدقة عالية بناءً على الخصائص البصرية.</string>
 
+
+    <string name="onboarding_title_1">اكتشاف ذكي للآفات في متناول يدك</string>
+    <string name="onboarding_subtitle_1">استخدم كاميرتك لاكتشاف الحشرات على محاصيلك فورًا باستخدام الذكاء الاصطناعي واحصل على توصيات المبيدات للآفات المكتشفة.</string>
+    <string name="skip">تخطي</string>
+    <string name="continue_button">متابعة</string>
+
+    <string name="onboarding_title_2">اكتشف الآفات بدون إنترنت</string>
+    <string name="onboarding_subtitle_2">يعمل نموذج الذكاء الاصطناعي المتقدم دون اتصال بالإنترنت. سواء كنت في الحقل أو البيت الزجاجي أو الغابة — يمكنك مسح الآفات فورًا.</string>
+    <string name="previous">السابق</string>
+    <string name="next">التالي</string>
+
+    <string name="onboarding_title_3">افتح جميع الميزات مع الحساب</string>
+    <string name="onboarding_subtitle_3">أنشئ حسابًا مجانيًا لحفظ جميع الاكتشافات، والوصول إلى السجلات والإحصائيات الكاملة، والاستمتاع بميزات لوحة التحكم الكاملة، والمزامنة عبر جميع الأجهزة بالإضافة إلى العديد من الميزات الأخرى.</string>
+    <string name="create_account">إنشاء حساب</string>
+    <string name="continue_without_account">المتابعة بدون حساب</string>
+
+
+    <string name="file_access_title">تفعيل الوصول للملفات</string>
+    <string name="file_access_subtitle">اسمح بالوصول للملفات لتحسين تجربتك مع المزامنة السلسة والقدرات المتاحة دون اتصال</string>
+
+    <!-- Benefits -->
+    <string name="benefit_sync_title">مزامنة بياناتك</string>
+    <string name="benefit_sync_description">حافظ على نتائج الكشف متزامنة عبر الأجهزة</string>
+
+    <string name="benefit_storage_title">حفظ الصور بأمان</string>
+    <string name="benefit_storage_description">احفظ صورك المُلتقطة ونتائج الكشف محلياً</string>
+
+    <string name="benefit_offline_title">العمل دون اتصال</string>
+    <string name="benefit_offline_description">وصول لبياناتك حتى بدون اتصال إنترنت</string>
+
+    <!-- Buttons -->
+    <string name="dont_show_again">عدم الإظهار مرة أخرى</string>
+
+    <!-- Confirmation Dialog -->
+    <string name="confirm_skip_title">هل أنت متأكد؟</string>
+    <string name="confirm_skip_message">بدون الوصول للملفات، ستكون المزامنة معطلة ولن تتمكن من تحميل أو نسخ احتياطي لبياناتك.</string>
+    <string name="yes_skip">نعم، تخطي</string>
+
+
+
+
+    <string name="deny_button">رفض</string>
+
+
+
+
+
+    <string name="skip_options_title">تخطي الوصول للملفات</string>
+    <string name="skip_options_message">هل تريد التخطي هذه المرة أم تعطيل هذا التنبيه نهائياً؟</string>
+    <string name="skip_this_time">تخطي هذه المرة</string>
+    <string name="skip_button">تخطي</string>
+
+
+
+
 </resources>

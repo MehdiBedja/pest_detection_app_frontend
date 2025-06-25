@@ -32,6 +32,8 @@ fun SplashScreen(navController: NavController) {
     val context = LocalContext.current
     val isDarkMode = DarkModePref.getDarkMode(context)
 
+    val onboardingManager = OnboardingManager(context)
+
     // Simplified animation states
     var contentVisible by remember { mutableStateOf(false) }
 
@@ -45,8 +47,15 @@ fun SplashScreen(navController: NavController) {
     LaunchedEffect(Unit) {
         contentVisible = true
         delay(1000) // Reduced delay
-        navController.navigate(Screen.Home.route) {
-            popUpTo(Screen.Splash.route) { inclusive = true }
+
+        if (onboardingManager.hasSeenOnboarding()) {
+            navController.navigate(Screen.Home.route) {
+                popUpTo(Screen.Splash.route) { inclusive = true }
+            }
+        } else {
+            navController.navigate(Screen.OnboardingFirst.route) {
+                popUpTo(Screen.Splash.route) { inclusive = true }
+            }
         }
     }
 

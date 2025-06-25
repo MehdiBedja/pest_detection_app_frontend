@@ -37,4 +37,15 @@ sealed class Screen(val route: String) {
     object PestDetail : Screen("pest_detail/{pestName}") {
         fun createRoute(pestName: String) = "pest_detail/$pestName"}
 
+
+
+    object OnboardingFirst : Screen("OnboardingFirst")
+    object OnboardingSecond : Screen("OnboardingSecond")
+    object OnboardingThird : Screen("OnboardingThird")
+
+
+
+    object FileAccessPermission : Screen("file_access_permission")
+
+
 }
