@@ -31,6 +31,15 @@
     <string name="cancel">Annuler</string>
     <string name="forum">Forum</string>
 
+    <string name="permission_required">Permission Requise</string>
+    <string name="camera_permission_rationale">L\'accès à l\'appareil photo est nécessaire pour prendre des photos de vos plantes et détecter les dommages potentiels causés par les parasites. Cela aide notre IA à analyser les images pour identifier les parasites.</string>
+    <string name="gallery_permission_rationale">L\'accès aux photos est nécessaire pour analyser les images existantes de votre galerie à la recherche de parasites. Nous n\'accédons qu\'aux photos que vous choisissez spécifiquement de scanner.</string>
+    <string name="grant_permission">Accorder la Permission</string>
+    <string name="camera_permission_denied">La permission d\'appareil photo est requise pour prendre des photos. Veuillez l\'activer dans les Paramètres pour utiliser cette fonction.</string>
+    <string name="storage_permission_denied">La permission d\'accès aux photos est requise pour sélectionner des images. Veuillez l\'activer dans les Paramètres pour utiliser cette fonction.</string>
+
+
+
     <!-- Settings screen -->
     <string name="settings">Paramètres</string>
     <string name="language">Langue</string>

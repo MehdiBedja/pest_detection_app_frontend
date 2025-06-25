@@ -129,4 +129,9 @@ dependencies {
 
     // Gson for JSON parsing (if not already added)
     implementation("com.google.code.gson:gson:2.10.1")
+
+
+
+    implementation("com.google.accompanist:accompanist-permissions:0.29.0-alpha")
+
 }

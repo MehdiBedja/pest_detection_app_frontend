@@ -53,6 +53,11 @@ import com.example.pest_detection_app.screen.pest.PestListScreen
 import com.example.pest_detection_app.screen.user.ChangePasswordScreen
 import com.example.pest_detection_app.screen.user.SignUpScreen
 import com.example.pest_detection_app.screen.user.UserProfileScreen
+import com.google.accompanist.permissions.rememberPermissionState
+import android.Manifest
+import android.os.Build
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
 
 val endpoint = userEndpoint.createEndpoint()
 val userRepo by lazy { AuthRepository(endpoint) }
@@ -63,16 +68,27 @@ val userPreferences by lazy { UserPreferences(preferences) }
 val userView by lazy { LoginViewModel(userRepo, userPreferences) }
 val application = MyApp.getContext()
 
+
+
+
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun NavGraph(navController: NavHostController) {
     val isLoggedIn by userView.isLoggedIn.collectAsState()
     val context = LocalContext.current.applicationContext as Application
 
-
-
     val context1 = LocalContext.current
 
     var showSyncBanner by remember { mutableStateOf(true) }
+
+    // Permission state for storage access
+    val storagePermissionState = rememberPermissionState(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+    )
 
     val detectionSaveViewModel: DetectionSaveViewModel = viewModel(
         factory = DetectionSaveViewModelFactory(
@@ -81,7 +97,6 @@ fun NavGraph(navController: NavHostController) {
             DatabaseManager.getDatabase(MyApp.getContext()).boundingBoxDao()
         )
     )
-
 
     val currentLanguage = LocalContext.current.resources.configuration.locales[0].language
 
@@ -121,9 +136,6 @@ fun NavGraph(navController: NavHostController) {
         }
     }
 
-
-
-
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(Unit) {
         detectionSaveViewModel.syncCompletedEvent.collect { result ->
@@ -147,12 +159,16 @@ fun NavGraph(navController: NavHostController) {
         }
     }
 
-
-
-
-    // Trigger automatic sync at app launch if user is logged in
+    // Request permission when user logs in
     LaunchedEffect(isLoggedIn) {
-        if (isLoggedIn) {
+        if (isLoggedIn && !storagePermissionState.status.isGranted) {
+            storagePermissionState.launchPermissionRequest()
+        }
+    }
+
+    // Trigger automatic sync when user is logged in AND permission is granted
+    LaunchedEffect(isLoggedIn, storagePermissionState.status.isGranted) {
+        if (isLoggedIn && storagePermissionState.status.isGranted) {
             val userId = userView.userId.value
             val token = Globals.savedToken
             if (userId != null && token != null) {
@@ -163,8 +179,8 @@ fun NavGraph(navController: NavHostController) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
-            // Global Sync Banner
-            if (isLoggedIn) {
+            // Global Sync Banner - only show if logged in AND has storage permission
+            if (isLoggedIn && storagePermissionState.status.isGranted) {
                 GlobalSyncBanner(
                     detectionSaveViewModel = detectionSaveViewModel,
                     onDismiss = { showSyncBanner = false }
@@ -187,7 +203,8 @@ fun NavGraph(navController: NavHostController) {
 
                     val detectionViewModel: DetectionViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 
-                    HomeScreen(navController, userView , detectionSaveViewModel ,detectionViewModel , userViewModelRoom) }
+                    HomeScreen(navController, userView, detectionSaveViewModel, detectionViewModel, userViewModelRoom)
+                }
                 composable(Screen.Forum.route) { ForumScreen(navController) }
                 composable(Screen.Settings.route) { SettingsScreen(navController) }
                 composable(Screen.Login.route) { LogInScreen(navController, userView) }
@@ -201,8 +218,8 @@ fun NavGraph(navController: NavHostController) {
                         )
                     )
 
-
-                    UserProfileScreen(userView, navController , userViewModelRoom) }
+                    UserProfileScreen(userView, navController, userViewModelRoom)
+                }
                 composable(Screen.Logout.route) { LogoutScreen(navController, userView) }
 
                 composable(
@@ -266,8 +283,6 @@ fun NavGraph(navController: NavHostController) {
                     DetailItemScreen(navController, detectionViewModel, detectionSaveViewModel, detectionId, userView)
                 }
 
-
-
                 composable(Screen.Stat.route) {
                     val context = LocalContext.current.applicationContext as Application
 
@@ -299,7 +314,6 @@ fun NavGraph(navController: NavHostController) {
                     )
                 }
 
-
                 composable(
                     route = Screen.PestDetail.route,
                     arguments = listOf(
@@ -322,7 +336,7 @@ fun NavGraph(navController: NavHostController) {
                 Screen.Settings.route,
                 Screen.History.route,
                 Screen.UserProfileScreen.route,
-                Screen.SignUp.route ,
+                Screen.SignUp.route,
                 Screen.Login.route
             )
         ) {
@@ -348,3 +362,4 @@ fun currentRoute(navController: NavHostController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
 }
+

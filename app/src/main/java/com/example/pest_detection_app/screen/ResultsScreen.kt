@@ -1,9 +1,11 @@
 package com.example.pest_detection_app.screen
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.util.Log
 import android.view.Gravity
@@ -48,6 +50,10 @@ import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.ui.theme.AppTypography
 import com.example.pest_detection_app.ui.theme.CustomTextStyles
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import java.io.File
@@ -530,10 +536,26 @@ fun ActionButtons(
 
 
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun ScanButton1(navController: NavController) {
     val context = LocalContext.current
     var showOptions by remember { mutableStateOf(false) }
+    val cameraImageUri = remember { mutableStateOf<Uri?>(null) }
+
+    // Add states to track pending actions
+    var pendingCameraLaunch by remember { mutableStateOf(false) }
+    var pendingGalleryLaunch by remember { mutableStateOf(false) }
+
+    // Permission states using Accompanist
+    val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
+    val storagePermissionState = rememberPermissionState(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+    )
 
     val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
         uri?.let {
@@ -550,10 +572,80 @@ fun ScanButton1(navController: NavController) {
         }
     }
 
-    val cameraImageUri = remember { mutableStateOf<Uri?>(null) }
     val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
             cameraImageUri.value?.let { navController.navigate("results/${Uri.encode(it.toString())}") }
+        }
+    }
+
+
+
+    // Helper functions
+    fun launchGallery() {
+        galleryLauncher.launch(arrayOf("image/*"))
+    }
+
+    fun launchCamera() {
+        val uri = createImageUri(context)
+        if (uri != null) {
+            cameraImageUri.value = uri
+            cameraLauncher.launch(uri)
+        } else {
+            Toast.makeText(context, "Failed to create image file", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Auto-launch camera when permission is granted and pending
+    LaunchedEffect(cameraPermissionState.status.isGranted, pendingCameraLaunch) {
+        if (cameraPermissionState.status.isGranted && pendingCameraLaunch) {
+            pendingCameraLaunch = false
+            launchCamera()
+        }
+    }
+
+    // Auto-launch gallery when permission is granted and pending
+    LaunchedEffect(storagePermissionState.status.isGranted, pendingGalleryLaunch) {
+        if (storagePermissionState.status.isGranted && pendingGalleryLaunch) {
+            pendingGalleryLaunch = false
+            launchGallery()
+        }
+    }
+
+
+
+    fun handleCameraClick() {
+        when {
+            cameraPermissionState.status.isGranted -> {
+                launchCamera()
+            }
+            cameraPermissionState.status.shouldShowRationale -> {
+                // Set pending state and request permission
+                pendingCameraLaunch = true
+                cameraPermissionState.launchPermissionRequest()
+            }
+            else -> {
+                // Set pending state and request permission
+                pendingCameraLaunch = true
+                cameraPermissionState.launchPermissionRequest()
+            }
+        }
+    }
+
+    fun handleGalleryClick() {
+        when {
+            storagePermissionState.status.isGranted -> {
+                launchGallery()
+            }
+            storagePermissionState.status.shouldShowRationale -> {
+                // Set pending state and request permission
+                pendingGalleryLaunch = true
+                storagePermissionState.launchPermissionRequest()
+            }
+            else -> {
+                // Set pending state and request permission
+                pendingGalleryLaunch = true
+                storagePermissionState.launchPermissionRequest()
+            }
         }
     }
 
@@ -588,7 +680,7 @@ fun ScanButton1(navController: NavController) {
                         Button(
                             onClick = {
                                 showOptions = false
-                                galleryLauncher.launch(arrayOf("image/*"))
+                                handleGalleryClick()
                             },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.primary,
@@ -604,13 +696,7 @@ fun ScanButton1(navController: NavController) {
                         Button(
                             onClick = {
                                 showOptions = false
-                                val uri = createImageUri(context)
-                                if (uri != null) {
-                                    cameraImageUri.value = uri
-                                    cameraLauncher.launch(uri)
-                                } else {
-                                    Toast.makeText(context, "Failed to create image file", Toast.LENGTH_SHORT).show()
-                                }
+                                handleCameraClick()
                             },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.primary,

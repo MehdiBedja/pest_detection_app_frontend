@@ -241,54 +241,10 @@ fun PestDetailContent(pest: PestInfo, currentLanguage: String) {
             title = stringResource(R.string.treatment_recommendation),
             content = pest.recommendation,
             gradientColors = listOf(
-                MaterialTheme.colorScheme.secondary.copy(alpha = 0.1f),
-                MaterialTheme.colorScheme.secondary.copy(alpha = 0.05f)
-            ),
-            isExpandable = true
-        )
-
-        // Additional Info Card
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(4.dp, RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
             )
-        ) {
-            Column(
-                modifier = Modifier.padding(20.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                ) {
-
-
-                    Spacer(modifier = Modifier.width(12.dp))
-
-                    Text(
-                        text = stringResource(R.string.detection_info),
-                        style = CustomTextStyles.cardTitle.copy(
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-                }
-
-                Text(
-                    text = stringResource(R.string.pest_detection_capability),
-                    style = CustomTextStyles.noteContent.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        lineHeight = 20.sp
-                    )
-                )
-            }
-        }
-
-        // Bottom spacer
-        Spacer(modifier = Modifier.height(16.dp))
+        )
     }
 }
 
@@ -297,64 +253,40 @@ fun PestInfoCard(
     title: String,
     content: String,
     gradientColors: List<Color>,
-    isExpandable: Boolean = false
 ) {
-    var isExpanded by remember { mutableStateOf(!isExpandable) }
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(4.dp, RoundedCornerShape(16.dp))
-            .then(
-                if (isExpandable) {
-                    Modifier.clickable { isExpanded = !isExpanded }
-                } else {
-                    Modifier
-                }
-            ),
+            .shadow(4.dp, RoundedCornerShape(16.dp)),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         )
     ) {
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
                 .background(
                     brush = Brush.horizontalGradient(gradientColors),
                     shape = RoundedCornerShape(16.dp)
                 )
                 .padding(20.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = if (isExpanded) 12.dp else 0.dp)
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-
-                Spacer(modifier = Modifier.width(12.dp))
-
                 Text(
                     text = title,
                     style = CustomTextStyles.cardTitle.copy(
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Bold
-                    ),
-                    modifier = Modifier.weight(1f)
+                    )
                 )
 
-                if (isExpandable) {
-                    Icon(
-                        painter = painterResource(
-                            id = if (isExpanded) R.drawable.ic_expand_less else R.drawable.ic_expand_more
-                        ),
-                        contentDescription = if (isExpanded) "Collapse" else "Expand",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            }
+                Divider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
+                )
 
-            if (isExpanded) {
                 Text(
                     text = content,
                     style = CustomTextStyles.noteContent.copy(
@@ -366,6 +298,7 @@ fun PestInfoCard(
         }
     }
 }
+
 
 fun loadSpecificPestData(context: Context, pestName: String, language: String): PestInfo? {
     return try {

@@ -335,13 +335,7 @@ fun UserProfileContent(
             Spacer(modifier = Modifier.height(30.dp))
         }
 
-        PestDetectionSection(
-            onViewPests = {
-                navController.navigate(Screen.PestList.route) // Navigate to your PestListScreen
-            }
-        )
 
-        Spacer(modifier = Modifier.height(16.dp))
 
         // Settings Section (available for everyone)
         Column(
@@ -363,7 +357,18 @@ fun UserProfileContent(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 🔥 NEW: Telegram Community Section
+
+
+
+        PestDetectionSection(
+            onViewPests = {
+                navController.navigate(Screen.PestList.route) // Navigate to your PestListScreen
+            }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
         TelegramCommunitySection(
             onJoinTelegram = {
                 // Handle Telegram group join
@@ -372,6 +377,8 @@ fun UserProfileContent(
                 context.startActivity(intent)
             }
         )
+
+
 
         // Settings Bottom Sheet
         if (showSettingsSheet) {
@@ -655,7 +662,7 @@ fun TelegramCommunitySection(onJoinTelegram: () -> Unit) {
             .clickable { onJoinTelegram() },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -914,7 +921,7 @@ fun PestDetectionSection(onViewPests: () -> Unit) {
             .clickable { onViewPests() },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
@@ -924,25 +931,6 @@ fun PestDetectionSection(onViewPests: () -> Unit) {
                 .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Pest Icon with gradient background
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(
-                        brush = Brush.radialGradient(
-                            colors = listOf(
-                                Color(0xFF4CAF50), // Green for agriculture/nature
-                                Color(0xFF2E7D32)  // Darker green
-                            )
-                        ),
-                        shape = RoundedCornerShape(16.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                // Using a bug/pest related icon - you can replace this with a custom pest icon
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
 
             // Text Content
             Column(modifier = Modifier.weight(1f)) {
@@ -985,23 +973,6 @@ fun PestDetectionSection(onViewPests: () -> Unit) {
                 }
             }
 
-            // Arrow Icon
-            Box(
-                modifier = Modifier
-                    .size(36.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                        shape = CircleShape
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowForward,
-                    contentDescription = "View Pests",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
         }
     }
 }

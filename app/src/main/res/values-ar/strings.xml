@@ -35,6 +35,14 @@
     <string name="cancel">إلغاء</string>
     <string name="forum">المنتدى</string>
 
+    <string name="permission_required">إذن مطلوب</string>
+    <string name="camera_permission_rationale">نحتاج إلى الوصول للكاميرا لالتقاط صور لنباتاتك واكتشاف الأضرار المحتملة للآفات. هذا يساعد الذكاء الاصطناعي على تحليل الصور لتحديد الآفات.</string>
+    <string name="gallery_permission_rationale">نحتاج إلى الوصول للصور لتحليل الصور الموجودة في معرض الصور للبحث عن الآفات. نحن نصل فقط إلى الصور التي تختارها تحديداً للمسح.</string>
+    <string name="grant_permission">منح الإذن</string>
+    <string name="camera_permission_denied">إذن الكاميرا مطلوب لالتقاط الصور. يرجى تفعيله في الإعدادات لاستخدام هذه الميزة.</string>
+    <string name="storage_permission_denied">إذن الوصول للصور مطلوب لاختيار الصور. يرجى تفعيله في الإعدادات لاستخدام هذه الميزة.</string>
+
+
 
     // Settings Screen
     <string name="settings"> الإعدادات</string>
