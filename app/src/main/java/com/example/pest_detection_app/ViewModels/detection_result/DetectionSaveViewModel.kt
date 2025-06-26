@@ -56,8 +56,11 @@ class DetectionSaveViewModel(
     private val _isSyncing = MutableStateFlow(false)
     val isSyncing: StateFlow<Boolean> = _isSyncing
 
-    private val _syncCompletedEvent = MutableSharedFlow<SyncResult>()
-    val syncCompletedEvent = _syncCompletedEvent.asSharedFlow()
+    private val _syncCompletedEvent = MutableStateFlow<SyncResult?>(null)
+    val syncCompletedEvent: StateFlow<SyncResult?> = _syncCompletedEvent
+
+
+
 
     sealed class SyncResult {
         object Success : SyncResult()
@@ -239,6 +242,8 @@ class DetectionSaveViewModel(
         viewModelScope.launch {
             try {
                 _isSyncing.value = true
+                _syncCompletedEvent.value = null // Reset previous result
+
 
                 // Step 1: Sync local server IDs with cloud
                 val syncResult = syncLocalServerIdsWithCloud(userId)
@@ -256,7 +261,12 @@ class DetectionSaveViewModel(
                 val notesResult = syncNotes(authToken, userId)
                 if (!notesResult) throw SyncException("failed_sync_notes")
 
+
+
+                // In syncAll method, right before emitting success:
+              //  Log.d("SyncViewModel", "🚀 About to emit SyncResult.Success")
                 _syncCompletedEvent.emit(SyncResult.Success)
+              //  Log.d("SyncViewModel", "✅ SyncResult.Success emitted")
             } catch (e: SyncException) {
                 val localizedError = getLocalizedErrorMessage(e.errorKey)
                 _syncCompletedEvent.emit(SyncResult.Failure(localizedError))
@@ -643,6 +653,36 @@ class DetectionSaveViewModel(
         }
     }
 
+
+
+
+
+    fun clearSyncResult() {
+        _syncCompletedEvent.value = null
+    }
+
+
+
+
+    fun forceRefreshDetections(userId: Int?, selectedPest: String? = null, isDescending: Boolean = true) {
+        viewModelScope.launch {
+        //    Log.d("DetectionSaveViewModel", "🔄 Starting force refresh for userId: $userId")
+
+            // Get fresh data from database
+            val freshDetections = detectionResultDao.getDetectionsByUser(userId)
+        //    Log.d("DetectionSaveViewModel", "📊 Fresh from DB: ${freshDetections.size} detections")
+
+            allDetections = freshDetections
+
+            // Apply filters
+            applyFilters(
+                pestName = if (selectedPest == "None") null else selectedPest,
+                isDescending = isDescending
+            )
+
+        //    Log.d("DetectionSaveViewModel", "✅ After filtering: ${_detections.value.size} detections shown")
+        }
+    }
 
 
 

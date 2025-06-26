@@ -77,6 +77,15 @@ fun NavGraph(navController: NavHostController) {
     val context = LocalContext.current.applicationContext as Application
     val preferences = remember { Preferences(context) }
 
+    // 🔥 CREATE SHARED DETECTION SAVE VIEWMODEL AT TOP LEVEL
+    val sharedDetectionSaveViewModel: DetectionSaveViewModel = viewModel(
+        factory = DetectionSaveViewModelFactory(
+            context,
+            DatabaseManager.getDatabase(MyApp.getContext()).detectionResultDao(),
+            DatabaseManager.getDatabase(MyApp.getContext()).boundingBoxDao()
+        )
+    )
+
     // Permission state for storage access
     val storagePermissionState = rememberPermissionState(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -110,14 +119,6 @@ fun NavGraph(navController: NavHostController) {
                     !permissionHandled
         }
     }
-
-    val detectionSaveViewModel: DetectionSaveViewModel = viewModel(
-        factory = DetectionSaveViewModelFactory(
-            context,
-            DatabaseManager.getDatabase(MyApp.getContext()).detectionResultDao(),
-            DatabaseManager.getDatabase(MyApp.getContext()).boundingBoxDao()
-        )
-    )
 
     val currentLanguage = LocalContext.current.resources.configuration.locales[0].language
     var showSyncBanner by remember { mutableStateOf(true) }
@@ -160,7 +161,7 @@ fun NavGraph(navController: NavHostController) {
 
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(Unit) {
-        detectionSaveViewModel.syncCompletedEvent.collect { result ->
+        sharedDetectionSaveViewModel.syncCompletedEvent.collect { result ->
             when (result) {
                 is DetectionSaveViewModel.SyncResult.Success -> {
                     snackbarHostState.showSnackbar(
@@ -176,6 +177,9 @@ fun NavGraph(navController: NavHostController) {
                     }: ${result.errorMessage}"
                     snackbarHostState.showSnackbar(errorMessage)
                 }
+                else -> {
+                    // Handle any other cases or do nothing
+                }
             }
         }
     }
@@ -186,17 +190,17 @@ fun NavGraph(navController: NavHostController) {
             val userId = userView.userId.value
             val token = Globals.savedToken
             if (userId != null && token != null) {
-                detectionSaveViewModel.syncAll(userId, token)
+                sharedDetectionSaveViewModel.syncAll(userId, token)
             }
         }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
-            // Global Sync Banner - only show if logged in AND has storage permission
+            // Global Sync Banner - now uses shared ViewModel
             if (isLoggedIn && storagePermissionState.status.isGranted) {
                 GlobalSyncBanner(
-                    detectionSaveViewModel = detectionSaveViewModel,
+                    detectionSaveViewModel = sharedDetectionSaveViewModel,
                     onDismiss = { showSyncBanner = false }
                 )
             }
@@ -248,7 +252,13 @@ fun NavGraph(navController: NavHostController) {
                         )
 
                         val detectionViewModel: DetectionViewModel = viewModel()
-                        HomeScreen(navController, userView, detectionSaveViewModel, detectionViewModel, userViewModelRoom)
+                        HomeScreen(
+                            navController,
+                            userView,
+                            sharedDetectionSaveViewModel, // Pass shared instance
+                            detectionViewModel,
+                            userViewModelRoom
+                        )
                     }
                 }
 
@@ -272,40 +282,25 @@ fun NavGraph(navController: NavHostController) {
                     arguments = listOf(navArgument("imageUri") { type = NavType.StringType })
                 ) { backStackEntry ->
                     val imageUri = backStackEntry.arguments?.getString("imageUri")
-                    val context = LocalContext.current.applicationContext as Application
-
-                    val detectionSaveViewModel: DetectionSaveViewModel = viewModel(
-                        factory = DetectionSaveViewModelFactory(
-                            context,
-                            DatabaseManager.getDatabase(MyApp.getContext()).detectionResultDao(),
-                            DatabaseManager.getDatabase(MyApp.getContext()).boundingBoxDao()
-                        )
-                    )
-
                     val detectionViewModel: DetectionViewModel = viewModel()
 
                     ResultsScreen(
                         navController = navController,
                         imageUri = imageUri,
                         detectionViewModel,
-                        detectionSaveViewModel,
+                        sharedDetectionSaveViewModel, // Pass shared instance
                         context = MyApp.getContext(),
                         userview = userView
                     )
                 }
 
                 composable(Screen.History.route) {
-                    val context = LocalContext.current.applicationContext as Application
-
-                    val detectionSaveViewModel: DetectionSaveViewModel = viewModel(
-                        factory = DetectionSaveViewModelFactory(
-                            context,
-                            DatabaseManager.getDatabase(MyApp.getContext()).detectionResultDao(),
-                            DatabaseManager.getDatabase(MyApp.getContext()).boundingBoxDao()
-                        )
+                    // Use shared ViewModel instead of creating new instance
+                    DetectionHistoryScreen(
+                        navController,
+                        userView,
+                        sharedDetectionSaveViewModel // Pass shared instance
                     )
-
-                    DetectionHistoryScreen(navController, userView, detectionSaveViewModel)
                 }
 
                 composable(
@@ -313,36 +308,22 @@ fun NavGraph(navController: NavHostController) {
                     arguments = listOf(navArgument("detectionId") { type = NavType.IntType })
                 ) { backStackEntry ->
                     val detectionId = backStackEntry.arguments?.getInt("detectionId") ?: 0
-                    val context = LocalContext.current.applicationContext as Application
-
-                    val detectionSaveViewModel: DetectionSaveViewModel = viewModel(
-                        factory = DetectionSaveViewModelFactory(
-                            context,
-                            DatabaseManager.getDatabase(MyApp.getContext()).detectionResultDao(),
-                            DatabaseManager.getDatabase(MyApp.getContext()).boundingBoxDao()
-                        )
-                    )
-
                     val detectionViewModel: DetectionViewModel = viewModel()
 
-                    DetailItemScreen(navController, detectionViewModel, detectionSaveViewModel, detectionId, userView)
+                    DetailItemScreen(
+                        navController,
+                        detectionViewModel,
+                        sharedDetectionSaveViewModel, // Pass shared instance
+                        detectionId,
+                        userView
+                    )
                 }
 
                 composable(Screen.Stat.route) {
-                    val context = LocalContext.current.applicationContext as Application
-
-                    val detectionSaveViewModel: DetectionSaveViewModel = viewModel(
-                        factory = DetectionSaveViewModelFactory(
-                            context,
-                            DatabaseManager.getDatabase(MyApp.getContext()).detectionResultDao(),
-                            DatabaseManager.getDatabase(MyApp.getContext()).boundingBoxDao()
-                        )
-                    )
-
                     StatsDashboardScreen(
                         navController = navController,
                         userViewModel = userView,
-                        detectionSaveViewModel = detectionSaveViewModel
+                        detectionSaveViewModel = sharedDetectionSaveViewModel // Pass shared instance
                     )
                 }
 

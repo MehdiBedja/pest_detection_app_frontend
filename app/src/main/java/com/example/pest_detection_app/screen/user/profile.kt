@@ -634,21 +634,34 @@ fun SettingToggleRow(
             ),
             modifier = Modifier.weight(1f)
         )
+
         Switch(
             checked = checked,
             onCheckedChange = onCheckedChange,
             colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                checkedTrackColor = Color.Transparent,
-                uncheckedThumbColor = MaterialTheme.colorScheme.outline,
-                uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
+                // When switch is ON (Dark Mode enabled)
+                checkedThumbColor = MaterialTheme.colorScheme.onSurface, // White thumb in dark mode
+                checkedTrackColor = MaterialTheme.colorScheme.primary,
+                checkedBorderColor = MaterialTheme.colorScheme.primary,
+
+                // When switch is OFF (Light Mode enabled)
+                uncheckedThumbColor = MaterialTheme.colorScheme.onSurface, // Black thumb in light mode
+                uncheckedTrackColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
+                uncheckedBorderColor = MaterialTheme.colorScheme.outline
             ),
             thumbContent = {
+                // Custom thumb with icon to indicate mode
                 Box(
                     modifier = Modifier
                         .size(20.dp)
-                        .background(brush = gradient, shape = CircleShape)
-                )
+                        .background(
+                            color = if (checked) Color.Black else Color.White,
+                            shape = CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                }
             }
         )
     }

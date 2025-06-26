@@ -53,6 +53,7 @@ import com.example.pest_detection_app.R
 import com.example.pest_detection_app.ViewModels.detection_result.DetectionSaveViewModel
 import com.example.pest_detection_app.ViewModels.user.LoginViewModel
 import com.example.pest_detection_app.data.user.DetectionWithBoundingBoxes
+import com.example.pest_detection_app.screen.user.DarkModePref
 import com.example.pest_detection_app.ui.theme.*
 import com.github.mikephil.charting.formatter.PercentFormatter
 
@@ -88,17 +89,19 @@ fun StatsDashboardScreen(
     var isLoading by remember { mutableStateOf(true) }
     val userId by userViewModel.userId.collectAsState()
 
-
-
-    val isDark = isSystemInDarkTheme()
-    val textColor = if (isDark) Color.White else Color.Black
+    // Get dark mode preference
+    val isDarkMode = remember { mutableStateOf(DarkModePref.getDarkMode(context)) }
+    val textColor = if (isDarkMode.value) Color.White else Color.Black
 
     var selectedTimePeriod by remember { mutableStateOf(TimePeriod.MONTH) }
-    var timeOffset by remember { mutableStateOf(0) } // for navigation
+    var timeOffset by remember { mutableStateOf(0) }
 
     // Load pest info from JSON
     val pestInfo = remember { loadPestInfo(context) }
 
+    val syncCompletedEvent by detectionSaveViewModel.syncCompletedEvent.collectAsState(initial = null)
+
+    // Initial data fetch
     LaunchedEffect(userId) {
         userId?.let { id ->
             detectionSaveViewModel.getSortedDetections(id, true)
@@ -107,6 +110,7 @@ fun StatsDashboardScreen(
 
     val detections by detectionSaveViewModel.detections.collectAsState()
 
+    // Recalculate stats on detection list change
     LaunchedEffect(detections) {
         if (detections.isNotEmpty()) {
             statsData = withContext(Dispatchers.Default) {
@@ -114,6 +118,19 @@ fun StatsDashboardScreen(
             }
         }
         isLoading = false
+    }
+
+    // Sync response handler
+    LaunchedEffect(syncCompletedEvent) {
+        syncCompletedEvent?.let { syncResult ->
+            when (syncResult) {
+                is DetectionSaveViewModel.SyncResult.Success,
+                is DetectionSaveViewModel.SyncResult.Failure -> {
+                    userId?.let { detectionSaveViewModel.getSortedDetections(it, true) }
+                }
+            }
+            detectionSaveViewModel.clearSyncResult()
+        }
     }
 
     Column(
@@ -154,7 +171,7 @@ fun StatsDashboardScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.assessment) ,
+                        painter = painterResource(id = R.drawable.assessment),
                         contentDescription = null,
                         modifier = Modifier.size(64.dp),
                         tint = MaterialTheme.colorScheme.primary
@@ -173,7 +190,7 @@ fun StatsDashboardScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Summary Cards Section
+                // Summary Cards Section (unchanged)
                 item {
                     Text(
                         text = stringResource(R.string.summary),
@@ -191,7 +208,7 @@ fun StatsDashboardScreen(
                             SummaryCard(
                                 title = stringResource(R.string.total_detections),
                                 value = statsData!!.totalDetections.toString(),
-                                icon = painterResource(id = R.drawable.assessment) ,
+                                icon = painterResource(id = R.drawable.assessment),
                                 color = MarronColor
                             )
                         }
@@ -215,34 +232,14 @@ fun StatsDashboardScreen(
                             SummaryCard(
                                 title = stringResource(R.string.detection_trend),
                                 value = statsData!!.detectionTrend,
-                                icon = if (statsData!!.detectionTrend == "↗ Increasing")  painterResource(id = R.drawable.trendingup1) else painterResource(id=R.drawable.assessment),
+                                icon = if (statsData!!.detectionTrend == "↗ Increasing") painterResource(id = R.drawable.trendingup1) else painterResource(id = R.drawable.assessment),
                                 color = if (statsData!!.detectionTrend == "↗ Increasing") Color(0xFFEF4444) else AccentGreen
                             )
                         }
                     }
                 }
 
-                // Bar Chart - Detections per Pest
-                item {
-                    ChartCard(
-                        title = stringResource(R.string.detections_per_pest),
-                        icon = painterResource(id = R.drawable.assessment)
-                    ) {
-                        AndroidView(
-
-                            factory = { context ->
-                                BarChart(context).apply {
-                                    setupBarChart(this, statsData!!.pestCounts,textColor)
-                                }
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(300.dp)
-                        )
-                    }
-                }
-
-                // Line Chart - Detections over Time
+                // Line Chart - Detections over Time (updated with dynamic colors)
                 item {
                     ChartCard(
                         title = stringResource(R.string.detections_over_time),
@@ -257,7 +254,6 @@ fun StatsDashboardScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                // Time Period Selector
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                                 ) {
@@ -265,7 +261,7 @@ fun StatsDashboardScreen(
                                         FilterChip(
                                             onClick = {
                                                 selectedTimePeriod = period
-                                                timeOffset = 0 // Reset offset when changing period
+                                                timeOffset = 0
                                             },
                                             label = {
                                                 Text(
@@ -285,10 +281,10 @@ fun StatsDashboardScreen(
                                                 labelColor = MaterialTheme.colorScheme.onSurface
                                             )
                                         )
-                                    }}}
+                                    }
+                                }
+                            }
 
-
-                            // Navigation Controls
                             val timeSeriesData = remember(selectedTimePeriod, timeOffset, detections) {
                                 generateTimeSeriesData(detections, selectedTimePeriod, timeOffset)
                             }
@@ -315,15 +311,14 @@ fun StatsDashboardScreen(
                                 }
                             }
 
-                            // Chart
                             AndroidView(
                                 factory = { context ->
                                     LineChart(context).apply {
-                                        setupEnhancedLineChart(this, timeSeriesData)
+                                        setupEnhancedLineChart(this, timeSeriesData, textColor)
                                     }
                                 },
                                 update = { chart ->
-                                    setupEnhancedLineChart(chart, timeSeriesData)
+                                    setupEnhancedLineChart(chart, timeSeriesData, textColor)
                                 },
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -333,7 +328,7 @@ fun StatsDashboardScreen(
                     }
                 }
 
-                // Pie Chart - Detection Distribution
+                // Pie Chart - Detection Distribution (updated with dynamic colors)
                 item {
                     ChartCard(
                         title = stringResource(R.string.detection_distribution),
@@ -342,8 +337,11 @@ fun StatsDashboardScreen(
                         AndroidView(
                             factory = { context ->
                                 PieChart(context).apply {
-                                    setupPieChart(this, statsData!!.pestCounts)
+                                    setupPieChart(this, statsData!!.pestCounts, textColor)
                                 }
+                            },
+                            update = { chart ->
+                                setupPieChart(chart, statsData!!.pestCounts, textColor)
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -352,17 +350,20 @@ fun StatsDashboardScreen(
                     }
                 }
 
-                // Crop Type Association Chart
+                // Crop Type Association Chart (updated with dynamic colors)
                 item {
                     ChartCard(
                         title = stringResource(R.string.crop_type_distribution),
-                        icon = painterResource(id= R.drawable.assessment)
+                        icon = painterResource(id = R.drawable.assessment)
                     ) {
                         AndroidView(
                             factory = { context ->
                                 HorizontalBarChart(context).apply {
-                                    setupCropChart(this, statsData!!.cropTypeCounts)
+                                    setupCropChart(this, statsData!!.cropTypeCounts, textColor)
                                 }
+                            },
+                            update = { chart ->
+                                setupCropChart(chart, statsData!!.cropTypeCounts, textColor)
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -371,11 +372,11 @@ fun StatsDashboardScreen(
                     }
                 }
 
-                // Calendar Heatmap Placeholder
+                // Calendar Heatmap (unchanged)
                 item {
                     ChartCard(
                         title = stringResource(R.string.detection_calendar),
-                        icon = painterResource(id=R.drawable.assessment)
+                        icon = painterResource(id = R.drawable.assessment)
                     ) {
                         CalendarHeatmapView(statsData!!.dailyDetections)
                     }
@@ -384,7 +385,6 @@ fun StatsDashboardScreen(
         }
     }
 }
-
 @Composable
 fun SummaryCard(
     title: String,
@@ -574,13 +574,12 @@ data class DayCell(
 
 
 // Chart setup functions
-private fun setupBarChart(chart: BarChart, pestCounts: Map<String, Int> , color: Color) {
+private fun setupBarChart(chart: BarChart, pestCounts: Map<String, Int>, color: Color) {
     val entries = pestCounts.entries.mapIndexed { index, entry ->
         BarEntry(index.toFloat(), entry.value.toFloat())
     }
 
-
-    val dataSet = BarDataSet(entries,"").apply {
+    val dataSet = BarDataSet(entries, "").apply {
         colors = ColorTemplate.MATERIAL_COLORS.toList()
         valueTextSize = 12f
     }
@@ -590,10 +589,11 @@ private fun setupBarChart(chart: BarChart, pestCounts: Map<String, Int> , color:
     chart.setFitBars(true)
     chart.animateY(1000)
 
+    // X-Axis customization
     val xAxis = chart.xAxis
     xAxis.position = XAxis.XAxisPosition.BOTTOM
-    xAxis.textColor = color.toArgb()
-
+    xAxis.textColor = Color.Red.toArgb() // Custom color for X-axis labels
+    xAxis.textSize = 12f // Optional: adjust text size
 
     xAxis.valueFormatter = object : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
@@ -606,12 +606,21 @@ private fun setupBarChart(chart: BarChart, pestCounts: Map<String, Int> , color:
     xAxis.granularity = 1f
     xAxis.labelRotationAngle = -45f
 
+    // Y-Axis customization (Left axis)
+    val leftAxis = chart.axisLeft
+    leftAxis.textColor = Color.Blue.toArgb() // Custom color for left Y-axis labels
+    leftAxis.textSize = 12f // Optional: adjust text size
+
+    // Y-Axis customization (Right axis) - if you want to disable or customize it
+    val rightAxis = chart.axisRight
+    rightAxis.isEnabled = false // Disable right axis, or customize it like left axis
+    // rightAxis.textColor = Color.GREEN.toArgb() // Uncomment if you want to show right axis
+
     chart.invalidate()
 }
 
-private fun setupEnhancedLineChart(chart: LineChart, timeSeriesData: TimeSeriesData) {
+private fun setupEnhancedLineChart(chart: LineChart, timeSeriesData: TimeSeriesData, textColor: Color) {
     if (timeSeriesData.entries.isEmpty()) {
-        // Handle empty data
         chart.clear()
         chart.setNoDataText("No data available for this period")
         return
@@ -622,11 +631,11 @@ private fun setupEnhancedLineChart(chart: LineChart, timeSeriesData: TimeSeriesD
         setCircleColor(AccentGreen.toArgb())
         lineWidth = 3f
         circleRadius = 5f
-        setDrawValues(false) // This removes the value labels above data points
+        setDrawValues(false)
         setDrawFilled(true)
         fillAlpha = 50
         fillColor = AccentGreen.toArgb()
-        mode = LineDataSet.Mode.CUBIC_BEZIER
+        mode = LineDataSet.Mode.LINEAR
     }
 
     chart.data = LineData(dataSet)
@@ -634,7 +643,7 @@ private fun setupEnhancedLineChart(chart: LineChart, timeSeriesData: TimeSeriesD
     chart.legend.isEnabled = false
     chart.animateX(800)
 
-    // Configure X-axis
+    // Configure X-axis with dynamic text color
     chart.xAxis.apply {
         position = XAxis.XAxisPosition.BOTTOM
         valueFormatter = object : ValueFormatter() {
@@ -649,14 +658,16 @@ private fun setupEnhancedLineChart(chart: LineChart, timeSeriesData: TimeSeriesD
         setDrawGridLines(true)
         gridColor = GrayText.copy(alpha = 0.3f).toArgb()
         textSize = 10f
+        this.textColor = textColor.toArgb()
         labelRotationAngle = if (timeSeriesData.labels.size > 7) -45f else 0f
     }
 
-    // Configure Y-axis
+    // Configure Y-axis with dynamic text color
     chart.axisLeft.apply {
         setDrawGridLines(true)
         gridColor = GrayText.copy(alpha = 0.3f).toArgb()
         textSize = 10f
+        this.textColor = textColor.toArgb()
     }
 
     chart.axisRight.isEnabled = false
@@ -795,7 +806,8 @@ private fun generateTimeSeriesData(
         }
     }
 }
-private fun setupPieChart(chart: PieChart, pestCounts: Map<String, Int>) {
+
+private fun setupPieChart(chart: PieChart, pestCounts: Map<String, Int>, textColor: Color) {
     val entries = pestCounts.map { (pest, count) ->
         PieEntry(count.toFloat(), pest)
     }
@@ -803,29 +815,43 @@ private fun setupPieChart(chart: PieChart, pestCounts: Map<String, Int>) {
     val dataSet = PieDataSet(entries, "").apply {
         colors = ColorTemplate.MATERIAL_COLORS.toList()
         valueTextSize = 12f
-        // Configure to show percentages
         valueFormatter = PercentFormatter(chart)
+        valueTextColor = textColor.toArgb() // Dynamic text color for values
     }
 
     chart.data = PieData(dataSet)
     chart.description.isEnabled = false
-
-    // Enable percentage values
     chart.setUsePercentValues(true)
+
+    // Configure legend with dynamic text color
+    chart.legend.apply {
+        this.textColor = textColor.toArgb()
+        textSize = 10f
+    }
 
     chart.animateY(1000)
     chart.invalidate()
 }
-private fun setupCropChart(chart: HorizontalBarChart, cropCounts: Map<String, Int>) {
+
+private fun setupCropChart(chart: HorizontalBarChart, cropCounts: Map<String, Int>, textColor: Color) {
     val cropList = cropCounts.keys.toList()
+    val totalDetections = cropCounts.values.sum().toFloat()
 
     val entries = cropList.mapIndexed { index, crop ->
-        BarEntry(index.toFloat(), cropCounts[crop]?.toFloat() ?: 0f)
+        val count = cropCounts[crop]?.toFloat() ?: 0f
+        val percentage = if (totalDetections > 0) (count / totalDetections) * 100f else 0f
+        BarEntry(index.toFloat(), percentage)
     }
 
-    val dataSet = BarDataSet(entries, "Crop Types").apply {
+    val dataSet = BarDataSet(entries, "").apply {
         colors = ColorTemplate.COLORFUL_COLORS.toList()
         valueTextSize = 12f
+        valueTextColor = textColor.toArgb() // Dynamic text color for values
+        valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return "${value.toInt()}%"
+            }
+        }
     }
 
     chart.data = BarData(dataSet)
@@ -833,11 +859,13 @@ private fun setupCropChart(chart: HorizontalBarChart, cropCounts: Map<String, In
     chart.setFitBars(true)
     chart.animateY(1000)
 
-    // ✅ For horizontal charts, crop labels go on the X-axis
+    // Configure X-axis with dynamic text color
     chart.xAxis.apply {
         granularity = 1f
         setDrawLabels(true)
         position = XAxis.XAxisPosition.BOTTOM
+        this.textColor = textColor.toArgb()
+        textSize = 10f
         valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 val index = value.toInt()
@@ -846,12 +874,37 @@ private fun setupCropChart(chart: HorizontalBarChart, cropCounts: Map<String, In
         }
     }
 
-    chart.axisLeft.isEnabled = false
-    chart.axisRight.isEnabled = false
-    chart.legend.isEnabled = false
+    // Configure Y-axes with dynamic text color - FORCE START FROM 0, MAX AT 100%
+    chart.axisLeft.apply {
+        this.textColor = textColor.toArgb()
+        textSize = 10f
+        axisMinimum = 0f // Force Y-axis to start from 0
+        axisMaximum = 100f // Set maximum to 100%
+        valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return "${value.toInt()}%"
+            }
+        }
+    }
+
+    chart.axisRight.apply {
+        this.textColor = textColor.toArgb()
+        textSize = 10f
+        axisMinimum = 0f // Force Y-axis to start from 0
+        axisMaximum = 100f // Set maximum to 100%
+        valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return "${value.toInt()}%"
+            }
+        }
+    }
+
+    chart.legend.apply {
+    isEnabled = false
+    }
+
     chart.invalidate()
 }
-
 // Data classes and utility functions
 data class StatsData(
     val totalDetections: Int,
@@ -894,6 +947,7 @@ private fun calculateStats(
 
     var lastDetectionDate = 0L
     var lastDetectedPest = ""
+    var totalPestsFound = 0 // Track total number of pests found
 
     detections.forEach { detection ->
         val date = Date(detection.detection.detectionDate)
@@ -905,8 +959,12 @@ private fun calculateStats(
             lastDetectedPest = detection.boundingBoxes.firstOrNull()?.clsName ?: ""
         }
 
-        dailyDetections[dateStr] = (dailyDetections[dateStr] ?: 0) + 1
-        timeSeriesMap[monthStr] = (timeSeriesMap[monthStr] ?: 0) + 1
+        // Count the number of pests in this detection (number of bounding boxes)
+        val pestsInThisDetection = detection.boundingBoxes.size
+        totalPestsFound += pestsInThisDetection
+
+        dailyDetections[dateStr] = (dailyDetections[dateStr] ?: 0) + pestsInThisDetection
+        timeSeriesMap[monthStr] = (timeSeriesMap[monthStr] ?: 0) + pestsInThisDetection
 
         detection.boundingBoxes.forEach { box ->
             pestCounts[box.clsName] = (pestCounts[box.clsName] ?: 0) + 1
@@ -943,7 +1001,7 @@ private fun calculateStats(
     }
 
     return StatsData(
-        totalDetections = detections.size,
+        totalDetections = totalPestsFound, // Use total pests found instead of detections.size
         mostFrequentPest = mostFrequentPest,
         lastDetectedPest = lastDetectedPest.ifEmpty { "None" },
         detectionTrend = trend,

@@ -1,5 +1,6 @@
 package com.example.pest_detection_app.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -66,10 +67,13 @@ fun getTranslatedPestName(pestName: String): String {
 fun DetectionHistoryScreen(
     navController: NavController,
     userViewModel: LoginViewModel,
-    viewModel: DetectionSaveViewModel = viewModel(),
+    viewModel: DetectionSaveViewModel, // Receive shared instance instead of creating new one
 ) {
     val savedUserId by userViewModel.userId.collectAsState()
     val detectionList by viewModel.detections.collectAsState()
+    val isSyncing by viewModel.isSyncing.collectAsState()
+    val syncCompletedEvent by viewModel.syncCompletedEvent.collectAsState(initial = null)
+
     var selectedPest by remember { mutableStateOf("None") }
     var isDescending by remember { mutableStateOf(true) }
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -77,6 +81,29 @@ fun DetectionHistoryScreen(
     // Load initial detections
     LaunchedEffect(savedUserId) {
         viewModel.getSortedDetections(savedUserId, isDescending)
+    }
+
+    // 🔥 THIS IS THE KEY FIX - Now using the shared ViewModel instance
+    LaunchedEffect(syncCompletedEvent) {
+        syncCompletedEvent?.let { syncResult ->
+            when (syncResult) {
+                is DetectionSaveViewModel.SyncResult.Success -> {
+                    viewModel.forceRefreshDetections(
+                        userId = savedUserId,
+                        selectedPest = selectedPest,
+                        isDescending = isDescending
+                    )
+                }
+                is DetectionSaveViewModel.SyncResult.Failure -> {
+                    viewModel.forceRefreshDetections(
+                        userId = savedUserId,
+                        selectedPest = selectedPest,
+                        isDescending = isDescending
+                    )
+                }
+            }
+            viewModel.clearSyncResult()
+        }
     }
 
     Scaffold() { paddingValues ->

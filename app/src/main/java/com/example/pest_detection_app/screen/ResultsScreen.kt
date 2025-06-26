@@ -287,8 +287,8 @@ fun LoginSignupDialog(navController: NavController, onDismiss: () -> Unit) {
                     navController.navigate("signup")
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
                 Text(stringResource(R.string.sign_up))

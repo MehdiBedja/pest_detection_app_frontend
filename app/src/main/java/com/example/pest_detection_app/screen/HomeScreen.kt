@@ -16,6 +16,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -155,6 +156,12 @@ fun HomeScreen(navController: NavController, userViewModel: LoginViewModel ,
 
     val isLoggedIn by userViewModel.isLoggedIn.collectAsState()
 
+
+
+
+
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -250,9 +257,33 @@ fun RecentDetectionsSection(
     val userid by userViewModel.userId.collectAsState()
     val detections by detectionSaveViewModel.detections1.collectAsState()
 
+
+
+    val syncCompletedEvent by detectionSaveViewModel.syncCompletedEvent.collectAsState(initial = null)
+
+
     LaunchedEffect(userid) {
         userid?.let { detectionSaveViewModel.getRecentDetections(it) }
     }
+
+
+
+    // 🔥 THIS IS THE KEY FIX - Now using the shared ViewModel instance
+    LaunchedEffect(syncCompletedEvent) {
+        syncCompletedEvent?.let { syncResult ->
+            when (syncResult) {
+                is DetectionSaveViewModel.SyncResult.Success -> {
+                    userid?.let { detectionSaveViewModel.getRecentDetections(it) }
+                }
+                is DetectionSaveViewModel.SyncResult.Failure -> {
+                    userid?.let { detectionSaveViewModel.getRecentDetections(it) }
+
+                }
+            }
+            detectionSaveViewModel.clearSyncResult()
+        }
+    }
+
 
     Column(
         modifier = Modifier
@@ -274,17 +305,20 @@ fun RecentDetectionsSection(
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
-            TextButton(
-                onClick = { navController.navigate(Screen.History.route) },
-                colors = ButtonDefaults.textButtonColors(
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.seemore),
-                    style = AppTypography.labelLarge
-                )
+            if (detections.size > 3) {
+                TextButton(
+                    onClick = { navController.navigate(Screen.History.route) },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                ) {
+                    Text(
+                        text = stringResource(R.string.seemore),
+                        style = AppTypography.labelLarge
+                    )
+                }
             }
+
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -685,34 +719,40 @@ fun StatSection(navController: NavController) {
 @Composable
 fun AuthButtons(navController: NavController) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Button(
-                onClick = { navController.navigate("login") },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.sign_in),
-                    style = CustomTextStyles.buttonText
-                )
-            }
-            Button(
-                onClick = { navController.navigate("signup") },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.sign_up),
-                    style = CustomTextStyles.buttonText
-                )
-            }
+        OutlinedButton(
+            onClick = { navController.navigate("login") },
+            shape = RoundedCornerShape(50),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+            colors = ButtonDefaults.outlinedButtonColors(
+                contentColor = MaterialTheme.colorScheme.primary
+            ),
+            modifier = Modifier.height(44.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.sign_in),
+                style = CustomTextStyles.buttonText
+            )
+        }
+
+        OutlinedButton(
+            onClick = { navController.navigate("signup") },
+            shape = RoundedCornerShape(50),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+            colors = ButtonDefaults.outlinedButtonColors(
+                contentColor = MaterialTheme.colorScheme.primary
+            ),
+            modifier = Modifier.height(44.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.sign_up),
+                style = CustomTextStyles.buttonText
+            )
         }
     }
 }
