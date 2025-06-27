@@ -21,6 +21,7 @@ import com.example.pest_detection_app.screen.PagerIndicator
 import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.ui.theme.CustomTextStyles
 import com.example.pest_detection_app.screen.OnboardingManager
+import com.example.pest_detection_app.ui.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,11 +44,11 @@ fun OnboardingFirstScreen(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
-                // Image Background - Full width reaching top of screen
+                // Image Background - Extends to very top of screen
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(400.dp)
+                        .fillMaxHeight(0.5f) // Takes up 50% of screen height
                         .clip(RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp))
                         .background(MaterialTheme.colorScheme.primary),
                     contentAlignment = Alignment.BottomCenter
@@ -55,8 +56,8 @@ fun OnboardingFirstScreen(
                     Image(
                         painter = painterResource(id = R.drawable.screenfirst),
                         contentDescription = null,
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.fillMaxWidth()
+                        contentScale = ContentScale.Crop, // Changed to Crop for better coverage
+                        modifier = Modifier.fillMaxSize() // Fill the entire box
                     )
                 }
 
@@ -64,7 +65,7 @@ fun OnboardingFirstScreen(
                 Spacer(modifier = Modifier.height(80.dp))
             }
 
-            // Skip Button - Floating at top right
+            // Skip Button - Floating at top right with status bar padding
             Button(
                 onClick = {
                     onboardingManager.setOnboardingSeen(true)
@@ -74,6 +75,7 @@ fun OnboardingFirstScreen(
                 },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
+                    .statusBarsPadding() // Add status bar padding
                     .padding(16.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -91,10 +93,10 @@ fun OnboardingFirstScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp) // Add horizontal padding
-                    .padding(top = 360.dp) // Move card further down
-                    .padding(bottom = 80.dp), // Space for continue button
-                shape = RoundedCornerShape(24.dp), // All corners rounded
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 360.dp)
+                    .padding(bottom = 80.dp),
+                shape = RoundedCornerShape(24.dp),
                 elevation = CardDefaults.cardElevation(12.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
@@ -119,7 +121,7 @@ fun OnboardingFirstScreen(
                     // Subtitle
                     Text(
                         text = stringResource(R.string.onboarding_subtitle_1),
-                        style = MaterialTheme.typography.bodyLarge.copy(
+                        style = AppTypography.bodyLarge.copy(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                         ),
                         textAlign = TextAlign.Center,
@@ -147,7 +149,8 @@ fun OnboardingFirstScreen(
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .padding(24.dp)
-                    .height(56.dp),
+                    .height(56.dp)
+                    .navigationBarsPadding(), // Add navigation bar padding
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary

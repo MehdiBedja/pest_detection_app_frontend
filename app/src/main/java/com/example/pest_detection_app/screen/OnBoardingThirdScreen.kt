@@ -22,6 +22,7 @@ import com.example.pest_detection_app.screen.PagerIndicator
 import com.example.pest_detection_app.screen.navigation.Screen
 import com.example.pest_detection_app.ui.theme.CustomTextStyles
 import com.example.pest_detection_app.screen.OnboardingManager
+import com.example.pest_detection_app.ui.theme.AppTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,7 +98,7 @@ fun OnboardingThirdScreen(
                     // Subtitle
                     Text(
                         text = stringResource(R.string.onboarding_subtitle_3),
-                        style = MaterialTheme.typography.bodyLarge.copy(
+                        style = AppTypography.bodyLarge.copy(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                         ),
                         textAlign = TextAlign.Center,

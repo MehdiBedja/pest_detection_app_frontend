@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import com.example.pest_detection_app.R
 import com.example.pest_detection_app.preferences.Preferences
 import com.example.pest_detection_app.screen.navigation.Screen
+import com.example.pest_detection_app.ui.theme.AppTypography
 import com.example.pest_detection_app.ui.theme.CustomTextStyles
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
@@ -95,20 +96,26 @@ fun FileAccessPermissionScreen(
                 Spacer(modifier = Modifier.height(80.dp))
             }
 
-            // Full-width Card overlapping the image
+            // Scrollable Card overlapping the image - Made shorter
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
-                    .padding(top = 280.dp)
-                    .padding(bottom = 120.dp),
+                    .padding(top = 300.dp)
+                    .padding(bottom = 140.dp)
+                    .heightIn(max = 350.dp), // Limit maximum height to make it shorter
                 shape = RoundedCornerShape(24.dp),
                 elevation = CardDefaults.cardElevation(12.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
+                // Make the card content scrollable with visible scrollbar indicator
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .verticalScroll(
+                            rememberScrollState(),
+                            reverseScrolling = false
+                        )
                         .padding(32.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -127,7 +134,7 @@ fun FileAccessPermissionScreen(
                     // Subtitle
                     Text(
                         text = stringResource(R.string.file_access_subtitle),
-                        style = MaterialTheme.typography.bodyLarge.copy(
+                        style = AppTypography.bodyLarge.copy(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                         ),
                         textAlign = TextAlign.Center,
@@ -159,9 +166,22 @@ fun FileAccessPermissionScreen(
                             title = stringResource(R.string.benefit_offline_title),
                             description = stringResource(R.string.benefit_offline_description)
                         )
-                    }
 
-                    Spacer(modifier = Modifier.height(32.dp))
+                        // Add some extra content to demonstrate scrolling
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text(
+                            text = "Additional information about file access permissions and how they enhance your experience with the app. This content ensures the card is scrollable when needed.",
+                            style = AppTypography.bodyMedium.copy(
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                            ),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        // Add bottom padding for better scrolling experience
+                        Spacer(modifier = Modifier.height(24.dp))
+                    }
                 }
             }
 
@@ -259,7 +279,7 @@ fun FileAccessPermissionScreen(
                     // Dialog Message
                     Text(
                         text = stringResource(R.string.skip_options_message),
-                        style = MaterialTheme.typography.bodyLarge.copy(
+                        style = AppTypography.bodyLarge.copy(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                         ),
                         textAlign = TextAlign.Center,
@@ -374,7 +394,7 @@ private fun FileAccessBenefit(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium.copy(
+                style = CustomTextStyles.sectionTitle.copy(
                     color = MaterialTheme.colorScheme.onSurface
                 ),
                 modifier = Modifier.fillMaxWidth()
@@ -384,7 +404,7 @@ private fun FileAccessBenefit(
 
             Text(
                 text = description,
-                style = MaterialTheme.typography.bodyMedium.copy(
+                style = AppTypography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 ),
                 modifier = Modifier.fillMaxWidth()
