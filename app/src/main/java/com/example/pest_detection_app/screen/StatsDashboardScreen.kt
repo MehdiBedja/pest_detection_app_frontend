@@ -171,7 +171,6 @@ fun StatsDashboardScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Spacer(modifier = Modifier.height(16.dp))
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
@@ -182,6 +181,7 @@ fun StatsDashboardScreen(
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     }
+
                 }
             }
         } else {
