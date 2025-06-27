@@ -174,7 +174,7 @@ fun StatsDashboardScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = stringResource(R.string.no_detection_data),
-                        style = AppTypography.bodyLarge,
+                        style = CustomTextStyles.sectionTitle,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }

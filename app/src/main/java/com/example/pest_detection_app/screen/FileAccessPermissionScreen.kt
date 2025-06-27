@@ -160,27 +160,9 @@ fun FileAccessPermissionScreen(
                             description = stringResource(R.string.benefit_storage_description)
                         )
 
-                        Spacer(modifier = Modifier.height(16.dp))
 
-                        FileAccessBenefit(
-                            title = stringResource(R.string.benefit_offline_title),
-                            description = stringResource(R.string.benefit_offline_description)
-                        )
 
-                        // Add some extra content to demonstrate scrolling
-                        Spacer(modifier = Modifier.height(16.dp))
 
-                        Text(
-                            text = "Additional information about file access permissions and how they enhance your experience with the app. This content ensures the card is scrollable when needed.",
-                            style = AppTypography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                            ),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        // Add bottom padding for better scrolling experience
-                        Spacer(modifier = Modifier.height(24.dp))
                     }
                 }
             }

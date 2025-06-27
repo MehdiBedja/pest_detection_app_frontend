@@ -152,10 +152,12 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
+            // Moved the image container higher by reducing top padding
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp)
+                    .height(375.dp) // Reduced from 400dp
+                    .offset(y = (-10).dp) // Push the image up by 20dp
                     .clip(RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp))
                     .background(MaterialTheme.colorScheme.primary),
                 contentAlignment = Alignment.BottomCenter
@@ -171,7 +173,7 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 280.dp)
+                    .padding(top = 240.dp) // Reduced from 280dp to move content higher
             ) {
                 Card(
                     modifier = Modifier
@@ -258,10 +260,13 @@ fun LogInScreen(navController: NavHostController, viewModel: LoginViewModel) {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp)) // Reduced spacing
 
+                // Added bottom padding to ensure clickable text is above navigation bar
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 100.dp), // Added bottom padding to keep above nav bar
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
@@ -442,11 +447,12 @@ fun SignUpScreen(navController: NavHostController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 0.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
-            contentAlignment = Alignment.Center
+                .padding(top = 10.dp, start = 24.dp, end = 24.dp, bottom = 24.dp) ,// Reduced top padding from 0 to 20dp for better positioning
+            contentAlignment = Alignment.TopCenter // Changed to TopCenter to push content higher
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -455,7 +461,7 @@ fun SignUpScreen(navController: NavHostController) {
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(
-                        modifier = Modifier.padding(top= 10.dp ,start = 24.dp, end = 24.dp, bottom = 24.dp),
+                        modifier = Modifier.padding(top = 20.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
@@ -646,11 +652,13 @@ fun SignUpScreen(navController: NavHostController) {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp)) // Reduced spacing
 
+                // Added bottom padding to ensure clickable text is above navigation bar
                 Row(
                     horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                 ) {
                     Text(
                         text = stringResource(R.string.already_have_account),
