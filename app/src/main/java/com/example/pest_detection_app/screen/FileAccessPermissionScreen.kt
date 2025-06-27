@@ -211,13 +211,14 @@ fun FileAccessPermissionScreen(
                     ),
                     border = BorderStroke(
                         width = 1.dp,
-                        color = MaterialTheme.colorScheme.secondary
+                        color = MaterialTheme.colorScheme.primary
                     ),
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.skip_button), // Add this string resource: "Skip"
-                        style = CustomTextStyles.buttonText
+                        style = CustomTextStyles.buttonText ,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
@@ -342,13 +343,15 @@ fun FileAccessPermissionScreen(
                             ),
                             border = BorderStroke(
                                 width = 1.dp,
-                                color = MaterialTheme.colorScheme.secondary
+                                color = MaterialTheme.colorScheme.primary
                             ),
                             shape = RoundedCornerShape(16.dp)
                         ) {
                             Text(
                                 text = stringResource(R.string.cancel),
-                                style = CustomTextStyles.buttonText
+                                style = CustomTextStyles.buttonText,
+                                color = MaterialTheme.colorScheme.onBackground
+
                             )
                         }
                     }
