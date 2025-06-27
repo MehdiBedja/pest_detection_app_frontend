@@ -257,16 +257,11 @@ fun RecentDetectionsSection(
     val userid by userViewModel.userId.collectAsState()
     val detections by detectionSaveViewModel.detections1.collectAsState()
 
-
-
     val syncCompletedEvent by detectionSaveViewModel.syncCompletedEvent.collectAsState(initial = null)
-
 
     LaunchedEffect(userid) {
         userid?.let { detectionSaveViewModel.getRecentDetections(it) }
     }
-
-
 
     // 🔥 THIS IS THE KEY FIX - Now using the shared ViewModel instance
     LaunchedEffect(syncCompletedEvent) {
@@ -277,13 +272,11 @@ fun RecentDetectionsSection(
                 }
                 is DetectionSaveViewModel.SyncResult.Failure -> {
                     userid?.let { detectionSaveViewModel.getRecentDetections(it) }
-
                 }
             }
             detectionSaveViewModel.clearSyncResult()
         }
     }
-
 
     Column(
         modifier = Modifier
@@ -318,7 +311,6 @@ fun RecentDetectionsSection(
                     )
                 }
             }
-
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -338,19 +330,18 @@ fun RecentDetectionsSection(
                 )
             }
         } else {
-            // Detection Cards
+            // Detection Cards - Limited to first 3 detections
             LazyRow(
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(detections) { detection ->
+                items(detections.take(3)) { detection ->
                     DetectionCard(navController, detection)
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun DetectionCard(navController: NavController,  detection: DetectionWithBoundingBoxes) {

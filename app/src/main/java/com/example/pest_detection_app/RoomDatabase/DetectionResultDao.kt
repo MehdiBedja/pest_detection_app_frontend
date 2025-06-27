@@ -28,7 +28,7 @@ interface DetectionResultDao {
     fun getDetectionsByDate(startDate: Long, endDate: Long): LiveData<List<DetectionResult>>
 
     @Transaction
-    @Query("SELECT * FROM detection_results WHERE userId = :userId AND isDeleted = 0 ORDER BY detectionDate DESC LIMIT 3")
+    @Query("SELECT * FROM detection_results WHERE userId = :userId AND isDeleted = 0 ORDER BY detectionDate DESC")
     suspend fun getDetectionsSortedDesc(userId: Int?): List<DetectionWithBoundingBoxes>
 
     @Transaction
