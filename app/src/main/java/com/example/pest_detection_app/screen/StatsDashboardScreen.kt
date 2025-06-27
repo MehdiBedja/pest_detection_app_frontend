@@ -172,11 +172,16 @@ fun StatsDashboardScreen(
                 ) {
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = stringResource(R.string.no_detection_data),
-                        style = CustomTextStyles.sectionTitle,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.no_detection_data),
+                            style = CustomTextStyles.sectionTitle,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
                 }
             }
         } else {
