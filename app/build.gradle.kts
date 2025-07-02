@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.pest_detection_app"
+    namespace = "com.bedjamahdi.scanpestai"
     compileSdk = 35
 
     buildFeatures {
@@ -14,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.pest_detection_app"
+        applicationId = "com.bedjamahdi.scanpestai"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
