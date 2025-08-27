@@ -1,0 +1,551 @@
+[
+  {
+    "pest": "rice leaf roller",
+    "category": "Riz",
+    "recommendation": "La lutte biologique inclut le lâcher de Trichogramma chilonis (100 000 adultes/ha) environ 15 jours après la plantation, ce qui aide à supprimer les populations d'œufs. La conservation des prédateurs naturels comme les araignées, les libellules et les coléoptères prédateurs contribue également à la régulation. Disperser des feuilles de neem dans le champ dissuade la ponte. Pour les infestations sévères, surtout si plus de 50 % des plants sont affectés au stade épiaison, les options chimiques comme le Flubendiamide (0,1 ml/L) ou le Chlorantraniliprole (0,3 ml/L) sont efficaces. D'autres insecticides comme l'Indoxacarb, l'Azadirachtine, la Lambda-cyhalothrine et l'Abamectin peuvent aussi réduire les populations larvaires. Une gestion intégrée, combinant des mesures préventives avec la lutte biologique et chimique, est recommandée pour éviter la résistance et la résurgence.",
+    "source": "https://plantix.net/en/library/plant-diseases/600105/rice-leafroller/"
+  },
+  {
+    "pest": "rice leaf caterpillar",
+    "category": "Riz",
+    "recommendation": "La gestion biologique inclut l'utilisation de guêpes parasitoides comme Cotesia ruficrus et Eupteromalus parnarae, qui pondent leurs œufs dans les larves et suppriment leur population. Inonder les rizières pendant le stade nymphal peut noyer les larves et réduire leur dispersion, tandis que les canards dans les champs de riz contribuent aussi au contrôle naturel. Pour la lutte chimique, pulvériser de la Cyperméthrine (1 ml/L d'eau) le long de la bordure des champs infestés peut empêcher la migration des larves. Si les niveaux d'infestation sont élevés, surtout avec des pullulations de type ver armée, une pulvérisation complète de Cyperméthrine en fin d'après-midi est efficace. Combiner les mesures culturales, biologiques et chimiques assure un contrôle durable.",
+    "source": "https://plantix.net/en/library/plant-diseases/600137/rice-ear-cutting-caterpillar/"
+  },
+  {
+    "pest": "paddy stem maggot",
+    "category": "Riz",
+    "recommendation": "Surveiller les champs hebdomadairement pendant la croissance précoce pour détecter des symptômes comme des taches blanches, des trous d'épingle sur les feuilles, le flétrissement des jeunes feuilles et des tiges fragiles et rabougries. Le contrôle direct inclut le lâcher de parasitoïdes Trichogramma à intervalles hebdomadaires, l'application de tourteau de neem (75 kg/acre) ou la pulvérisation de formulations à 1% d'azadirachtine. Si l'infestation atteint des seuils économiques (15–30 % de dégâts foliaires), une lutte chimique peut être nécessaire. Les options efficaces incluent l'Hydrochlorure de Cartap 50% SP (400 g/acre), le Profénofos 50% EC (400 ml/acre) ou le Fipronil 5% SC (400 ml/acre). Toujours éviter les pesticides connus pour causer des résurgences et suivre les instructions de sécurité sur l'étiquette.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/10.1079/PWKB.20207800535"
+  },
+  {
+    "pest": "asiatic rice borer",
+    "category": "Riz",
+    "recommendation": "La lutte biologique peut être achieved en relâchant des guêpes parasitoïdes comme Paratheresia claripalpis et Eriborus sinicus, qui réduisent les populations larvaires. Les prédateurs naturels comme les araignées aident aussi à supprimer les infestations. Pour la lutte chimique, appliquer des insecticides à base de chlorantraniliprole si les infestations sont détectées tôt. Les applications granulaires à la plantation et pendant la croissance de la culture peuvent réduire les dégâts de la foreuse. Intégrer toujours des mesures préventives avec des traitements biologiques avant de recourir aux produits chimiques.",
+    "source": "https://plantix.net/en/library/plant-diseases/600192/asiatic-rice-borer/"
+  },
+  {
+    "pest": "yellow rice borer",
+    "category": "Riz",
+    "recommendation": "Les ennemis naturels comme les fourmis, les coléoptères, les sauterelles, les mouches, les guêpes, les nématodes, les acariens, les perce-oreilles, les oiseaux, les libellules, les demoiselles et les araignées aident à réduire les infestations. Cinq à six lâchers du parasitoïde d'œufs Trichogramma japonicum (100 000/ha) commençant 15 jours après la plantation sont efficaces. Les extraits de neem et le Bacillus thuringiensis peuvent aussi être utilisés avant que les larves ne pénètrent dans les tiges. Pour la lutte chimique, les racines des jeunes plants peuvent être trempées dans une solution de chlorpyriphos à 0,02 % pendant 12–14 heures avant le repiquage, offrant une protection jusqu'à 30 jours. Si le seuil de 25–30 papillons mâles par piège par semaine est atteint, appliquer des insecticides à base de fipronil, chlorpyriphos ou chlorantraniliprole sous forme de granulés ou de pulvérisations. Éviter les insecticides à large spectre pour ne pas tuer les ennemis naturels.",
+    "source": "https://plantix.net/en/library/plant-diseases/600093/yellow-stem-borer/"
+  },
+  {
+    "pest": "rice gall midge",
+    "category": "Riz",
+    "recommendation": "La lutte biologique peut être achieved avec des guêpes parasitoïdes (Platygasteridae, Eupelmidae, Pteromalidae) qui attaquent les larves, des acariens phytoséiides qui se nourrissent des œufs et des araignées qui prédatent les adultes. Planter des plantes à fleurs autour des champs attire ces insectes bénéfiques. Pour la gestion chimique, les pulvérisations d'insecticides doivent être synchronisées avec l'émergence des générations de la cécidomyie. Les produits à base de chlorpyriphos sont efficaces contre la population asiatique de la cécidomyie du riz. Intégrer toujours les traitements chimiques avec des méthodes préventives et biologiques pour éviter la résistance.",
+    "source": "https://plantix.net/en/library/plant-diseases/600107/asian-rice-gall-midge/"
+  },
+  {
+    "pest": "Rice Stem fly",
+    "category": "Riz",
+    "recommendation": "La gestion intégrée des ravageurs est recommandée. Les méthodes culturales incluent le rognage des extrémités des semis et l'utilisation de pièges lumineux et à phéromones. La lutte biologique avec des parasitoïdes d'œufs peut aussi aider à réduire les populations. Pour la lutte chimique, le chlorantraniliprole, le benzoate d'emamectine et les néonicotinoïdes comme le thiaméthoxame et le dinotéfuran sont efficaces. Les insecticides traditionnels comme le chlorpyrifos et le carbofurane sont aussi utilisés mais impactent négativement les ennemis naturels, donc ils devraient être évités si possible.",
+    "source": "https://www.entomologyjournals.com/assets/archives/2019/vol4issue4/4-4-11-871.pdf#:~:text=Whereas%2C%20chlorantraniliprole%2025%20SC%20a%20new%20insecticide,effective%20treatment%20against%20rice%20yellow%20stem%20borer."
+  },
+  {
+    "pest": "brown plant hopper",
+    "category": "Riz",
+    "recommendation": "La lutte biologique est efficace à de faibles densités de population. Les ennemis naturels comme les punaises d'eau, les punaises mirides, les araignées et les guêpes et mouches parasitoïdes jouent un rôle clé dans la suppression. L'inondation des pépinières pendant un jour pour que seules les extrémités des plants restent exposées peut noyer les populations, tandis que le balayage avec un filet dans les petites pépinières aide à capturer les insectes. La lutte chimique devrait être réservée aux infestations critiques ou lorsque le nombre de ravageurs dépasse celui des ennemis naturels. Les insecticides recommandés incluent le buprofézine, le pymétrozine et l'étofenprox, appliqués en rotation pour éviter la résistance. Éviter les composés comme le quinalphos, le chlorpyriphos, la lambda-cyhalothrine et autres mélanges de pyréthrinoïdes, car ils favorisent la résistance et la résurgence.",
+    "source": "https://plantix.net/en/library/plant-diseases/600104/brown-planthopper/"
+  },
+  {
+    "pest": "white backed plant hopper",
+    "category": "Riz",
+    "recommendation": "Les agents de lutte biologique maintiennent généralement les populations de Sogatella furcifera sous contrôle. Les prédateurs incluent la punaise miride Cyrtorhinus lividipennis et les micro-guêpes du genre Anagrus (A. flaveolus, A. perforator, A. optabilis, A. frequens), qui parasitent les œufs. Les araignées prédatrices comme Lycosa pseudoannulata jouent aussi un rôle important, et le pathogène fongique Erynia delphacis peut réduire les pullulations. Pour la gestion chimique, les insecticides ne devraient être utilisés que lorsque nécessaire et en rotation pour éviter la résistance. Les options incluent l'oxamyl, certains pyréthrinoïdes, le buprofézine et le pymétrozine appliqués alternativement dans le cadre d'une stratégie intégrée.",
+    "source": "https://plantix.net/en/library/plant-diseases/600191/whitebacked-planthopper/"
+  },
+  {
+    "pest": "small brown plant hopper",
+    "category": "Riz",
+    "recommendation": "La lutte biologique est efficace à de faibles densités de ravageurs. Les ennemis naturels incluent les punaises d'eau, les punaises mirides, les araignées et les guêpes et mouches parasitoïdes d'œufs. L'inondation des pépinières pendant un jour pour que seules les extrémités des plants restent exposées peut supprimer les populations, tandis que les petites pépinières peuvent être balayées avec un filet pour capturer les insectes. La lutte chimique ne devrait être envisagée que lorsque le nombre de ravageurs dépasse les seuils ou lorsque les cicadelles surpassent en nombre les ennemis naturels. Des insecticides comme le buprofézine, le pymétrozine et l'étofenprox peuvent être utilisés en rotation. Éviter les produits à large spectre comme le quinalphos, le chlorpyriphos ou la lambda-cyhalothrine pour réduire la résistance et la résurgence des ravageurs.",
+    "source": "https://plantix.net/en/library/plant-diseases/600104/brown-planthopper/"
+  },
+  {
+    "pest": "rice water weevil",
+    "category": "Riz",
+    "recommendation": "La gestion biologique repose sur des pratiques culturales comme le désherbage et l'augmentation de la taille des champs dans les systèmes certifiés biologiques. La surveillance doit tenir compte de l'historique du champ, de la proximité des habitats d'hivernage (berges de fossés, zones riveraines, berges de canaux envahis par les mauvaises herbes) et des aspects économiques. Les cicatrices d'alimentation des adultes peuvent confirmer la présence, mais des dégâts peuvent survenir même avec peu de cicatrices en raison d'une ponte précoce. Les options chimiques incluent des applications foliaires de lambda-cyhalothrine, zeta-cyperméthrine et diflubenzuron après l'inondation. La lambda-cyhalothrine et la zeta-cyperméthrine tuent les adultes, réduisant la ponte et les populations larvaires. Le diflubenzuron stérilise les femelles et tue les œufs nouvellement pondus (<4 jours). Comme le charançon n'a qu'une génération par an, le timing de l'application est critique : trop tard et les larves auront déjà causé des dégâts, trop tôt et les pesticides se dissipent avant l'arrivée des adultes.",
+    "source": "https://ipm.ucanr.edu/agriculture/rice/rice-water-weevil/#gsc.tab=0"
+  },
+  {
+    "pest": "rice leaf hopper",
+    "category": "Riz",
+    "recommendation": "Contrôle Biologique : La lutte biologique inclut de petites guêpes (parasitent les œufs), la punaise miride ; les strepsiptères, les mouches pipunculides et les nématodes (parasitent les nymphes et les adultes), les punaises aquatiques vélides, les punaises nabides, les mouches empides, les demoiselles, les libellules, les araignées ou les pathogènes fongiques.\n\nContrôle Chimique : Toujours considérer une approche intégrée avec des mesures préventives ainsi que des traitements biologiques si disponibles. Plusieurs pesticides sont disponibles sur le marché contre ce ravageur. Vérifiez auprès de votre revendeur local quelle solution convient le mieux aux conditions prevalentes dans le champ. Alterner les traitements de buprofézine ou de pymétrozine est utile. Éviter l'usage de produits chimiques comme le chlorpyriphos, la lambda cyhalothrine ou d'autres combinaisons de pyréthrinoïdes de synthèse auxquels l'insecte a développé une résistance.",
+    "source": "https://plantix.net/en/library/plant-diseases/600108/green-paddy-leafhoppers/"
+  },
+  {
+    "pest": "grain spreader thrips",
+    "category": "Riz",
+    "recommendation": "Les ennemis naturels comme les acariens prédateurs, les punaises pirates minuscules et les chrysopes se nourrissent de thrips, mais ils sont très sensibles aux insecticides à large spectre comme les pyréthrinoïdes et peuvent ne pas être efficaces là où ces produits chimiques ont été utilisés. Pour réduire les infestations, éviter de planter des oignons près des champs de céréales ou de luzerne, car les populations de thrips s'y développent souvent et migrent lorsque ces cultures sont coupées ou mûres. L'irrigation par aspersion et les précipitations aident à supprimer le nombre de thrips, mais des pulvérisations de pesticides sont souvent encore nécessaires. Pour la production biologique, des pulvérisations de spinosad (formulation Entrust), d'azadirachtine ou de champignons entomopathogènes comme Beauveria bassiana peuvent être utilisées. Les thrips sont les plus dommageables au stade précoce de bulbaison, donc le contrôle devrait commencer avant cela pour prévenir des niveaux incontrôlables. Les oignons peuvent tolérer une pression de thrips plus élevée près de la récolte, mais pulvériser près de la récolte peut encore être souhaitable pour les oignons récoltés à la main car les thrips peuvent être une nuisance pour les équipes de récolte.",
+    "source": "https://ipm.ucanr.edu/agriculture/onion-and-garlic/thrips/#gsc.tab=0"
+  },
+  {
+    "pest": "rice shell pest",
+    "category": "Riz",
+    "recommendation": "Pulvériser des solutions aromatiques comme du savon à la citronnelle pour repousser les punaises du riz. Au Cambodge, les agriculteurs placent du 'prahok' (pâte de poisson fermentée) près des champs pour les attirer et les tuer. Les punaises peuvent aussi être collectées manuellement en balayant avec un filet anti-moustique tôt le matin ou en fin d'après-midi, en les écrasant, en les trempant dans l'eau et en pulvérisant la solution sur la culture pour en repousser d'autres. Les ennemis naturels comme les guêpes, les sauterelles et les araignées aident aussi à réduire les populations. Pour la lutte chimique, du chlorpyriphos 50 EC à 2,5 ml devrait être pulvérisé le soir en commençant par les bords du champ vers le centre selon un motif circulaire, ce qui pousse les punaises vers l'intérieur pour une gestion efficace. L'Abamectin peut aussi être utilisé comme alternative. Cependant, une pulvérisation indiscriminée perturbe les ennemis naturels et peut causer une résurgence des ravageurs.",
+    "source": "https://plantix.net/en/library/plant-diseases/600097/rice-bug/"
+  },
+  {
+    "pest": "grub",
+    "category": "Maïs",
+    "recommendation": "Vérifier la présence de vers blancs en creusant des échantillons de sol d'environ 30x30x30 cm sur trois points aléatoires par ropani. Si au moins un ver blanc est trouvé, appliquer des mesures de contrôle. Pulvériser Metarhizium anisopliae 1,15% WP à 1 kg par ropani directement dans le sol pour réduire les populations de vers blancs.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.20157800155"
+  },
+  {
+    "pest": "mole cricket",
+    "category": "Maïs",
+    "recommendation": "Appliquer des insecticides néonicotinoïdes comme l'imidaclopride, le clothianidine ou le thiaméthoxame lorsque les femelles sont sur le point de pondre. Un rinçage au savon avec un détergent ménager peut aider à détecter les adultes au printemps et à déterminer la maturité des œufs. Les produits combinés comme l'imidaclopride + bifenthrine ou le clothianidine + bifenthrine sont souvent plus efficaces que les néonicotinoïdes seuls. Les granulés de fipronil offrent un contrôle toute la saison et sont particulièrement efficaces contre les nymphes plus grandes, bien que les méthodes d'application varient en coût et en efficacité. Les appâts sont aussi utiles après une pluie ou une irrigation, appliqués l'après-midi en retenant l'irrigation pendant un jour. Pour un contrôle durable dans les zones à entretien réduit, appliquer des nématodes parasites d'insectes comme Stinernema scapterisci ou S. riobravae lorsque le sol est chaud et humide, car ils persistent de saison en saison bien qu'ils n'éliminent peut-être pas complètement l'activité du courtilière.",
+    "source": "https://www.syngentaturf.co.za/mole-cricket-control"
+  },
+  {
+    "pest": "wireworm",
+    "category": "Maïs",
+    "recommendation": "Inspecter les jeunes plants ou les cultures nouvellement repiquées, surtout dans les champs plantés au printemps et les sols riches en matière organique. Utiliser des applications de pesticides pré-plantation ou des traitements de semences dans les champs ayant des antécédents de dégâts de taupins, car ceux-ci offrent le contrôle le plus efficace. Détruire les résidus de plantes des cultures précédentes et les mauvaises herbes autour des bordures de champ. Laisser les champs en jachère pendant plusieurs semaines avant la plantation pour permettre la décomposition de la matière organique, réduisant ainsi les populations de taupins.",
+    "source": "https://ipm.ucanr.edu/agriculture/cole-crops/wireworms/#gsc.tab=0"
+  },
+  {
+    "pest": "white margined moth",
+    "category": "Maïs",
+    "recommendation": "Cet insecte est généralement inoffensif et ne cause pas de dégâts économiques aux cultures, ni ne transmet de maladies. Si les populations se développent et envahissent les structures, un pyréthrinoïde de synthèse peut être appliqué pour arrêter leur mouvement à l'intérieur. Appliquer uniquement selon les instructions sur l'étiquette et prendre des précautions spéciales dans les zones fréquentées par les humains et les animaux de compagnie.",
+    "source": "https://extension.okstate.edu/e-pest-alerts/2024/is-it-a-pest-white-margined-burrower-bug.html#:~:text=Homeowners%20may%20view%20these%20insects,where%20humans%20and%20pets%20frequent."
+  },
+  {
+    "pest": "black cutworm",
+    "category": "Maïs",
+    "recommendation": "Utiliser des bio-insecticides comme Bacillus thuringiensis, le virus de la nucléopolyédrose, ou Beauveria bassiana pour un contrôle efficace de la population. Favoriser les prédateurs naturels en évitant les traitements inutiles. Pour la gestion chimique, appliquer des produits contenant du chlorpyrifos, de la bêta-cyperméthrine, de la deltaméthrine ou de la lambda-cyhalothrine. Des applications d'insecticides pré-plantation peuvent être utilisées si de grandes populations sont attendues.",
+    "source": "https://plantix.net/en/library/plant-diseases/600048/black-cutworm/"
+  },
+  {
+    "pest": "large cutworm",
+    "category": "Maïs",
+    "recommendation": "Utiliser des bio-insecticides comme Bacillus thuringiensis, le virus de la nucléopolyédrose, ou Beauveria bassiana pour un contrôle efficace de la population. Favoriser les prédateurs naturels en évitant les traitements inutiles. Pour la gestion chimique, appliquer des produits contenant du chlorpyrifos, de la bêta-cyperméthrine, de la deltaméthrine ou de la lambda-cyhalothrine. Des applications d'insecticides pré-plantation peuvent être utilisées si de grandes populations sont attendues.",
+    "source": "https://plantix.net/en/library/plant-diseases/600048/black-cutworm/"
+  },
+  {
+    "pest": "yellow cutworm",
+    "category": "Maïs",
+    "recommendation": "Utiliser des bio-insecticides comme Bacillus thuringiensis, le virus de la nucléopolyédrose, ou Beauveria bassiana pour un contrôle efficace de la population. Favoriser les prédateurs naturels en évitant les traitements inutiles. Pour la gestion chimique, appliquer des produits contenant du chlorpyrifos, de la bêta-cyperméthrine, de la deltaméthrine ou de la lambda-cyhalothrine. Des applications d'insecticides pré-plantation peuvent être utilisées si de grandes populations sont attendues.",
+    "source": "https://plantix.net/en/library/plant-diseases/600048/black-cutworm/"
+  },
+  {
+    "pest": "red spider",
+    "category": "Maïs",
+    "recommendation": "Pour les infestations sévères, appliquer ADYBAC 1001 Insecticide à Décharge Totale pour la fumigation dans les espaces clos. Utiliser Miscibloil Huile Insecticide pour le contrôle préventif et d'entretien des acariens. L'insecticide naturel Neemex, à base d'extrait de neem, offre une option écologique pour la gestion intégrée des ravageurs. Appliquer l'Insecticide Acarin 10gr pour le contrôle ciblé des acariens et de l'araignée rouge. L'Insecticide à Décharge Totale Fertiberia peut être utilisé dans les espaces clos pour les infestations étendues. L'Insecticide Spruzit fournit un traitement efficace contre les infestations actives et en prévention. L'Insecticide Solabiol est adapté pour un contrôle plus large des ravageurs et un entretien régulier.",
+    "source": "https://www.growindustry.es/en/blogs/pests/how-to-eliminate-the-red-spider-from-cannabis-plants#:~:text=Next%20article,and%20abundance%20of%20the%20harvest."
+  },
+  {
+    "pest": "corn borer",
+    "category": "Maïs",
+    "recommendation": "Utiliser des pièges à phéromones avec des pièges ailés pour attirer les mâles de la pyrale et empêcher l'accouplement. Relâcher des parasites d'œufs de papillon Trichogramma une fois le vol détecté. Appliquer des pulvérisations de Btk (Bacillus thuringiensis kurstaki) sur les épis, les panicules, les cornes ou le feuillage tout au long de la saison. Les pulvérisations de spinosad peuvent aussi être utilisées mais peuvent affecter les pollinisateurs et les insectes bénéfiques. Détruire et faucher les tiges après la saison pour éliminer les larves hivernantes, et éviter de composter le matériel infesté. Planter des variétés de maïs résistantes si disponibles.",
+    "source": "https://www.arbico-organics.com/category/european-corn-borer-control#:~:text=Btk%20(Bacillus%20thuringiensis%20kurstaki)%20sprays,to%20pollinators%20and%20other%20beneficials."
+  },
+  {
+    "pest": "army worm",
+    "category": "Maïs",
+    "recommendation": "Commencer à pulvériser des pesticides si 10 plants de maïs sur 50 sélectionnés au hasard sont infestés. Pulvériser tôt le matin (6h00–10h00) ou en fin d'après-midi (16h00–19h00), car les vers armée se nourrissent la nuit. Utiliser des vêtements de protection lors de la manipulation, du mélange et de l'application des pesticides. Toujours utiliser une pompe propre et de l'eau propre, et appliquer avec une buse conique pour couvrir toute la plante et surtout l'entonnoir du maïs. Éviter de pulvériser quand il vente ou avant la pluie. Vérifier les plants 4 jours après la pulvérisation, puis surveiller continuellement. Si 10 plants sur 50 sont encore infestés après 7–14 jours, pulvériser à nouveau. Normalement, 2–3 pulvérisations suffisent dans une saison. Alterner les pesticides avec des modes d'action différents chaque saison pour prévenir la résistance.",
+    "source": "https://www.cabi.org/Uploads/Plantwise/Final%20Faw%20Technical%20Brief%20Uganda%2002052018.pdf"
+  },
+  {
+    "pest": "aphids",
+    "category": "Maïs",
+    "recommendation": "Les pucerons causent souvent peu ou pas de dégâts et peuvent ne pas nécessiter de traitement. Si le contrôle est nécessaire, considérer des pesticides à faible risque comme le neem (azadirachtine), le savon insecticide, l'huile horticole ou les pyréthrines. Pulvériser le dessus et le dessous des feuilles, car ces produits ne tuent qu'au contact. Des applications répétées peuvent être nécessaires. Pour un contrôle plus durable, des pesticides résiduels comme l'acéphate, la perméthrine, la bifenthrine, la lambda-cyhalothrine, la cyfluthrine et le malathion peuvent être utilisés, mais ils tuent aussi les insectes bénéfiques et peuvent aggraver les problèmes de pucerons. Éviter de pulvériser les arbres ou arbustes en fleurs.",
+    "source": "https://extension.umn.edu/yard-and-garden-insects/aphids#using-pesticides-344413"
+  },
+  {
+    "pest": "Potosiabre vitarsis",
+    "category": "Maïs",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "peach borer",
+    "category": "Maïs",
+    "recommendation": "Appliquer des insecticides au moment de l'émergence des adultes en mai et répéter environ 6 semaines plus tard. Les pièges à phéromones peuvent être utilisés pour surveiller l'activité des adultes. Les insecticides ne tuent pas les larves déjà inside l'arbre mais protègent contre la réinfestation en empêchant les adultes de pondre des œufs. Des résultats visibles peuvent ne pas apparaître avant la saison suivante.",
+    "source": "https://ipm.ucanr.edu/agriculture/peach/peachtree-borer/#gsc.tab=0"
+  },
+  {
+    "pest": "english grain aphid",
+    "category": "Blé",
+    "recommendation": "Surveiller régulièrement les champs après l'émergence des plantules, avec un échantillonnage de la plante entière avant le tallage et un échantillonnage des talles après le tallage. Les pucerons se regroupent souvent en taches ou le long des bordures de champ, donc éviter les biais en échantillonnant à travers le champ. Porter attention aux ennemis naturels comme les coccinelles, les larves de syrphes, les chrysopes, les guêpes parasitoïdes et les maladies fongiques qui suppriment naturellement les populations. Si les pucerons deviennent nombreux, augmenter la fréquence d'échantillonnage et considérer une intervention seulement si les ennemis naturels sont insuffisants pour prévenir les dégâts.",
+    "source": "https://ipm.ucanr.edu/agriculture/small-grains/english-grain-aphid/#gsc.tab=0"
+  },
+  {
+    "pest": "green bug",
+    "category": "Blé",
+    "recommendation": "Mettre en œuvre des pratiques culturales telles qu'éviter les cultures successives de légumineuses d'été, empêcher les périodes de floraison/formation de gousses qui se chevauchent et contrôler les hôtes adventices autour des champs. Ne pas planter de cultures sensibles près de cultures plus anciennes infestées. Encourager les ennemis naturels incluant la guêpe parasitoïde Trissolcus basalis (qui parasite les œufs), les fourmis, les araignées, les punaises prédatrices et les mouches tachinides. Limiter les insecticides à large spectre pour préserver les populations de prédateurs. Surveiller les cultures deux fois par semaine du bourgeonnement à la pré-récolte, idéalement le matin lorsque les punaises sont près de la canopée supérieure. Utiliser l'échantillonnage par battage pour une surveillance efficace. Contrôler les populations avant que les nymphes n'atteignent une taille nuisible, surtout pendant le début du remplissage des gousses.",
+    "source": "https://www.crop.bayer.com.au/pests/pests/green-vegetable-bug"
+  },
+  {
+    "pest": "bird cherry-oat aphid",
+    "category": "Blé",
+    "recommendation": "Appliquer des traitements de semences avec des néonicotinoïdes comme l'imidaclopride pour une protection en début de saison. Si les populations dépassent les seuils économiques, utiliser des pulvérisations foliaires avec des organophosphorés (p.ex., diméthoate), des carbamates (p.ex., pirimicarbe) ou des pyréthrinoïdes de synthèse (p.ex., alpha-cyperméthrine), en gardant à l'esprit que la sensibilité peut varier en raison de la résistance. Les contrôles biologiques comme le neem et le champignon entomopathogène Beauveria bassiana peuvent aussi réduire les populations. Incorporer la Gestion Intégrée des Ravageurs (GIR) en conservant les ennemis naturels, en surveillant régulièrement les champs et en appliquant des produits chimiques seulement lorsque nécessaire pour éviter le développement de résistance.",
+    "source": "https://www.scienceopen.com/hosted-document?doi=10.15212/ijafr-2022-0106#:~:text=sequencing%20of%20R.-,padi,when%20compared%20to%20other%20R."
+  },
+  {
+    "pest": "wheat blossom midge",
+    "category": "Blé",
+    "recommendation": "Surveiller les champs et appliquer un insecticide seulement lorsque les seuils d'action sont atteints (1 adulte pour 4–5 épis de blé pour la protection du rendement, ou 1 adulte pour 8 épis de blé pour la qualité). La principale option chimique disponible est le diméthoate (Cygon®, Lagon®), un organophosphoré systémique et de contact ciblant les adultes. Appliquer les traitements au crépuscule lorsque les cécidomyies adultes sont actives dans la canopée supérieure, en assurant une couverture uniforme sur les épis de blé pour un meilleur contrôle. Éviter les pulvérisations inutiles pour préserver les ennemis naturels et minimiser l'impact environnemental.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/planthealthcases.2023.0002"
+  },
+  {
+    "pest": "penthaleus major",
+    "category": "Blé",
+    "recommendation": "Les populations de Penthaleus major peuvent atteindre de fortes densités dans les régions nordiques. Les essais de lutte chimique ont montré que les applications printanières de perméthrine (44 ml/ha) et de deltaméthrine (5 ml/ha) réduisaient significativement les populations d'acariens pendant les semaines suivantes et diminuaient aussi leur nombre à l'automne et au printemps suivant, bien qu'une éradication complète n'ait pas été achieved. Des applications printanières plus précoces pourraient encore améliorer le contrôle. Malgré la réduction des populations d'acariens et des dégâts visibles sur les plantes, les différences de rendement étaient rarement significatives. Noter que les applications réduisaient aussi les populations d'araignées et diminuaient légèrement la teneur en potassium dans le rendement.",
+    "source": "https://www.researchgate.net/publication/11351866_Chemical_Control_of_Penthaleus_major_Acari_Prostigmata_in_Hayfields_in_Iceland"
+  },
+  {
+    "pest": "long legged spider mite",
+    "category": "Blé",
+    "recommendation": "Les mesures préventives sont importantes : maintenir les plantes bien arrosées pour réduire le stress hydrique, contrôler la poussière en plantant des couverts végétaux ou en utilisant des paillis, et irriguer régulièrement. De nombreuses plantes ligneuses et de plein champ peuvent tolérer des populations modérées d'acariens, les ennemis naturels aidant souvent à supprimer les pullulations. Si des infestations se produisent, appliquer des jets d'eau forts ou de la brume quotidiennement sur le dessous des feuilles pour déloger les acariens. Lorsque la lutte chimique est nécessaire, utiliser des huiles insecticides ou des savons insecticides, en assurant une couverture complète du dessous des feuilles. Éviter d'utiliser des organophosphorés ou des pyréthrinoïdes, car ceux-ci sont inefficaces contre les acariens, tuent les prédateurs naturels et peuvent déclencher de sévères pullulations d'acariens.",
+    "source": "https://ipm.ucanr.edu/QT/spidermitescard.html"
+  },
+  {
+    "pest": "wheat phloeo thrips",
+    "category": "Blé",
+    "recommendation": "Les thrips se nourrissent des tissus végétaux en suçant la sève, causant une décoloration des feuilles, des stries argentées, une croissance déformée, et ils transmettent aussi des virus végétaux qui réduisent le rendement. Les options de contrôle incluent : le Spinosad (insecticide naturel efficace contre tous les stades de thrips), l'Imidaclopride (insecticide systémique absorbé par la plante pour un contrôle à long terme), les pulvérisations à base de Pyréthrine (efficaces mais nécessitent une réapplication fréquente), l'huile de Neem (repousse et perturbe l'alimentation et la reproduction), et l'Acephate (systémique ciblant les thrips et autres ravageurs). Les insecticides systémiques comme l'Imidaclopride sont absorbés dans la plante et tuent les thrips lorsqu'ils se nourrissent. Les options naturelles comme l'huile de Neem et le Spinosad sont efficaces et plus sûres pour les insectes bénéfiques et l'environnement. En cas de fortes infestations, appliquer des insecticides tous les 7–14 jours, en suivant les instructions sur l'étiquette du produit.",
+    "source": "https://katyayanikrishidirect.com/blogs/news/best-insecticide-for-thrips-effective-solutions-for-thrip-control"
+  },
+  {
+    "pest": "wheat sawfly",
+    "category": "Blé",
+    "recommendation": "La gestion de la tenthrède du blé implique une approche holistique de Gestion Intégrée des Ravageurs (GIR). Cela inclut la plantation de variétés de blé résistantes qui contiennent le caractère de tige pleine, ce qui aide à réduire les dégâts. La surveillance régulière des niveaux de population, la recherche d'œufs et de larves, et la considération de contrôles culturaux comme la rotation des cultures pour perturber les populations hivernantes sont des pratiques clés. Les méthodes de lutte biologique peuvent aussi être bénéfiques. Une combinaison de ces stratégies devrait être la première ligne de défense pour gérer la tenthrède du blé.",
+    "source": "https://www.fbn.com/direct/pest/wheat-stem-sawfly"
+  },
+  {
+    "pest": "cerodonta denticornis",
+    "category": "Blé",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "beet fly",
+    "category": "Betterave",
+    "recommendation": "Lutte biologique utilisant des nématodes entomopathogènes (NEP) tels que Steinernema carpocapsae, Steinernema feltiae, Heterorhabditis bacteriophora. Une seule pulvérisation de S. feltiae ou H. bacteriophora peut causer jusqu'à 81,3 % ou 75,9 % de réduction de la population larvaire.",
+    "source": "https://pubmed.ncbi.nlm.nih.gov/22696941/"
+  },
+  {
+    "pest": "flea beetle",
+    "category": "Betterave",
+    "recommendation": "Utiliser des voiles flottants pour bloquer les adultes, appliquer les nématodes bénéfiques Heterorhabditis bacteriophora (Hb) au printemps pour tuer les larves dans le sol, utiliser Surround WP (argile kaolin) pour dissuader l'alimentation, et appliquer des pulvérisations de Beauveria bassiana (par ex., BotaniGard Maxx) pour infecter et tuer les adultes avec des traitements répétés au besoin.",
+    "source": "https://www.arbico-organics.com/category/Flea-Beetle-Controls#:~:text=Use%20floating%20row%20covers%20as,Product%20Type"
+  },
+  {
+    "pest": "cabbage army worm",
+    "category": "Betterave",
+    "recommendation": "Utiliser Bacillus thuringiensis (Bt), une bactérie du sol produisant des toxines insecticides efficaces contre les chenilles. Appliquer des formulations commerciales de Bt telles que Dipel®, Javelin®, Thuricide® ou Xentari®. Le Bt est sans danger pour les humains, les ennemis naturels et l'environnement. Assurer une sélection correcte de la souche : Bt. kurstaki et Bt. aizawai sont efficaces pour les chenilles comme les vers armée.",
+    "source": "https://infonet-biovision.org/natural-pest-control/bio-pesticide-bt-bacillus-thuringiensis"
+  },
+  {
+    "pest": "beet army worm",
+    "category": "Betterave",
+    "recommendation": "Appliquer les traitements après que la plupart des œufs aient éclos, en ciblant les petites larves lorsqu'elles sont les plus sensibles. Bacillus thuringiensis (Bt) est efficace contre les jeunes larves mais moins contre les plus grandes. Les applications en soirée sont recommandées puisque les larves sont actives au crépuscule et que de nombreux pesticides se dégradent à la lumière du soleil. Éviter les insecticides à large spectre comme le méthomyl car ils impactent négativement les ennemis naturels.",
+    "source": "https://ipm.ucanr.edu/agriculture/cilantro-and-parsley/beet-armyworm/#gsc.tab=0"
+  },
+  {
+    "pest": "Beet spot flies",
+    "category": "Betterave",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "meadow moth",
+    "category": "Betterave",
+    "recommendation": "Le chlorantraniliprole est efficace pour contrôler Loxostege sticticalis (Mouche des prairies). Appliquer aux doses appropriées car de faibles concentrations sublétales (LC10) peuvent augmenter la fécondité et le potentiel reproductif (effet hormétique), tandis que des doses plus élevées (LC25, LC50) réduisent significativement la reproduction et la survie. Utiliser des doses recommandées plus élevées pour supprimer efficacement la croissance de la population.",
+    "source": "https://www.mdpi.com/2077-0472/15/10/1065"
+  },
+  {
+    "pest": "beet weevil",
+    "category": "Betterave",
+    "recommendation": "Pour un contrôle efficace de Bothynoderes punctiventris, les insecticides à base de chlorpyriphos en combinaison avec des pyréthrinoïdes montrent une haute efficacité. Nurelle D (chlorpyriphos + cyperméthrine) maintient une forte action de contact et digestive. Pyrinex Super (chlorpyriphos + bifenthrine) fournit une efficacité similaire malgré une teneur plus faible en matière active. Le chlorpyriphos + bêta-cyfluthrine (MCW 784) a montré une efficacité initiale plus faible comparé à Nurelle D dans des conditions de laboratoire et de terrain.",
+    "source": "https://www.researchgate.net/figure/Insecticides-and-their-application-rates-used-for-sugar-beet-weevil-control_tbl1_269052174"
+  },
+  {
+    "pest": "sericaorient alismots chulsky",
+    "category": "Betterave",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "alfalfa weevil",
+    "category": "Luzerne",
+    "recommendation": "Utiliser d'abord les contrôles culturaux : couper la luzerne tôt, près de la première coupe, pour priver les larves de nourriture et les exposer à la chaleur et à une faible humidité ; le pâturage peut réduire le nombre d'œufs de 50 à 70 %. Prospecter les champs régulièrement pour évaluer les populations larvaires. Si les seuils sont dépassés, appliquer des insecticides tels que Baythroid XL (cyfluthrine), Cobalt (chlorpyrifos + gamma-cyhalothrine), Cobalt Advanced (chlorpyrifos + lambda-cyhalothrine) ou Imidan 70 W (phosmet), en suivant les doses sur l'étiquette et en faisant tourner les modes d'action pour prévenir la résistance.",
+    "source": "https://pubs.nmsu.edu/_a/A338/"
+  },
+  {
+    "pest": "flax budworm",
+    "category": "Luzerne",
+    "recommendation": "La lutte biologique est préférée : utiliser des lâchers augmentatifs d'ennemis naturels tels que Trichogramma spp. ou Microplitis croceipes. Exploiter les entomopathogènes comme Bacillus thuringiensis (Bt) et Heliothis NPV. La résistance de la plante hôte peut aussi aider, avec des variétés résistantes présentant de l'antixenose, de l'antibiosis ou de la tolérance. Les lâchers de mâles stériles ont été efficaces dans des essais localisés. La lutte chimique devrait être considérée seulement si les méthodes biologiques et culturales sont insuffisantes.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.26762"
+  },
+  {
+    "pest": "alfalfa plant bug",
+    "category": "Luzerne",
+    "recommendation": "Prospecter les champs régulièrement en utilisant un filet fauchoir pour surveiller les populations. Les contrôles culturaux incluent le brûlage des chaumes au printemps pour réduire les œufs hivernants et une récolte précoce pour enlever le matériel végétal infesté. Les insecticides ne devraient être utilisés que si les populations sont élevées, car la lutte chimique peut nuire aux ennemis naturels et aux pollinisateurs et est souvent non justifiée économiquement.",
+    "source": "https://cropprotectionnetwork.org/encyclopedia/plant-bugs-in-alfalfa"
+  },
+  {
+    "pest": "tarnished plant bug",
+    "category": "Luzerne",
+    "recommendation": "Utiliser d'abord les pratiques culturales : enlever les mauvaises herbes et les débris pour éliminer les sites d'hivernage, tondre l'herbe et les mauvaises herbes autour des zones de production, et empêcher les mauvaises herbes de former des bourgeons et des fleurs. Les options de lutte biologique incluent les guêpes parasitoïdes comme Peristenus digoneutsi, bien qu'actuellement elles offrent un contrôle limité. Si nécessaire, appliquer des insecticides foliaires (p.ex., acéphate, acétamipride, azadirachtine, Beauveria bassiana, bifenthrine, chlorpyrifos, cyfluthrine, perméthrine, pyréthrines, tau-fluvalinate, thiaméthoxame) en suivant les instructions sur l'étiquette, avec un timing optimisé pour l'activité des punaises et la gestion des mauvaises herbes.",
+    "source": "https://www.umass.edu/agriculture-food-environment/greenhouse-floriculture/fact-sheets/tarnished-plant-bug-field-grown-cut-flowers#:~:text=Some%20foliar%20sprays%20registered%20for,References"
+  },
+  {
+    "pest": "Locustoidea",
+    "category": "Luzerne",
+    "recommendation": "(Criquets), Le contrôle est principalement chimique en utilisant des applications à ultra-bas volume (UBV) de fenitrothion (Sumithion ULV) pour les bandes et essaims de criquets. Appliquer 210–300 mL/ha (267–381 g m.a./ha) par pulvérisation aérienne. Maintenir une zone tampon de 1,5 km des zones sensibles telles que les habitations, les plans d'eau et les cultures biologiques. Observer les délais d'attente pour les cultures et le bétail pour permettre aux résidus d'insecticide de se dégrader avant la récolte ou le pâturage.",
+    "source": "https://www.agriculture.gov.au/biosecurity-trade/pests-diseases-weeds/locusts/landholders/control-agents-residues#:~:text=%E2%80%8B%E2%80%8B%E2%80%8BWhen%20undertaking,on%20managing%20residues%20in%20livestock."
+  },
+  {
+    "pest": "lytta polita",
+    "category": "Luzerne",
+    "recommendation": "Utiliser des stratégies de Gestion Intégrée des Ravageurs (GIR) : prospecter les champs fréquemment, ajuster les dates de récolte, maintenir une luzerne sans mauvaises herbes et éviter les opérations de récolte qui écrasent les coléoptères pour réduire la contamination du foin par la cantharidine. Les insecticides (p.ex., les pyréthrinoïdes tels que la bifenthrine, l'esfenvalerate, la lambda-cyhalothrine, l'alpha- et zeta-cyperméthrine, ou le carbaryl) peuvent être utilisés pour un traitement localisé lorsque les densités de coléoptères sont élevées. Appliquer les insecticides tôt le matin ou tard le soir pour protéger les pollinisateurs et suivre attentivement les instructions sur l'étiquette. Le foin contaminé ne devrait jamais être donné au bétail, surtout aux chevaux, en raison de la toxicité de la cantharidine.",
+    "source": "https://www.ndsu.edu/agriculture/extension/publications/blister-beetle-management-forages-and-field-crops"
+  },
+  {
+    "pest": "legume blister beetle",
+    "category": "Luzerne",
+    "recommendation": "Utiliser des stratégies de Gestion Intégrée des Ravageurs (GIR) : prospecter les champs fréquemment, ajuster les dates de récolte, maintenir une luzerne sans mauvaises herbes et éviter les opérations de récolte qui écrasent les coléoptères pour réduire la contamination du foin par la cantharidine. Les insecticides (p.ex., les pyréthrinoïdes tels que la bifenthrine, l'esfenvalerate, la lambda-cyhalothrine, l'alpha- et zeta-cyperméthrine, ou le carbaryl) peuvent être utilisés pour un traitement localisé lorsque les densités de coléoptères sont élevées. Appliquer les insecticides tôt le matin ou tard le soir pour protéger les pollinisateurs et suivre attentivement les instructions sur l'étiquette. Le foin contaminé ne devrait jamais être donné au bétail, surtout aux chevaux, en raison de la toxicité de la cantharidine.",
+    "source": "https://www.ndsu.edu/agriculture/extension/publications/blister-beetle-management-forages-and-field-crops"
+  },
+  {
+    "pest": "blister beetle",
+    "category": "Luzerne",
+    "recommendation": "Utiliser des stratégies de Gestion Intégrée des Ravageurs (GIR) : prospecter les champs fréquemment, ajuster les dates de récolte, maintenir une luzerne sans mauvaises herbes et éviter les opérations de récolte qui écrasent les coléoptères pour réduire la contamination du foin par la cantharidine. Les insecticides (p.ex., les pyréthrinoïdes tels que la bifenthrine, l'esfenvalerate, la lambda-cyhalothrine, l'alpha- et zeta-cyperméthrine, ou le carbaryl) peuvent être utilisés pour un traitement localisé lorsque les densités de coléoptères sont élevées. Appliquer les insecticides tôt le matin ou tard le soir pour protéger les pollinisateurs et suivre attentivement les instructions sur l'étiquette. Le foin contaminé ne devrait jamais être donné au bétail, surtout aux chevaux, en raison de la toxicité de la cantharidine.",
+    "source": "https://www.ndsu.edu/agriculture/extension/publications/blister-beetle-management-forages-and-field-crops"
+  },
+  {
+    "pest": "odontothrips loti",
+    "category": "Luzerne",
+    "recommendation": "La lutte culturale est préférée : utiliser des voiles ou d'autres méthodes pour prévenir les infestations. Surveiller régulièrement les plantes et commencer le traitement tôt lorsque les thrips ou les dégâts sont first observés. Pour la lutte chimique compatible avec la GIR, utiliser des insecticides de contact tels que l'azadirachtine, les savons insecticides, l'huile de neem, les huiles horticoles, les pyréthrines ou le spinosad, en assurant une couverture complète des bourgeons et des extrémités des pousses. Éviter les insecticides systémiques comme l'acéphate, le malathion, le carbaryl ou les pyréthrinoïdes, qui sont très toxiques pour les ennemis naturels et les pollinisateurs. Si des néonicotinoïdes systémiques sont utilisés, appliquer seulement après la floraison et suivre les précautions sur l'étiquette pour protéger les insectes bénéfiques.",
+    "source": "https://ipm.ucanr.edu/PMG/PESTNOTES/pn7429.html#:~:text=Greenhouse%20thrips%20is%20readily%20controlled,Repeat%20applications%20may%20be%20necessary."
+  },
+  {
+    "pest": "Thrips",
+    "category": "Luzerne",
+    "recommendation": "La lutte culturale est préférée : utiliser des voiles ou d'autres méthodes pour prévenir les infestations. Surveiller régulièrement les plantes et commencer le traitement tôt lorsque les thrips ou les dégâts sont first observés. Pour la lutte chimique compatible avec la GIR, utiliser des insecticides de contact tels que l'azadirachtine, les savons insecticides, l'huile de neem, les huiles horticoles, les pyréthrines ou le spinosad, en assurant une couverture complète des bourgeons et des extrémités des pousses. Éviter les insecticides systémiques comme l'acéphate, le malathion, le carbaryl ou les pyréthrinoïdes, qui sont très toxiques pour les ennemis naturels et les pollinisateurs. Si des néonicotinoïdes systémiques sont utilisés, appliquer seulement après la floraison et suivre les précautions sur l'étiquette pour protéger les insectes bénéfiques.",
+    "source": "https://ipm.ucanr.edu/PMG/PESTNOTES/pn7429.html#:~:text=Greenhouse%20thrips%20is%20readily%20controlled,Repeat%20applications%20may%20be%20necessary."
+  },
+  {
+    "pest": "alfalfa seed chalcid",
+    "category": "Luzerne",
+    "recommendation": "Aucun contrôle chimique efficace n'existe. Utiliser des pratiques culturales : éliminer la luzerne volontaire le long des bordures de champ par tonte ou herbicide, récolter les graines vers mi-août pour minimiser les infestations en fin de saison, et nettoyer les graines avant le stockage pour prévenir les populations hivernantes. Une surveillance fréquente est recommandée pendant le vol des adultes et les périodes de développement des gousses.",
+    "source": "https://entomology.k-state.edu/extension/crop-protection/alfalfa/seed-chalcid.html"
+  },
+  {
+    "pest": "Pieris canidia",
+    "category": "Luzerne",
+    "recommendation": "Utiliser une approche intégrée : cueillir à la main les feuilles avec des masses d'œufs et des larves et les détruire, collecter les papillons adultes avec un filet fauchoir pendant la journée, et surveiller les champs deux fois par semaine. Pour la lutte biologique, appliquer un insecticide à base de neem (Azadirachtine) 5 ml/l d'eau ou Beauveria bassiana 1% WP @ 5 g/l d'eau, max 3 pulvérisations à intervalles d'une semaine. Pour la lutte chimique, utiliser de l'Emamectine Benzoate 5% SG (2 g/6 L d'eau par 25 L de solution/ropani, DAR 3 jours), du Lufenuron 1 ml/l (DAR 2 semaines, seulement en début de saison) ou de la Cyperméthrine 10 EC 2 ml/l (max 2 pulvérisations, intervalle de 15 jours ; noter la toxicité pour les ennemis naturels). Toujours utiliser un EPI et suivre les délais avant récolte et les instructions sur l'étiquette pour éviter la résistance et protéger les insectes bénéfiques.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/pdf/10.1079/pwkb.20157800147?download=false"
+  },
+  {
+    "pest": "Apolygus lucorum",
+    "category": "Vigne",
+    "recommendation": "La Gestion Intégrée des Ravageurs (GIR) est recommandée. Surveiller régulièrement les populations de punaises vertes. Pour la lutte chimique, le fipronil est très efficace contre les nymphes et les adultes, tandis que l'endosulfan est une alternative avec un impact plus faible sur les prédateurs bénéfiques comme Chrysopa sinica et Propylaea japonica. Éviter la surutilisation des néonicotinoïdes comme l'imidaclopride en raison d'une efficacité plus faible et d'effets non intentionnels plus élevés. Suivre toujours les instructions sur l'étiquette et considérer le timing des applications pour minimiser les dommages aux ennemis naturels. Combiner la lutte chimique avec des mesures biologiques et culturales pour de meilleurs résultats.",
+    "source": "https://www.researchgate.net/publication/284104459_Insecticide_susceptibility_of_the_green_plant_bug_Apolygus_lucorum_Homoptera_Miridae_and_two_predatory_arthropods"
+  },
+  {
+    "pest": "Limacodidae",
+    "category": "Vigne",
+    "recommendation": "Les options de contrôle biologique incluent l'enlèvement physique des chenilles avec des pinces ou du ruban adhésif et l'utilisation de pièges lumineux (environ 5 par hectare) pour capturer les papillons adultes. Pour la lutte chimique, des insecticides contenant du Carbaryl ou du Dichlorvos peuvent être utilisés en suivant les instructions sur l'étiquette et les précautions de sécurité telles que porter des vêtements de protection et des gants.",
+    "source": "https://plantix.net/en/library/plant-diseases/600300/slug-caterpillar-moth/"
+  },
+
+
+  {
+    "pest": "oides decempunctata",
+    "category": "Vigne",
+    "recommendation": "Surveiller pendant le développement des fruits pour la gale et le noircissement du rachis. Considérer l'application de pesticide ou de soufre si des dégâts sont détectés, en commençant les traitements avant le flétrissement de la noix. La lutte biologique avec l'acarien prédateur Metaseiulus mcgregori est présente mais usually insufficient pour réduire les populations en dessous des seuils économiques.",
+    "source": "https://ipm.ucanr.edu/agriculture/pistachio/citrus-flat-mite/#gsc.tab=0"
+  },
+
+  {
+    "pest": "Pseudococcus comstocki Kuwana",
+    "category": "Vigne",
+    "recommendation": "Mettre en œuvre un contrôle intégré utilisant des méthodes chimiques, biologiques et mécaniques. Les applications chimiques peuvent réduire les populations, mais l'efficacité varie selon la région. La lutte biologique est très efficace en utilisant des parasitoïdes tels que Pseudaphycus malinus, Allotropa burrelli, A. convexifrons et Zarhopalus corvinus, ainsi que des prédateurs comme Cryptolaemus montrouzieri. La conservation et l'augmentation des bénéfiques indigènes aident aussi à maintenir les populations en dessous des seuils économiques. Surveiller les vergers et les plantes ornementales pour les dégâts et cibler les jeunes immatures pour le contrôle.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.45084"
+  },
+  {
+    "pest": "parathrene regalis",
+    "category": "Vigne",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "Ampelophaga",
+    "category": "Vigne",
+    "recommendation": "Surveiller l'émergence précoce des adultes au printemps pour prévenir les dégâts sur les feuilles et les bourgeons. Utiliser la lutte biologique avec la punaise prédatrice Zicrona coerulea et d'autres prédateurs ou parasites polyphages. Les nématodes bénéfiques peuvent être appliqués au sol pour cibler les larves. Les pulvérisations biologiques telles que le spinosad ou l'huile de neem aident à contrôler les populations. La lutte chimique peut inclure des formulations de chlorpyrifos ou de lambda-cyhalothrine, appliquées par pulvérisation ou poudrage, de préférence intégrées avec des mesures biologiques et préventives.",
+    "source": "https://plantix.net/en/library/plant-diseases/600168/vine-flea-beetle/"
+  },
+  {
+    "pest": "Lycorma delicatula",
+    "category": "Vigne",
+    "recommendation": "Protéger les sources d'eau lors de l'utilisation d'insecticides et faire tourner les classes chimiques pour réduire le risque de résistance. Choisir l'insecticide efficace le moins toxique, en considérant les options listées OMRI ou à risque réduit, et suivre les instructions sur l'étiquette. Pour le contrôle, utiliser des insecticides de contact pour tuer les nymphes et adultes se nourrissant ou des insecticides systémiques (p.ex., imidaclopride, dinotéfuran) pour une protection plus longue. Appliquer correctement les insecticides systémiques en utilisant un trempage du sol, une injection dans le sol, une pulvérisation du tronc ou une injection dans le tronc. Porter des vêtements de protection et suivre les pratiques d'application sûres.",
+    "source": "https://extension.psu.edu/spotted-lanternfly-management-and-pesticide-safety"
+  },
+  {
+    "pest": "Xylotrechus",
+    "category": "Vigne",
+    "recommendation": "Surveiller les mûriers pour l'infestation par les adultes, les déjections larvaires et les cavités. Le contrôle physique inclut l'enlèvement et la destruction (brûlage ou broyage) des arbres lourdement infestés. Le contrôle chimique peut cibler les femelles pondant, les œufs et les larves de premier stade en utilisant des insecticides de contact (p.ex., chlorpyrifos) pulvérisés sur l'écorce début juin, ou les larves dans le phloème en utilisant des insecticides systémiques tels que l'abamectine via injection dans le tronc. Le piégeage de masse basé sur les phéromones ou la perturbation de l'accouplement pourrait être exploré en utilisant les phéromones d'agrégation mâles connues. La lutte biologique est possible avec la guêpe parasitoïde native Stephanus serrator. La détection précoce et les mesures de contrôle intégrées sont recommandées pour prévenir la propagation.",
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6023466/"
+  },
+  {
+    "pest": "Cicadella viridis",
+    "category": "Vigne",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "Miridae",
+    "category": "Vigne",
+    "recommendation": "Utiliser des prédateurs naturels tels que les punaises damoiselles, les punaises à grands yeux, les punaises assassines, les fourmis et certaines araignées pour contrôler les populations de mirides. Appliquer des traitements biologiques comme de l'huile de neem diluée ou du Beauveria bassiana immédiatement après la détection du ravageur. Pour les infestations sévères, la lutte chimique avec des insecticides contenant du diméthoate, de l'indoxacarbe ou du fipronil peut être utilisée, intégrée à des mesures préventives et biologiques.",
+    "source": "https://plantix.net/en/library/plant-diseases/600262/mirid-bugs/"
+  },
+  {
+    "pest": "Trialeurodes vaporariorum",
+    "category": "Vigne",
+    "recommendation": "Mettre en œuvre une gestion intégrée des ravageurs (GIP) combinant des contrôles biologiques et chimiques. Utiliser les prédateurs naturels et les parasitoïdes comme méthode de contrôle principale. Les champignons entomopathogènes tels que Beauveria bassiana et Cordyceps farinosa peuvent être appliqués comme biopesticides. Les insecticides chimiques comme le spiromésifène peuvent être utilisés comme traitements complémentaires lorsque les populations de ravageurs dépassent les seuils. Combiner les champignons entomopathogènes avec des produits chimiques compatibles peut augmenter la mortalité des aleurodes et réduire le risque de résistance. Appliquer les traitements en suivant les instructions de l'étiquette et intégrer avec des pratiques culturales préventives.",
+    "source": "https://www.nature.com/articles/s41598-024-66051-8"
+  },
+
+  {
+    "pest": "Papilio xuthus",
+    "category": "Agrumes",
+    "recommendation": "Surveiller les plants d'agrumes et de Rutacées pour l'activité de ponte. La ponte est stimulée chimiquement par certains composés végétaux et dissuadée par d'autres, donc la sélection de l'hôte est prévisible. Pour la gestion, retirer les œufs ou les larves des plants d'agrumes si nécessaire, et envisager de planter des espèces de Rutacées moins préférées à proximité pour réduire la colonisation. Utiliser une approche intégrée combinant le contrôle cultural, l'élimination physique et la manipulation de l'habitat pour prévenir les dégâts larvaires.",
+    "source": "https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/papilio-xuthus"
+  },
+  {
+    "pest": "Panonchus citri McGregor",
+    "category": "Agrumes",
+    "recommendation": "Le contrôle repose largement sur les acaricides. Le cyflumétofène et le spirodiclofène sont efficaces, avec des valeurs de CL50 de 10,23 ppm et 7,28 ppm, respectivement. Même des concentrations sublétales (CL20) réduisent le développement, la survie, la fécondité et la croissance de la population de P. citri. Appliquer les acaricides selon les instructions de l'étiquette et intégrer avec une surveillance pour optimiser le timing et le dosage, en minimisant la résistance et l'impact sur les organismes non cibles.",
+    "source": "https://www.biotaxa.org/pja/article/view/68693#:~:text=The%20citrus%20red%20mite%2C%20Panonychus,mite%20control%20management%20in%20citrus."
+  },
+
+  {
+    "pest": "Icerya purchasi Maskell",
+    "category": "Agrumes",
+    "recommendation": "Le contrôle peut être achieved en utilisant des insecticides à oligonucleotides verts (insecticides à ADN). L'oligoICER-11, un court fragment simple brin ciblant le gène de l'ARNr 28S, appliqué à 100 ng/μL sur les larves, a achieved une mortalité de 70 % en 10 jours. Cette méthode est sûre, efficace et a une faible empreinte carbone, offrant une alternative aux insecticides chimiques conventionnels.",
+    "source": "https://www.mdpi.com/1422-0067/24/14/11650"
+  },
+  {
+    "pest": "Unaspis yanonensis",
+    "category": "Agrumes",
+    "recommendation": "",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.55687"
+  },
+  {
+    "pest": "Ceroplastes rubens",
+    "category": "Agrumes",
+    "recommendation": "La lutte biologique utilisant Anicetus beneficus s'est avérée efficace pour contrôler C. rubens dans diverses régions. La lutte chimique peut également être utilisée, avec des pesticides sélectifs tels que l'hexythiazox et le clofentézine offrant un contrôle efficace avec un impact moindre sur les ennemis naturels. La surveillance des jeunes larves mobiles est essentielle pour un traitement chimique opportun.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/cabicompendium.12351"
+  },
+  {
+    "pest": "Chrysomphalus aonidum",
+    "category": "Agrumes",
+    "recommendation": "La lutte biologique utilisant Aphytis holoxanthus et Pteroptrix smithi a été efficace pour gérer C. aonidum. L'utilisation de la lutte chimique avec des insecticides, y compris des organophosphorés, a été courante mais est coûteuse et dommageable pour l'environnement à long terme. L'inspection pré-exportation et la surveillance des ravageurs cochenilles sur les feuilles et les fruits sont également des mesures préventives importantes.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/10.1079/PWKB.Species.13379"
+  },
+
+  {
+    "pest": "Nipaecoccus vastalor",
+    "category": "Agrumes",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "Aleurocanthus spiniferus",
+    "category": "Agrumes",
+    "recommendation": "La lutte biologique utilisant Encarsia smithi et Amitus hesperidum a été efficace pour gérer A. spiniferus. La lutte chimique, bien que possible, n'est pas recommandée en raison de son coût élevé et de son impact négatif sur les ennemis naturels. Les méthodes de contrôle réglementaire, y compris l'inspection du matériel de plantation et la fumigation, sont recommandées pour prévenir la propagation de ce ravageur.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.4136"
+  },
+  {
+    "pest": "Tetradacus c Bactrocera minax",
+    "category": "Agrumes",
+    "recommendation": "La lutte chimique utilisant des insecticides comme le trichlorfon et le malathion dans des appâts pulvérisés est efficace. Les appâts pulvérisés sont préférables car ils ciblent les mouches avec un impact minimal sur les ennemis naturels. Une technique d'insecte stérile a également été utilisée avec succès. Les mesures phytosanitaires, telles que l'inspection et le traitement des envois, sont importantes. Un traitement par le froid ou une irradiation gamma peut être appliqué pour le contrôle post-récolte.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/cabicompendium.8726"
+  },
+  {
+    "pest": "Dacus dorsalis(Hendel)",
+    "category": "Agrumes",
+    "recommendation": "L'utilisation d'extrait de noyau de neem et une récolte précoce sont recommandées. Les mesures sanitaires, y compris la destruction des fruits tombés, sont cruciales. La lutte biologique utilisant Fopius arisanus a été réussie, ainsi que l'application au sol de champignons entomopathogènes combinée à des appâts pulvérisés. Les détails de la lutte chimique ne sont pas inclus en raison de réglementations variables sur les pesticides ; veuillez consulter les bases de données de pesticides de l'UE et de PAN.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.17685"
+  },
+  {
+    "pest": "Bactrocera tsuneonis",
+    "category": "Agrumes",
+    "recommendation": "Les mesures de contrôle générales incluent la collecte et la destruction des fruits infestés tombés, l'utilisation d'appâts pulvérisés avec du malathion et de l'hydrolysat de protéines, et l'application de trichlorfon dans une solution sucrée avant la ponte des femelles. Les mesures phytosanitaires incluent l'inspection et le traitement des envois de fruits provenant de zones où le ravageur est présent. Le traitement par le froid en transit et la technique de l'insecte stérile (lâcher de mâles stériles) ont été appliqués avec succès. Les plantes avec des racines provenant de zones infestées doivent être exemptes de terre ou traitées contre les pupariums.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.8745"
+  },
+  {
+    "pest": "Prodenia litura",
+    "category": "Agrumes",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Adristyrannus",
+    "category": "Agrumes",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Phyllocnistis citrella Stainton",
+    "category": "Agrumes",
+    "recommendation": "Lutte biologique utilisant des parasitoïdes, des prédateurs et un contrôle microbien (p. ex., Bacillus thuringiensis, avermectines), ainsi que des variétés résistantes de plantes hôtes telles que Ruby Malta et Kinnow Mandarin. Éviter les pulvérisations chimiques excessives et envisager d'utiliser des insecticides biotionnels comme le fenoxycarbe.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/cabicompendium.40831"
+  },
+  {
+    "pest": "Toxoptera aurantii",
+    "category": "Agrumes",
+    "recommendation": "Contrôle biologique : Utiliser des prédateurs comme les syrphes, les chrysopes et les coccinelles (p. ex., Cycloneda sanguinea et Hippodamia convergens) pour attaquer les pucerons. Le champignon Neozygites fresensii aide à contrôler les populations de pucerons par temps humide. Les fourmis peuvent être éliminées avec de l'eau bouillante ou des solutions de pyréthrine naturelle. Des solutions insecticides (savon, neem ou extraits de piment) peuvent également être utilisées. Contrôle chimique : Appliquer des insecticides avec une approche intégrée, utilisant des mesures préventives ainsi que des traitements biologiques. Les produits commerciaux à base d'huile de pétrole peuvent être pulvérisés sur le dessous des feuilles. Les pyréthrinoïdes de synthèse sont efficaces mais peuvent nuire aux ennemis naturels.",
+    "source": "https://plantix.net/en/library/plant-diseases/600157/black-citrus-aphid/"
+  },
+
+  {
+    "pest": "Scirtothrips dorsalis Hood",
+    "category": "Mangue",
+    "recommendation": "Prévention : Des pratiques phytosanitaires strictes sont essentielles pour prévenir le mouvement involontaire de S. dorsalis, car ses stades de vie sont petits et difficiles à détecter. Éradication : Si les populations sont petites et localisées, la destruction du matériel végétal infesté et l'application d'insecticide sur les plantes hôtes 'à risque' peuvent être efficaces, bien qu'une résistance publique puisse survenir. Contrôle chimique : Les insecticides, y compris les produits à risque réduit, doivent être utilisés en rotation pour supprimer les populations de S. dorsalis et réduire le développement de la résistance. La compatibilité avec les ennemis naturels, tels que Orius insidiosus, doit être considérée pour des programmes de GIP durables.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/cabicompendium.49065"
+  },
+
+  {
+    "pest": "Lawana imitata Melichar",
+    "category": "Mangue",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Salurnis marginella Guerr",
+    "category": "Mangue",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Deporaus marginatus Pascoe",
+    "category": "Mangue",
+    "recommendation": "Prévention : Collecte et destruction régulières des feuilles tombées contenant des œufs. Labourer le sol sous la couronne des plants pour détruire les pupes. Contrôle chimique : Des insecticides comme la deltaméthrine et la fenvalérate peuvent être appliqués lorsque les jeunes feuilles ont 3 cm de large, avec 2-3 applications hebdomadaires. Méthodes alternatives : Comme les pulvérisations conventionnelles sont inefficaces à cause de la pluie, le monocrotophos s'est avéré efficace dans l'étude, mais des alternatives comme l'huile de neem et le NSKE sont également considérées. Des stratégies de contrôle résistantes à la pluie sont nécessaires. Alerte aux ravageurs : Développer des modèles d'alerte basés sur la phénologie, synchronisant l'émergence des jeunes pousses avec le développement larvaire de D. marginatus.",
+    "source": "https://www.cabidigitallibrary.org/doi/pdf/10.5555/20183071637"
+  },
+  {
+    "pest": "Chlumetia transversa",
+    "category": "Mangue",
+    "recommendation": "Lorsque les nombres de population sont faibles, des extraits de plantes d'ail et de piment dissous dans l'eau peuvent être pulvérisés pour éloigner les chenilles et réduire l'infestation de foreurs des pousses. Envisager une approche intégrée avec des mesures préventives ainsi que des traitements biologiques si disponibles. Retirer les greffes ou plants affectés et les pulvériser avec des insecticides recommandés tels que le penthoate pour contrôler efficacement l'insecte.",
+    "source": "https://plantix.net/en/library/plant-diseases/800014/mango-shoot-borer/"
+  },
+
+  {
+    "pest": "Rhytidodera bowrinii white",
+    "category": "Mangue",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Sternochetus frigidus",
+    "category": "Mangue",
+    "recommendation": "Un traitement par irradiation avec une dose absorbée minimale de 165 Gy assurera la sécurité quarantenaire pour Sternochetus frigidus dans les mangues philippines exportées. Des tests de confirmation ont indiqué que 100 Gy causait une stérilité partielle, tandis que 150 Gy resulted in une stérilité complète, empêchant la reproduction.",
+    "source": "https://www.researchgate.net/publication/261100927_Large-Scale_Confirmatory_Tests_of_a_Phytosanitary_Irradiation_Treatment_Against_Sternochetus_frigidus_Coleoptera_Curculionidae_in_Philippine_Mango"
+  },
+  {
+    "pest": "Cicadellidae",
+    "category": "Mangue",
+    "recommendation": "Les agents de lutte biologique tels que les prédateurs Mallada boninensis et Chrysopa lacciperda et le parasite d'œufs Polynema sp. peuvent réduire les populations de cicadelles. Alternativement, les manguiers affectés peuvent être traités avec des pulvérisations à base d'huile contenant les champignons Beauveria bassiana ou Metarhizium anisopliae, avec un traitement 2-3 fois par semaine. Les pulvérisations à base d'huile de neem (3%) peuvent également réduire les populations d'Idioscopus spp. jusqu'à 60%. Pour la lutte chimique, utiliser des pulvérisations contenant de la cyperméthrine (0,4%) ou des insecticides avec du diméthoate injecté dans le tronc. Deux pulvérisations, à 7 jours d'intervalle, avant la floraison, sont recommandées.",
+    "source": "https://plantix.net/fr/library/plant-diseases/800016/mango-hoppers/"
+  }
+]

@@ -54,12 +54,14 @@ import com.bedjamahdi.scanpestai.ViewModels.detection_result.DetectionSaveViewMo
 import com.bedjamahdi.scanpestai.ViewModels.user.LoginViewModel
 import com.bedjamahdi.scanpestai.data.user.DetectionWithBoundingBoxes
 import com.bedjamahdi.scanpestai.screen.user.DarkModePref
+import com.bedjamahdi.scanpestai.screen.user.LanguagePref
 import com.bedjamahdi.scanpestai.ui.theme.*
 import com.github.mikephil.charting.formatter.PercentFormatter
 
 // Coroutines
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.intellij.lang.annotations.Language
 
 // Date formatting
 import java.text.SimpleDateFormat
@@ -95,9 +97,10 @@ fun StatsDashboardScreen(
 
     var selectedTimePeriod by remember { mutableStateOf(TimePeriod.MONTH) }
     var timeOffset by remember { mutableStateOf(0) }
+    val currentLanguage = LanguagePref.getLanguage(context)
 
     // Load pest info from JSON
-    val pestInfo = remember { loadPestInfo(context) }
+    val pestInfo = remember { loadPestInfo(context , currentLanguage) }
 
     val syncCompletedEvent by detectionSaveViewModel.syncCompletedEvent.collectAsState(initial = null)
 
@@ -215,7 +218,7 @@ fun StatsDashboardScreen(
                         item {
                             SummaryCard(
                                 title = stringResource(R.string.most_frequent_pest),
-                                value = statsData!!.mostFrequentPest,
+                                value = getTranslatedPestName(statsData!!.mostFrequentPest),
                                 icon = painterResource(id = R.drawable.assessment),
                                 color = MarronColor
                             )
@@ -223,7 +226,7 @@ fun StatsDashboardScreen(
                         item {
                             SummaryCard(
                                 title = stringResource(R.string.last_detected),
-                                value = statsData!!.lastDetectedPest,
+                                value = getTranslatedPestName(statsData!!.lastDetectedPest),
                                 icon = painterResource(id = R.drawable.assessment),
                                 color = Color(0xFF8B5CF6)
                             )
@@ -232,8 +235,8 @@ fun StatsDashboardScreen(
                             SummaryCard(
                                 title = stringResource(R.string.detection_trend),
                                 value = statsData!!.detectionTrend,
-                                icon = if (statsData!!.detectionTrend == "↗ Increasing") painterResource(id = R.drawable.trendingup1) else painterResource(id = R.drawable.assessment),
-                                color = if (statsData!!.detectionTrend == "↗ Increasing") Color(0xFFEF4444) else AccentGreen
+                                icon = if (statsData!!.detectionTrend == "↗") painterResource(id = R.drawable.trendingup1) else painterResource(id = R.drawable.assessment),
+                                color = if (statsData!!.detectionTrend == "↗") Color(0xFFEF4444) else AccentGreen
                             )
                         }
                     }
@@ -329,6 +332,7 @@ fun StatsDashboardScreen(
                 }
 
                 // Pie Chart - Detection Distribution (updated with dynamic colors)
+                /*
                 item {
                     ChartCard(
                         title = stringResource(R.string.detection_distribution),
@@ -349,6 +353,8 @@ fun StatsDashboardScreen(
                         )
                     }
                 }
+
+                 */
 
                 // Crop Type Association Chart (updated with dynamic colors)
                 item {
@@ -923,9 +929,14 @@ data class PestInfo(
     val recommendation: String
 )
 
-private fun loadPestInfo(context: android.content.Context): List<PestInfo> {
+private fun loadPestInfo(context: android.content.Context , language: String): List<PestInfo> {
     return try {
-        val json = context.assets.open("pestInfo.json").bufferedReader().use { it.readText() }
+        val fileName = when (language) {
+            "ar" -> "pests_ar3.json"
+            "fr" -> "pests_fr3.json"
+            else -> "pestInfo3.json"
+        }
+        val json = context.assets.open(fileName).bufferedReader().use { it.readText() }
         val gson = com.google.gson.Gson()
         val type = object : com.google.gson.reflect.TypeToken<List<PestInfo>>() {}.type
         gson.fromJson(json, type) ?: emptyList()
@@ -995,8 +1006,8 @@ private fun calculateStats(
     val previousWeekDetections = previousWeek.sumOf { dailyDetections[it] ?: 0 }
 
     val trend = when {
-        currentWeekDetections > previousWeekDetections -> "↗ Increasing"
-        currentWeekDetections < previousWeekDetections -> "↘ Decreasing"
+        currentWeekDetections > previousWeekDetections -> "↗"
+        currentWeekDetections < previousWeekDetections -> "↘"
         else -> "→ Stable"
     }
 

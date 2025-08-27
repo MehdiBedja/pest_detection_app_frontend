@@ -98,6 +98,8 @@
     <string name="inference_time">Inference Time: </string>
     <string name="crop_category">Crop Category:</string>
     <string name="pesticide_recommendation">Pesticide Recommendation:</string>
+    <string name="source">Source:</string>
+    <string name="view_on">View on</string>
     <string name="failed_to_load_image">Failed to load image</string>
     <string name="save_results">Save Results</string>
     <string name="see_detections_history">See Detections History</string>
@@ -232,7 +234,7 @@
 
     //Splash screen
     <string name="app_tagline">Intelligent Pest Detection</string>
-    <string name="version_text">Version 1.0</string>
+    <string name="version_text">Version 1.1</string>
 
 
     <string name="syncing_data">Syncing data...</string>

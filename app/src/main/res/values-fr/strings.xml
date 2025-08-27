@@ -86,6 +86,8 @@
     <string name="inference_time">Temps d\'inférence : </string>
     <string name="crop_category">Catégorie de culture :</string>
     <string name="pesticide_recommendation">Recommandation de pesticide :</string>
+    <string name="source">Source :</string>
+    <string name="view_on">Voir sur</string>
     <string name="failed_to_load_image">Échec du chargement de l\'image</string>
     <string name="save_results">Enregistrer les résultats</string>
     <string name="see_detections_history">Voir l\'historique des détections</string>
@@ -215,7 +217,7 @@
 
     //Splash screen
     <string name="app_tagline">Détection intelligente des nuisibles</string>
-    <string name="version_text">Version 1.0</string>
+    <string name="version_text">Version 1.1</string>
 
 
     <string name="syncing_data">Synchronisation des données ...</string>

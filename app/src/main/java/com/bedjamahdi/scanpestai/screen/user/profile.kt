@@ -570,7 +570,6 @@ fun EmbeddedSettings(
 
         SettingRow(R.string.about_the_app,"", onClick = onShowAbout)
 
-        SettingRow(R.string.rate_us, "", onClick = onShowRate)
 
         SettingToggleRow(
             label = "Dark Mode",
@@ -796,17 +795,6 @@ fun AboutAppDialog(onDismiss: () -> Unit) {
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
-
-                // App Version
-                Text(
-                    text = stringResource(R.string.app_version, "1.0.0"),
-                    style = CustomTextStyles.dateText.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
                 // OK Button
                 Button(
                     onClick = onDismiss,
@@ -976,7 +964,7 @@ fun PestDetectionSection(onViewPests: () -> Unit) {
                         .padding(horizontal = 12.dp, vertical = 4.dp)
                 ) {
                     Text(
-                        text = stringResource(R.string.detected_pests_count, 13),
+                        text = stringResource(R.string.detected_pests_count, 90),
                         style = CustomTextStyles.buttonText.copy(
                             color = MaterialTheme.colorScheme.primary,
                             fontSize = 12.sp,

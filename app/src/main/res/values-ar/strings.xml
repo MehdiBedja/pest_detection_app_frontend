@@ -97,6 +97,8 @@
     <string name="inference_time">زمن الاستدلال: </string>
     <string name="crop_category">نوع المحصول:</string>
     <string name="pesticide_recommendation">توصية بالمبيد:</string>
+    <string name="source">المصدر</string>
+    <string name="view_on">عرض على</string>
     <string name="failed_to_load_image">فشل في تحميل الصورة</string>
     <string name="save_results">حفظ النتائج</string>
     <string name="see_detections_history">عرض سجل الكشف</string>
@@ -225,7 +227,7 @@
 
     //Splash screen
     <string name="app_tagline">الكشف الذكي عن الآفات</string>
-    <string name="version_text">Version 1.0</string>
+    <string name="version_text">Version 1.1</string>
 
 
 

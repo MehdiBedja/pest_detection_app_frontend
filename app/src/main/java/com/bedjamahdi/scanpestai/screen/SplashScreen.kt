@@ -163,7 +163,7 @@ fun SplashScreen(navController: NavController) {
             contentAlignment = Alignment.BottomCenter
         ) {
             Text(
-                text = stringResource(R.string.version_text), // "Version 1.0"
+                text = stringResource(R.string.version_text), // "Version 1.1"
                 fontSize = 12.sp,
                 color = onBackgroundColor.copy(alpha = 0.5f),
                 modifier = Modifier.alpha(contentAlpha)

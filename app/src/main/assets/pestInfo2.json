@@ -1,0 +1,659 @@
+[
+  {
+    "pest": "rice leaf roller",
+    "category": "Rice",
+    "recommendation": "Biological control includes releasing Trichogramma chilonis (100,000 adults/ha) about 15 days after planting, which helps suppress egg populations. Conserving natural predators such as spiders, dragonflies, and predatory beetles also contributes to regulation. Neem leaves scattered in the field deter egg laying. For severe infestations, especially if more than 50% of plants are affected at booting stage, chemical options like Flubendiamide (0.1 ml/L) or Chlorantraniliprole (0.3 ml/L) are effective. Other insecticides such as Indoxacarb, Azadirachtin, Lambda-cyhalothrin, and Abamectin can also reduce larval populations. Integrated management, combining preventive measures with biological and chemical control, is recommended to avoid resistance and resurgence.",
+    "source": "https://plantix.net/en/library/plant-diseases/600105/rice-leafroller/"
+  } ,
+
+  {
+    "pest": "rice leaf caterpillar",
+    "category": "Rice",
+    "recommendation": "Biological management includes using parasitoid wasps such as Cotesia ruficrus and Eupteromalus parnarae, which lay eggs in the larvae and suppress their population. Flooding paddy fields during the pupal stage can drown larvae and reduce dispersal, while ducks in rice fields also contribute to natural control. For chemical management, spraying Cypermethrin (1 ml/L of water) along the boundary of infested fields can prevent larvae migration. If infestation levels are high, especially with armyworm-like outbreaks, a full-field Cypermethrin spray during late afternoon hours is effective. Combining cultural, biological, and chemical measures ensures sustainable control.",
+    "source": "https://plantix.net/en/library/plant-diseases/600137/rice-ear-cutting-caterpillar/"
+  },
+
+  {
+    "pest": "paddy stem maggot",
+    "category": "Rice",
+    "recommendation": "Monitor fields weekly during early growth for symptoms such as white patches, pinholes on leaves, drooping of young leaves, and stunted fragile stems. Direct control includes releasing Trichogramma parasitoids at weekly intervals, applying neem cake (75 kg/acre), or spraying 1% azadirachtin formulations. If infestation reaches economic thresholds (15–30% leaf damage), chemical control may be needed. Effective options include Cartap hydrochloride 50% SP (400 g/acre), Profenofos 50% EC (400 ml/acre), or Fipronil 5% SC (400 ml/acre). Always avoid pesticides known to cause resurgence and follow label safety instructions.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/10.1079/PWKB.20207800535"
+  },
+
+  {
+    "pest": "asiatic rice borer",
+    "category": "Rice",
+    "recommendation": "Biological control can be achieved by releasing parasitoid wasps such as Paratheresia claripalpis and Eriborus sinicus, which reduce larval populations. Natural predators like spiders also help suppress infestations. For chemical control, apply chlorantraniliprole-based insecticides if infestations are detected early. Granular applications at planting and during crop growth can reduce borer damage. Always integrate preventive measures with biological treatments before resorting to chemicals.",
+    "source": "https://plantix.net/en/library/plant-diseases/600192/asiatic-rice-borer/"
+  },
+  {
+    "pest": "yellow rice borer",
+    "category": "Rice",
+    "recommendation": "Natural enemies such as ants, beetles, grasshoppers, flies, wasps, nematodes, mites, earwigs, birds, dragonflies, damselflies, and spiders help reduce infestations. Five to six releases of the egg parasitoid Trichogramma japonicum (100,000/ha) starting 15 days after planting are effective. Neem extracts and Bacillus thuringiensis can also be used before larvae penetrate stems. For chemical control, roots of seedlings can be soaked in 0.02% chlorpyriphos solution for 12–14 hours before transplanting, providing up to 30 days protection. If the threshold of 25–30 male moths per trap per week is reached, apply insecticides based on fipronil, chlorpyriphos, or chlorantraniliprole as granules or sprays. Avoid broad-spectrum insecticides to prevent killing natural enemies.",
+    "source": "https://plantix.net/en/library/plant-diseases/600093/yellow-stem-borer/"
+  },
+  {
+    "pest": "rice gall midge",
+    "category": "Rice",
+    "recommendation": "Biological control can be achieved with parasitoid wasps (Platygasteridae, Eupelmidae, Pteromalidae) that attack larvae, phytoseiid mites that feed on eggs, and spiders that prey on adults. Planting flowering plants around fields attracts these beneficial insects. For chemical management, insecticide sprays should be timed at the emergence of rice gall broods. Chlorpyriphos-based products are effective against the Asian rice gall midge population. Always integrate chemical treatments with preventive and biological methods to avoid resistance.",
+    "source": "https://plantix.net/en/library/plant-diseases/600107/asian-rice-gall-midge/"
+  }
+,
+  {
+    "pest": "Rice Stem fly",
+    "category": "Rice",
+    "recommendation": "Integrated pest management is recommended. Cultural methods include clipping seedling tips, and using light and pheromone traps. Biological control with egg parasitoids can also help reduce populations. For chemical control, chlorantraniliprole, emamectin benzoate, and neonicotinoids such as thiamethoxam and dinotefuran are effective. Traditional insecticides like chlorpyrifos and carbofuran are also used but negatively impact natural enemies, so they should be avoided where possible.",
+    "source": "https://www.entomologyjournals.com/assets/archives/2019/vol4issue4/4-4-11-871.pdf#:~:text=Whereas%2C%20chlorantraniliprole%2025%20SC%20a%20new%20insecticide,effective%20treatment%20against%20rice%20yellow%20stem%20borer."
+  }
+,
+  {
+    "pest": "brown plant hopper",
+    "category": "Rice",
+    "recommendation": "Biological control is effective at low population densities. Natural enemies such as water striders, mirid bugs, spiders, and parasitoid wasps and flies play a key role in suppression. Seedbed flooding for a day so only seedling tips remain exposed can drown populations, while net sweeping in small seedbeds helps catch insects. Chemical control should be reserved for critical infestations or when pest numbers exceed those of natural enemies. Recommended insecticides include buprofezin, pymetrozine, and etofenprox, applied in rotation to avoid resistance. Avoid compounds such as quinalphos, chlorpyriphos, lambda-cyhalothrin, and other pyrethroid mixtures, as they promote resistance and resurgence.",
+    "source": "https://plantix.net/en/library/plant-diseases/600104/brown-planthopper/"
+  }
+,
+  {
+    "pest": "white backed plant hopper",
+    "category": "Rice",
+    "recommendation": "Biological control agents usually keep populations of Sogatella furcifera in check. Predators include the mirid bug Cyrtorhinus lividipennis and fairyflies of the genus Anagrus (A. flaveolus, A. perforator, A. optabilis, A. frequens), which parasitize eggs. Predatory spiders such as Lycosa pseudoannulata also play an important role, and the fungal pathogen Erynia delphacis can reduce outbreaks. For chemical management, insecticides should only be used when necessary and rotated to avoid resistance. Options include oxamyl, certain pyrethroids, buprofezin, and pymetrozine applied alternately as part of an integrated strategy.",
+    "source": "https://plantix.net/en/library/plant-diseases/600191/whitebacked-planthopper/"
+  }
+,
+  {
+    "pest": "small brown plant hopper",
+    "category": "Rice",
+    "recommendation": "Biological control is effective at low pest densities. Natural enemies include water striders, mirid bugs, spiders, and egg parasitoid wasps and flies. Flooding seedbeds for a day so only seedling tips are exposed can suppress populations, while small seedbeds can be net-swept to catch insects. Chemical control should only be considered when pest numbers exceed thresholds or when planthoppers outnumber natural enemies. Insecticides such as buprofezin, pymetrozine, and etofenprox may be used in rotation. Avoid broad-spectrum products like quinalphos, chlorpyriphos, or lambda-cyhalothrin to reduce resistance and pest resurgence.",
+    "source": "https://plantix.net/en/library/plant-diseases/600104/brown-planthopper/"
+  }
+,
+  {
+    "pest": "rice water weevil",
+    "category": "Rice",
+    "recommendation": "Organic management relies on cultural practices such as weed control and increasing field size in certified organic systems. Monitoring should consider field history, proximity to overwintering habitats (ditch banks, riparian areas, weedy canal banks), and economics. Adult feeding scars can confirm presence, but injury may still occur even with few scars due to early egg laying. Chemical options include foliar applications of lambda-cyhalothrin, zeta-cypermethrin, and diflubenzuron after flooding. Lambda-cyhalothrin and zeta-cypermethrin kill adults, reducing egg deposition and larval populations. Diflubenzuron sterilizes females and kills newly laid eggs (<4 days old). Since the weevil has only one generation per year, timing of application is critical: too late and larvae will already cause damage, too early and pesticides dissipate before adults arrive.",
+    "source": "https://ipm.ucanr.edu/agriculture/rice/rice-water-weevil/#gsc.tab=0"
+  }
+,
+  {
+    "pest": "rice leaf hopper",
+    "category": "Rice",
+    "recommendation": "Organic Control: Biological control includes small wasps (parasitize the eggs), mirid bug; strepsipterans, pipunculid flies, and nematodes (parasitize both the nymphs and adults), aquatic veliid bugs, nabid bugs, empid flies, damselflies, dragonflies, and spiders or fungal pathogens.\n\nChemical Control: Always consider an integrated approach with preventive measures together with biological treatments if available. Several pesticides are available on the market against this pest. Check with your local retailer which solution best fits the prevalent conditions in the field. Alternating treatments of buprofezin or pymetrozine are useful. Avoid usage of chemicals like chlorpyriphos, lamda cyhalothrin or other synthetic pyrethroid combinations to which the insect has developed resistance.",
+    "source": "https://plantix.net/en/library/plant-diseases/600108/green-paddy-leafhoppers/"
+  }
+,
+  {
+    "pest": "grain spreader thrips",
+    "category": "Rice",
+    "recommendation": "Natural enemies like predaceous mites, minute pirate bugs, and lacewings feed on thrips, but they are very sensitive to broad-spectrum insecticides such as pyrethroids and may not be effective where these chemicals have been used. To reduce infestations, avoid planting onions near grain or alfalfa fields, since thrips populations often build up there and migrate when those crops are cut or mature. Overhead irrigation and rainfall help suppress thrips numbers, but pesticide sprays are often still needed. For organic production, sprays of spinosad (Entrust formulation), azadirachtin, or entomopathogenic fungi such as Beauveria bassiana can be used. Thrips are most damaging at the early bulbing stage, so control should begin before then to prevent uncontrollable levels. Onions can tolerate higher thrips pressure closer to harvest, but spraying near harvest may still be desirable in hand-topped onions because thrips can be a nuisance for harvest crews.",
+    "source": "https://ipm.ucanr.edu/agriculture/onion-and-garlic/thrips/#gsc.tab=0"
+  }
+,
+  {
+    "pest": "rice shell pest",
+    "category": "Rice",
+    "recommendation": "Spray aromatic solutions such as lemongrass soap to repel rice bugs. In Cambodia, farmers place 'prahok' (fermented fish paste) near fields to attract and kill them. Bugs can also be collected manually by sweeping with a mosquito net in the early morning or late afternoon, crushing them, soaking them in water, and spraying the solution back on the crop to repel others. Natural enemies like wasps, grasshoppers, and spiders also help reduce populations. For chemical control, chlorpyriphos 50 EC at 2.5 ml should be sprayed in the evening starting from field edges towards the center in a circular pattern, which drives bugs inward for effective management. Abamectin can also be used as an alternative. However, indiscriminate spraying disrupts natural enemies and may cause pest resurgence.",
+    "source": "https://plantix.net/en/library/plant-diseases/600097/rice-bug/"
+  }
+,
+  {
+    "pest": "grub",
+    "category": "Corn",
+    "recommendation": "Check for grubs by digging soil samples of about 30x30x30 cm from three random spots per ropani. If at least one grub is found, apply control measures. Spray Metarhizium anisopliae 1.15% WP at 1 kg per ropani directly into the soil to reduce grub populations.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.20157800155"
+  }
+,
+  {
+    "pest": "mole cricket",
+    "category": "Corn",
+    "recommendation": "Apply neonicotinoid insecticides such as imidacloprid, clothianidin, or thiamethoxam when females are about to lay eggs. Soap flush with household detergent can help detect adults in spring and determine egg maturity. Combination products like imidacloprid + bifenthrin or clothianidin + bifenthrin are often more effective than neonicotinoids alone. Fipronil granules provide season-long control and are especially effective against larger nymphs, though application methods vary in cost and effectiveness. Baits are also useful after rainfall or irrigation, applied in the afternoon with irrigation withheld for a day. For sustainable control in lower maintenance areas, apply insect parasitic nematodes such as Stinernema scapterisci or S. riobravae when soil is warm and moist, as they persist season to season though they may not fully eliminate mole cricket activity.",
+    "source": "https://www.syngentaturf.co.za/mole-cricket-control"
+  }
+,
+  {
+    "pest": "wireworm",
+    "category": "Corn",
+    "recommendation": "Inspect seedlings or newly transplanted crops, especially in spring-planted fields and soils rich in organic matter. Use preplant pesticide applications or seed treatments in fields with a history of wireworm damage, as these provide the most effective control. Destroy plant residues from previous crops and weeds around field borders. Fallow fields for several weeks before planting to allow organic matter to decompose, reducing wireworm populations.",
+    "source": "https://ipm.ucanr.edu/agriculture/cole-crops/wireworms/#gsc.tab=0"
+  }
+,
+  {
+    "pest": "white margined moth",
+    "category": "Corn",
+    "recommendation": "This insect is generally harmless and does not cause economic damage to crops, nor does it transmit diseases. If populations build up and invade structures, a synthetic pyrethroid can be applied to stop their movement indoors. Apply only according to label instructions and take special care in areas frequented by humans and pets.",
+    "source": "https://extension.okstate.edu/e-pest-alerts/2024/is-it-a-pest-white-margined-burrower-bug.html#:~:text=Homeowners%20may%20view%20these%20insects,where%20humans%20and%20pets%20frequent."
+  }
+,
+  {
+    "pest": "black cutworm",
+    "category": "Corn",
+    "recommendation": "Use bio-insecticides such as Bacillus thuringiensis, Nucleopolyhedrosis virus, or Beauveria bassiana for effective population control. Encourage natural predators by avoiding unnecessary treatments. For chemical management, apply products containing chlorpyrifos, beta-cypermethrin, deltamethrin, or lambda-cyhalothrin. Pre-planting insecticide applications may be used if large populations are expected.",
+    "source": "https://plantix.net/en/library/plant-diseases/600048/black-cutworm/"
+  }
+,
+  {
+    "pest": "large cutworm",
+    "category": "Corn",
+    "recommendation": "Use bio-insecticides such as Bacillus thuringiensis, Nucleopolyhedrosis virus, or Beauveria bassiana for effective population control. Encourage natural predators by avoiding unnecessary treatments. For chemical management, apply products containing chlorpyrifos, beta-cypermethrin, deltamethrin, or lambda-cyhalothrin. Pre-planting insecticide applications may be used if large populations are expected.",
+    "source": "https://plantix.net/en/library/plant-diseases/600048/black-cutworm/"
+  },
+  {
+    "pest": "yellow cutworm",
+    "category": "Corn",
+    "recommendation": "Use bio-insecticides such as Bacillus thuringiensis, Nucleopolyhedrosis virus, or Beauveria bassiana for effective population control. Encourage natural predators by avoiding unnecessary treatments. For chemical management, apply products containing chlorpyrifos, beta-cypermethrin, deltamethrin, or lambda-cyhalothrin. Pre-planting insecticide applications may be used if large populations are expected.",
+    "source": "https://plantix.net/en/library/plant-diseases/600048/black-cutworm/"
+  },
+  {
+    "pest": "red spider",
+    "category": "Corn",
+    "recommendation": "For severe infestations, apply ADYBAC 1001 Total Discharge Insecticide for fumigation in closed spaces. Use Miscibloil Insecticide Oil for preventive and maintenance control of mites. Neemex Natural Insecticide, based on neem extract, offers an eco-friendly option for integrated pest management. Apply Acarin Insecticide 10gr for targeted mite and red spider control. Fertiberia Total Discharge Insecticide can be used in closed spaces for extensive infestations. Spruzit Insecticide provides effective treatment for both active infestations and prevention. Solabiol Insecticide is suitable for broader pest control and regular maintenance.",
+    "source": "https://www.growindustry.es/en/blogs/pests/how-to-eliminate-the-red-spider-from-cannabis-plants#:~:text=Next%20article,and%20abundance%20of%20the%20harvest."
+  },
+  {
+    "pest": "corn borer",
+    "category": "Corn",
+    "recommendation": "Use pheromone lures with wing traps to attract male corn borers and prevent mating. Release Trichogramma moth egg parasites once flight is detected. Apply Btk (Bacillus thuringiensis kurstaki) sprays to ears, tassels, whorls, or foliage throughout the season. Spinosad sprays can also be used but may affect pollinators and beneficial insects. Destroy and mow stalks after the season to eliminate overwintering larvae, and avoid composting infested material. Plant resistant corn varieties if available.",
+    "source": "https://www.arbico-organics.com/category/european-corn-borer-control#:~:text=Btk%20(Bacillus%20thuringiensis%20kurstaki)%20sprays,to%20pollinators%20and%20other%20beneficials."
+  }
+,
+  {
+    "pest": "army worm",
+    "category": "Corn",
+    "recommendation": "Start spraying pesticides if 10 out of 50 randomly selected maize plants are infested. Spray early morning (6:00–10:00 am) or late afternoon (4:00–7:00 pm), as armyworms feed at night. Use protective clothing when handling, mixing, and applying pesticides. Always use a clean pump and clean water, and apply with a cone-shaped nozzle to cover the whole plant and especially the maize funnel. Avoid spraying when windy or before rain. Check plants 4 days after spraying, then monitor continuously. If 10 out of 50 plants are still infested after 7–14 days, re-spray. Normally 2–3 sprays are enough in a season. Alternate pesticides with different modes of action each season to prevent resistance.",
+    "source": "https://www.cabi.org/Uploads/Plantwise/Final%20Faw%20Technical%20Brief%20Uganda%2002052018.pdf"
+  }
+,
+  {
+    "pest": "aphids",
+    "category": "Corn",
+    "recommendation": "Aphids often cause little to no damage and may not require treatment. If control is necessary, consider low-risk pesticides such as neem (azadirachtin), insecticidal soap, horticultural oil, or pyrethrins. Spray both the top and underside of leaves, as these products only kill on contact. Repeat applications may be necessary. For longer-lasting control, residual pesticides like acephate, permethrin, bifenthrin, lambda-cyhalothrin, cyfluthrin, and malathion can be used, but they also kill beneficial insects and may worsen aphid problems. Avoid spraying blooming trees or shrubs.",
+    "source": "https://extension.umn.edu/yard-and-garden-insects/aphids#using-pesticides-344413"
+  }
+,
+  {
+    "pest": "Potosiabre vitarsis",
+    "category": "Corn",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "peach borer",
+    "category": "Corn",
+    "recommendation": "Apply insecticides at the time of adult emergence in May and repeat about 6 weeks later. Pheromone traps can be used to monitor adult activity. Insecticides do not kill larvae already inside the tree but protect against reinfestation by preventing adults from laying eggs. Visible results may not appear until the following season.",
+    "source": "https://ipm.ucanr.edu/agriculture/peach/peachtree-borer/#gsc.tab=0"
+  }
+,
+  {
+    "pest": "english grain aphid",
+    "category": "Wheat",
+    "recommendation": "Regularly monitor fields after seedling emergence, with whole-plant sampling before tillering and tiller sampling after tillering. Aphids often cluster in spots or along field margins, so avoid bias by sampling across the field. Pay attention to natural enemies such as lady beetles, syrphid fly larvae, lacewings, parasitic wasps, and fungal diseases that naturally suppress populations. If aphids become numerous, increase sampling frequency and consider intervention only if natural enemies are insufficient to prevent damage.",
+    "source": "https://ipm.ucanr.edu/agriculture/small-grains/english-grain-aphid/#gsc.tab=0"
+  }
+,
+  {
+    "pest": "green bug",
+    "category": "Wheat",
+    "recommendation": "Implement cultural practices such as avoiding consecutive summer legume crops, preventing overlapping flowering/podding periods, and controlling weedy hosts around fields. Do not plant susceptible crops near older infested crops. Encourage natural enemies including the parasitic wasp Trissolcus basalis (which parasitizes eggs), ants, spiders, predatory bugs, and tachinid flies. Limit broad-spectrum insecticides to preserve predator populations. Monitor crops twice weekly from budding to pre-harvest, ideally in the morning when bugs are near the top canopy. Use beat sheet sampling for efficient monitoring. Control populations before nymphs reach damaging size, especially during early pod fill.",
+    "source": "https://www.crop.bayer.com.au/pests/pests/green-vegetable-bug"
+  }
+,
+  {
+    "pest": "bird cherry-oat aphid",
+    "category": "Wheat",
+    "recommendation": "Apply seed treatments with neonicotinoids such as imidacloprid for early-season protection. If populations exceed economic thresholds, use foliar sprays with organophosphates (e.g., dimethoate), carbamates (e.g., pirimicarb), or synthetic pyrethroids (e.g., alpha-cypermethrin), keeping in mind that susceptibility may vary due to resistance. Biological controls such as neem and the entomopathogenic fungus Beauveria bassiana can also reduce populations. Incorporate Integrated Pest Management (IPM) by conserving natural enemies, monitoring fields regularly, and applying chemicals only when necessary to avoid resistance development.",
+    "source": "https://www.scienceopen.com/hosted-document?doi=10.15212/ijafr-2022-0106#:~:text=sequencing%20of%20R.-,padi,when%20compared%20to%20other%20R."
+  },
+  {
+    "pest": "wheat blossom midge",
+    "category": "Wheat",
+    "recommendation": "Monitor fields and apply insecticide only when action thresholds are reached (1 adult per 4–5 wheat heads for yield protection, or 1 adult per 8 wheat heads for quality). The primary chemical option available is dimethoate (Cygon®, Lagon®), a systemic and contact organophosphate targeting adults. Apply treatments at dusk when adult midges are active in the upper canopy, ensuring uniform coverage over wheat heads for best control. Avoid unnecessary sprays to preserve natural enemies and minimize environmental impact.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/planthealthcases.2023.0002"
+  }
+,
+  {
+    "pest": "penthaleus major",
+    "category": "Wheat",
+    "recommendation": "Populations of Penthaleus major can reach high densities in northern regions. Chemical control trials showed that spring applications of permethrin (44 ml/ha) and deltamethrin (5 ml/ha) significantly reduced mite populations during the following weeks and also decreased their numbers in fall and the next spring, though complete eradication was not achieved. Earlier spring applications may further improve control. Despite reduced mite populations and visible plant damage, yield differences were rarely significant. Note that applications also reduced spider populations and slightly decreased potassium content in yield.",
+    "source": "https://www.researchgate.net/publication/11351866_Chemical_Control_of_Penthaleus_major_Acari_Prostigmata_in_Hayfields_in_Iceland"
+  }
+,
+  {
+    "pest": "long legged spider mite",
+    "category": "Wheat",
+    "recommendation": "Preventive measures are important: keep plants well-watered to reduce drought stress, control dust by planting ground covers or using mulches, and irrigate regularly. Many woody and field plants can tolerate moderate mite populations, with natural enemies often helping to suppress outbreaks. If infestations occur, apply strong water sprays or mist daily to the undersides of leaves to dislodge mites. When chemical control is necessary, use insecticidal oils or insecticidal soaps, ensuring thorough coverage of leaf undersides. Avoid using organophosphates or pyrethroids, as these are ineffective against mites, kill natural predators, and can trigger severe mite outbreaks.",
+    "source": "https://ipm.ucanr.edu/QT/spidermitescard.html"
+  }
+,
+  {
+    "pest": "wheat phloeo thrips",
+    "category": "Wheat",
+    "recommendation": "Thrips feed on plant tissues by sucking juices, causing leaf discoloration, silver streaks, distorted growth, and they also transmit plant viruses that reduce yield. Control options include: Spinosad (natural insecticide effective against all thrips stages), Imidacloprid (systemic insecticide absorbed by the plant for long-term control), Pyrethrin-based sprays (effective but need frequent reapplication), Neem oil (repels and disrupts feeding and reproduction), and Acephate (systemic targeting thrips and other pests). Systemic insecticides like Imidacloprid are absorbed into the plant and kill thrips when they feed. Natural options such as Neem oil and Spinosad are effective and safer for beneficial insects and the environment. In heavy infestations, apply insecticides every 7–14 days, following product label instructions.",
+    "source": "https://katyayanikrishidirect.com/blogs/news/best-insecticide-for-thrips-effective-solutions-for-thrip-control"
+  },
+  {
+    "pest": "wheat sawfly",
+    "category": "Wheat",
+    "recommendation": "Managing wheat stem sawfly involves a holistic Integrated Pest Management (IPM) approach. This includes planting resistant wheat varieties that contain the solid stem trait, which helps reduce damage. Regular monitoring of population levels, scouting for eggs and larvae, and considering cultural controls such as crop rotation to disrupt overwintering populations are key practices. Biological control methods may also be beneficial. A combination of these strategies should be the first line of defense to manage wheat stem sawfly.",
+    "source": "https://www.fbn.com/direct/pest/wheat-stem-sawfly"
+  },
+  {
+    "pest": "cerodonta denticornis",
+    "category": "Wheat",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "beet fly",
+    "category": "Beet",
+    "recommendation": "Biological control using entomopathogenic nematodes (EPNs) such as Steinernema carpocapsae, Steinernema feltiae, Heterorhabditis bacteriophora. A single spray of S. feltiae or H. bacteriophora can cause up to 81.3% or 75.9% reduction in larval population.",
+    "source": "https://pubmed.ncbi.nlm.nih.gov/22696941/"
+  },
+  {
+    "pest": "flea beetle",
+    "category": "Beet",
+    "recommendation": "Use floating row covers to block adults, apply Heterorhabditis bacteriophora (Hb) beneficial nematodes in spring to kill larvae in soil, use Surround WP (kaolin clay) to deter feeding, and apply Beauveria bassiana sprays (e.g., BotaniGard Maxx) to infect and kill adults with repeated treatments as needed.",
+    "source": "https://www.arbico-organics.com/category/Flea-Beetle-Controls#:~:text=Use%20floating%20row%20covers%20as,Product%20Type"
+  }
+,
+  {
+    "pest": "cabbage army worm",
+    "category": "Beet",
+    "recommendation": "Use Bacillus thuringiensis (Bt), a soil bacterium producing insecticidal toxins effective against caterpillars. Apply commercial Bt formulations such as Dipel®, Javelin®, Thuricide®, or Xentari®. Bt is safe for humans, natural enemies, and the environment. Ensure correct strain selection: Bt. kurstaki and Bt. aizawai are effective for caterpillars like armyworms.",
+    "source": "https://infonet-biovision.org/natural-pest-control/bio-pesticide-bt-bacillus-thuringiensis"
+  }
+,
+  {
+    "pest": "beet army worm",
+    "category": "Beet",
+    "recommendation": "Apply treatments after most eggs have hatched, targeting small larvae when they are most susceptible. Bacillus thuringiensis (Bt) is effective against young larvae but less so against larger ones. Evening applications are recommended since larvae are active at dusk and many pesticides degrade in sunlight. Avoid broad-spectrum insecticides like methomyl as they negatively impact natural enemies.",
+    "source": "https://ipm.ucanr.edu/agriculture/cilantro-and-parsley/beet-armyworm/#gsc.tab=0"
+  }
+,
+  {
+    "pest": "Beet spot flies",
+    "category": "Beet",
+    "recommendation": "",
+    "source": ""
+  }
+,
+  {
+    "pest": "meadow moth",
+    "category": "Beet",
+    "recommendation": "Chlorantraniliprole is effective for controlling Loxostege sticticalis (Meadow moth). Apply at appropriate doses since low sublethal concentrations (LC10) may increase fecundity and reproductive potential (hormetic effect), whereas higher doses (LC25, LC50) significantly reduce reproduction and survival. Use higher recommended doses to suppress population growth effectively.",
+    "source": "https://www.mdpi.com/2077-0472/15/10/1065"
+  }
+,
+  {
+    "pest": "beet weevil",
+    "category": "Beet",
+    "recommendation": "For effective control of Bothynoderes punctiventris, insecticides based on chlorpyriphos in combination with pyrethroids show high efficacy. Nurelle D (chlorpyriphos + cypermethrin) maintains strong contact and digestive action. Pyrinex Super (chlorpyriphos + bifenthrin) provides similar efficacy despite lower active ingredient content. Chlorpyriphos + beta-cyfluthrin (MCW 784) showed lower initial efficacy compared to Nurelle D under both laboratory and field conditions.",
+    "source": "https://www.researchgate.net/figure/Insecticides-and-their-application-rates-used-for-sugar-beet-weevil-control_tbl1_269052174"
+  },
+
+  {
+    "pest": "sericaorient alismots chulsky",
+    "category": "Beet",
+    "recommendation": "",
+    "source":""
+  },
+  {
+    "pest": "alfalfa weevil",
+    "category": "Alfalfa",
+    "recommendation": "Use cultural controls first: cut alfalfa early, close to first cutting, to deprive larvae of food and expose them to heat and low humidity; grazing can reduce egg numbers by 50–70%. Scout fields regularly to assess larval populations. If thresholds are exceeded, apply insecticides such as Baythroid XL (cyfluthrin), Cobalt (chlorpyrifos + gamma-cyhalothrin), Cobalt Advanced (chlorpyrifos + lambda-cyhalothrin), or Imidan 70 W (phosmet), following label rates and rotating modes of action to prevent resistance.",
+    "source": "https://pubs.nmsu.edu/_a/A338/"
+  },
+  {
+    "pest": "flax budworm",
+    "category": "Alfalfa",
+    "recommendation": "Biological control is preferred: use augmentative releases of natural enemies such as Trichogramma spp. or Microplitis croceipes. Exploit entomopathogens like Bacillus thuringiensis (Bt) and Heliothis NPV. Host-plant resistance can also help, with resistant varieties exhibiting antixenosis, antibiosis, or tolerance. Sterile male releases have been effective in localized trials. Chemical control should be considered only if biological and cultural methods are insufficient.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.26762"
+  },
+  {
+    "pest": "alfalfa plant bug",
+    "category": "Alfalfa",
+    "recommendation": "Scout fields regularly using a sweep net to monitor populations. Cultural controls include early spring stubble burning to reduce overwintering eggs and early harvest to remove infested plant material. Insecticides should be used only if populations are high, as chemical control can harm natural enemies and pollinators and is often not economically justified.",
+    "source": "https://cropprotectionnetwork.org/encyclopedia/plant-bugs-in-alfalfa"
+  }
+,
+  {
+    "pest": "tarnished plant bug",
+    "category": "Alfalfa",
+    "recommendation": "Use cultural practices first: remove weeds and debris to eliminate overwintering sites, mow grass and weeds around production areas, and prevent weeds from forming buds and flowers. Biological control options include parasitic wasps such as Peristenus digoneutsi, though currently they provide limited control. If necessary, apply foliar insecticides (e.g., acephate, acetamiprid, azadirachtin, Beauveria bassiana, bifenthrin, chlorpyrifos, cyfluthrin, permethrin, pyrethrins, tau-fluvalinate, thiamethoxam) following label directions, with timing optimized for bug activity and weed management.",
+    "source": "https://www.umass.edu/agriculture-food-environment/greenhouse-floriculture/fact-sheets/tarnished-plant-bug-field-grown-cut-flowers#:~:text=Some%20foliar%20sprays%20registered%20for,References"
+  }
+,
+  {
+    "pest": "Locustoidea",
+    "category": "Alfalfa",
+    "recommendation": "(Locusts) ,Control is mainly chemical using ultra-low volume (ULV) applications of fenitrothion (Sumithion ULV) for locust bands and swarms. Apply 210–300 mL/ha (267–381 g a.i./ha) via aerial spraying. Maintain a 1.5 km buffer from sensitive areas such as dwellings, water bodies, and organic crops. Observe withholding periods for crops and livestock to allow insecticide residues to degrade before harvest or grazing.",
+    "source": "https://www.agriculture.gov.au/biosecurity-trade/pests-diseases-weeds/locusts/landholders/control-agents-residues#:~:text=%E2%80%8B%E2%80%8B%E2%80%8BWhen%20undertaking,on%20managing%20residues%20in%20livestock."
+  }
+,
+  {
+    "pest": "lytta polita",
+    "category": "Alfalfa",
+    "recommendation": "Use Integrated Pest Management (IPM) strategies: scout fields frequently, adjust harvest dates, maintain weed-free alfalfa, and avoid harvest operations that crush beetles to reduce cantharidin contamination in hay. Insecticides (e.g., pyrethroids such as bifenthrin, esfenvalerate, lambda-cyhalothrin, alpha- and zeta-cypermethrin, or carbaryl) can be used for spot treatment when beetle densities are high. Apply insecticides early morning or late evening to protect pollinators and follow label directions carefully. Contaminated hay should never be fed to livestock, especially horses, due to cantharidin toxicity.",
+    "source": "https://www.ndsu.edu/agriculture/extension/publications/blister-beetle-management-forages-and-field-crops"
+  }
+,
+  {
+    "pest": "legume blister beetle",
+    "category": "Alfalfa",
+    "recommendation": "Use Integrated Pest Management (IPM) strategies: scout fields frequently, adjust harvest dates, maintain weed-free alfalfa, and avoid harvest operations that crush beetles to reduce cantharidin contamination in hay. Insecticides (e.g., pyrethroids such as bifenthrin, esfenvalerate, lambda-cyhalothrin, alpha- and zeta-cypermethrin, or carbaryl) can be used for spot treatment when beetle densities are high. Apply insecticides early morning or late evening to protect pollinators and follow label directions carefully. Contaminated hay should never be fed to livestock, especially horses, due to cantharidin toxicity.",
+    "source": "https://www.ndsu.edu/agriculture/extension/publications/blister-beetle-management-forages-and-field-crops"
+  }
+,
+  {
+    "pest": "blister beetle",
+    "category": "Alfalfa",
+    "recommendation": "Use Integrated Pest Management (IPM) strategies: scout fields frequently, adjust harvest dates, maintain weed-free alfalfa, and avoid harvest operations that crush beetles to reduce cantharidin contamination in hay. Insecticides (e.g., pyrethroids such as bifenthrin, esfenvalerate, lambda-cyhalothrin, alpha- and zeta-cypermethrin, or carbaryl) can be used for spot treatment when beetle densities are high. Apply insecticides early morning or late evening to protect pollinators and follow label directions carefully. Contaminated hay should never be fed to livestock, especially horses, due to cantharidin toxicity.",
+    "source": "https://www.ndsu.edu/agriculture/extension/publications/blister-beetle-management-forages-and-field-crops"
+  },
+  {
+    "pest": "therioaphis maculata Buckton",
+    "category": "Alfalfa",
+    "recommendation": "Implement Integrated Pest Management (IPM) using resistant alfalfa cultivars, imported biological control agents, and cultural practices. Chemical control can be used selectively; chlorpyrifos, methidathion, and endosulfan were effective against resistant strains, but monitor for resistance development. Avoid routine use of insecticides with known resistance issues to preserve beneficial species and prevent further resistance.",
+    "source": "https://academic.oup.com/jee/article-abstract/85/5/1576/878967"
+  },
+  {
+    "pest": "odontothrips loti",
+    "category": "Alfalfa",
+    "recommendation": "Cultural control is preferred: use row covers or other methods to prevent infestations. Scout plants regularly and begin treatment early when thrips or damage is first observed. For chemical control compatible with IPM, use contact insecticides such as azadirachtin, insecticidal soaps, neem oil, horticultural oils, pyrethrins, or spinosad, ensuring thorough coverage of buds and shoot tips. Avoid systemic insecticides like acephate, malathion, carbaryl, or pyrethroids, which are highly toxic to natural enemies and pollinators. If systemic neonicotinoids are used, apply only after flowering and follow label precautions to protect beneficial insects.",
+    "source": "https://ipm.ucanr.edu/PMG/PESTNOTES/pn7429.html#:~:text=Greenhouse%20thrips%20is%20readily%20controlled,Repeat%20applications%20may%20be%20necessary."
+  },
+  {
+    "pest": "Thrips",
+    "category": "Alfalfa",
+    "recommendation": "Cultural control is preferred: use row covers or other methods to prevent infestations. Scout plants regularly and begin treatment early when thrips or damage is first observed. For chemical control compatible with IPM, use contact insecticides such as azadirachtin, insecticidal soaps, neem oil, horticultural oils, pyrethrins, or spinosad, ensuring thorough coverage of buds and shoot tips. Avoid systemic insecticides like acephate, malathion, carbaryl, or pyrethroids, which are highly toxic to natural enemies and pollinators. If systemic neonicotinoids are used, apply only after flowering and follow label precautions to protect beneficial insects.",
+    "source": "https://ipm.ucanr.edu/PMG/PESTNOTES/pn7429.html#:~:text=Greenhouse%20thrips%20is%20readily%20controlled,Repeat%20applications%20may%20be%20necessary."
+  },
+  {
+    "pest": "alfalfa seed chalcid",
+    "category": "Alfalfa",
+    "recommendation": "No effective chemical control exists. Use cultural practices: eliminate volunteer alfalfa along field margins by mowing or herbicide, harvest seed by mid-August to minimize late-season infestations, and clean seed before storage to prevent overwintering populations. Frequent monitoring is recommended during the adult flight and pod development periods.",
+    "source": "https://entomology.k-state.edu/extension/crop-protection/alfalfa/seed-chalcid.html"
+  },
+  {
+    "pest": "Pieris canidia",
+    "category": "Alfalfa",
+    "recommendation": "Use an integrated approach: hand-pick leaves with egg masses and larvae and destroy them, collect adult butterflies with a sweep net during the day, and monitor fields twice a week. For biocontrol, apply neem-based insecticide (Azadirachtin) 5 ml/l water or Beauveria bassiana 1% WP @ 5 g/l water, max 3 sprays at one-week intervals. For chemical control, use Emamectin Benzoate 5% SG (2 g/6 L water per 25 L solution/ropani, PHI 3 days), Lufenuron 1 ml/l (PHI 2 weeks, early season only), or Cypermethrin 10 EC 2 ml/l (max 2 sprays, 15-day interval; note toxicity to natural enemies). Always use PPE and follow pre-harvest intervals and label instructions to avoid resistance and protect beneficial insects.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/pdf/10.1079/pwkb.20157800147?download=false"
+  },
+  {
+    "pest": "Apolygus lucorum",
+    "category": "Vitis",
+    "recommendation": "Integrated Pest Management (IPM) is recommended. Monitor populations of green plant bugs regularly. For chemical control, fipronil is highly effective against nymphs and adults, while endosulfan is an alternative with lower impact on beneficial predators like Chrysopa sinica and Propylaea japonica. Avoid overuse of neonicotinoids such as imidacloprid due to lower efficacy and higher non-target effects. Always follow label instructions and consider timing applications to minimize harm to natural enemies. Combine chemical control with biological and cultural measures for best results.",
+    "source": "https://www.researchgate.net/publication/284104459_Insecticide_susceptibility_of_the_green_plant_bug_Apolygus_lucorum_Homoptera_Miridae_and_two_predatory_arthropods"
+  },
+  {
+    "pest": "Limacodidae",
+    "category": "Vitis",
+    "recommendation": "Organic control options include physically removing caterpillars with tweezers or tape and using light traps (about 5 per hectare) to capture adult moths. For chemical control, insecticides containing Carbaryl or Dichlorvos can be used following label instructions and safety precautions such as wearing protective clothing and gloves.",
+    "source": "https://plantix.net/en/library/plant-diseases/600300/slug-caterpillar-moth/"
+  }
+,
+  {
+    "pest": "Viteus vitifoliae",
+    "category": "Vitis",
+    "recommendation": "Prevention and control focus on integrated pest management. Cultural control includes flooding vineyards for several weeks to reduce populations. Host-plant resistance is key: use resistant rootstocks, avoiding those with V. vinifera parentage, and use certified, pest-free material. Chemical treatments may be applied but rarely achieve complete eradication; methods include fumigation (e.g., hexachlorobutadiene) or hot-water treatment of rootstocks (45°C for 20 min). Adequate water and fertilization management support plant health and pest resistance.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/cabicompendium.56511"
+  }
+,
+  {
+    "pest": "Colomerus vitis",
+    "category": "Vitis",
+    "recommendation": "Organic control includes the predatory mite Galendromus occidentalis, which feeds on blister mites. Insecticidal soap or neem oil may be used but could reduce beneficial insect populations. Wettable sulfur can also be applied. Chemical control options include spirotetramat, ensuring adequate foliage for absorption and a 30-day interval between applications. Wettable sulfur is an additional chemical option. An integrated approach combining preventive measures, biological control, and chemical treatment is recommended.",
+    "source": "https://plantix.net/en/library/plant-diseases/500014/grape-blister-mite/"
+  }
+,
+  {
+    "pest": "Brevipalpus lewisi McGregor",
+    "category": "Vitis",
+    "recommendation": "Monitor during fruit development for scabbing and rachis darkening. Consider pesticide or sulfur application if damage is detected, beginning treatments before nut shriveling. Biological control with predaceous mite Metaseiulus mcgregori is present but usually insufficient to reduce populations below economic thresholds.",
+    "source": "https://ipm.ucanr.edu/agriculture/pistachio/citrus-flat-mite/#gsc.tab=0"
+  },
+  {
+    "pest": "oides decempunctata",
+    "category": "Vitis",
+    "recommendation": "Monitor during fruit development for scabbing and rachis darkening. Consider pesticide or sulfur application if damage is detected, beginning treatments before nut shriveling. Biological control with predaceous mite Metaseiulus mcgregori is present but usually insufficient to reduce populations below economic thresholds.",
+    "source": "https://ipm.ucanr.edu/agriculture/pistachio/citrus-flat-mite/#gsc.tab=0"
+  },
+  {
+    "pest": "Polyphagotarsonemus latus",
+    "category": "Vitis",
+    "recommendation": "Monitor crops for damage on leaves, flowers, and fruits. Use chemical control where legally permitted (e.g., abamectin, chlorfenapyr), or employ organically acceptable treatments such as liuyangmycin, Lippia nodiflora or Aloe sp. extracts, or cassava root extract (Manipueira). Biological control is effective using predatory mites like Neoseiulus barkeri, N. californicus, N. cucumeris, or Amblyseius ovalis. Fungal agents like Beauveria bassiana may also reduce populations. Resistant cultivars of Capsicum can be considered where available.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.26876"
+  },
+  {
+    "pest": "Pseudococcus comstocki Kuwana",
+    "category": "Vitis",
+    "recommendation": "Implement integrated control using chemical, biological, and mechanical methods. Chemical applications can reduce populations, but effectiveness varies by region. Biological control is highly effective using parasitoids such as Pseudaphycus malinus, Allotropa burrelli, A. convexifrons, and Zarhopalus corvinus, as well as predators like Cryptolaemus montrouzieri. Conservation and augmentation of native beneficials also help maintain populations below economic thresholds. Monitor orchards and ornamentals for damage and target early immatures for control.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.45084"
+  },
+  {
+    "pest": "parathrene regalis",
+    "category": "Vitis",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "Ampelophaga",
+    "category": "Vitis",
+    "recommendation": "Monitor for early adult emergence in spring to prevent leaf and bud damage. Use biological control with the predatory bug Zicrona coerulea and other predators or polyphagous parasites. Beneficial nematodes can be applied to soil to target larvae. Organic sprays such as spinosad or neem oil help control populations. Chemical control can include chlorpyrifos or lambda-cyhalothrin formulations, applied by spraying or dusting, preferably integrated with biological and preventive measures.",
+    "source": "https://plantix.net/en/library/plant-diseases/600168/vine-flea-beetle/"
+  },
+  {
+    "pest": "Lycorma delicatula",
+    "category": "Vitis",
+    "recommendation": "Protect water sources when using insecticides and rotate chemical classes to reduce resistance risk. Choose the least toxic effective insecticide, considering OMRI-listed or reduced-risk options, and follow label directions. For control, use contact insecticides to kill feeding nymphs and adults or systemic insecticides (e.g., imidacloprid, dinotefuran) for longer protection. Apply systemic insecticides correctly using soil drench, soil injection, trunk spray, or trunk injection. Wear protective clothing and follow safe application practices.",
+    "source": "https://extension.psu.edu/spotted-lanternfly-management-and-pesticide-safety"
+  },
+  {
+    "pest": "Xylotrechus",
+    "category": "Vitis",
+    "recommendation": "Monitor mulberry trees for infestation by adults, larval frass, and cavities. Physical control includes removal and destruction (burning or grinding) of heavily infested trees. Chemical control can target ovipositing females, eggs, and first instar larvae using contact insecticides (e.g., chlorpyrifos) sprayed on bark in early June, or larvae in the phloem using systemic insecticides such as abamectin via trunk injection. Pheromone-based mass-trapping or mating disruption could be explored using known male aggregation pheromones. Biological control is possible with the native parasitoid wasp Stephanus serrator. Early detection and integrated control measures are recommended to prevent spread.",
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6023466/"
+  },
+
+  {
+    "pest": "Cicadella viridis",
+    "category": "Vitis",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "Miridae",
+    "category": "Vitis",
+    "recommendation": "Use natural predators such as damsel bugs, big-eyed bugs, assassin bugs, ants, and some spiders to control mirid populations. Apply biological treatments like diluted Neem oil or Beauveria bassiana immediately after detecting the pest. For severe infestations, chemical control with insecticides containing dimethoate, indoxacarb, or fipronil can be used, integrated with preventive and biological measures.",
+    "source": "https://plantix.net/en/library/plant-diseases/600262/mirid-bugs/"
+  },
+  {
+    "pest": "Trialeurodes vaporariorum",
+    "category": "Vitis",
+    "recommendation": "Implement integrated pest management (IPM) combining biological and chemical controls. Use natural predators and parasitoids as the primary control method. Entomopathogenic fungi such as Beauveria bassiana and Cordyceps farinosa can be applied as biopesticides. Chemical insecticides like spiromesifen may be used as supplementary treatments when pest populations exceed thresholds. Combining EPFs with compatible chemicals can increase whitefly mortality and may reduce the risk of resistance. Apply treatments following label instructions and integrate with preventive cultural practices.",
+    "source": "https://www.nature.com/articles/s41598-024-66051-8"
+  },
+  {
+    "pest": "Erythroneura apicalis",
+    "category": "Vitis",
+    "recommendation": "Use effective botanical pesticides for control. For E. apicalis, 0.5% veratrine is effective against first-generation adults and second-generation larvae, and 5% natural pyrethrin provides 100% control in some regions. For Apolygus lucorum, 0.5% veratrine, composite neem, or composite nicotine can be used. Apply treatments according to local efficacy data and integrate with other IPM practices to maintain grape quality and reduce chemical residues.",
+    "source": "http://www.kjdb.org/EN/10.3981/j.issn.1000-7857.2014.12.005"
+  },
+  {
+    "pest": "Papilio xuthus",
+    "category": "Citrus",
+    "recommendation": "Monitor Citrus and Rutaceae plants for egg-laying activity. Oviposition is chemically stimulated by certain plant compounds and deterred by others, so host selection is predictable. For management, remove eggs or larvae from Citrus plants if necessary, and consider planting less-preferred Rutaceae species nearby to reduce colonization. Use an integrated approach combining cultural control, physical removal, and habitat manipulation to prevent larval damage.",
+    "source": "https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/papilio-xuthus"
+  },
+  {
+    "pest": "Panonchus citri McGregor",
+    "category": "Citrus",
+    "recommendation": "Control largely relies on acaricides. Cyflumetofen and spirodiclofen are effective, with LC50 values of 10.23 ppm and 7.28 ppm, respectively. Even sublethal concentrations (LC20) reduce development, survival, fecundity, and population growth of P. citri. Apply acaricides according to label instructions and integrate with monitoring to optimize timing and dosage, minimizing resistance and impact on non-target organisms.",
+    "source": "https://www.biotaxa.org/pja/article/view/68693#:~:text=The%20citrus%20red%20mite%2C%20Panonychus,mite%20control%20management%20in%20citrus."
+  },
+  {
+    "pest": "Phyllocoptes oleiverus ashmead",
+    "category": "Citrus",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "Icerya purchasi Maskell",
+    "category": "Citrus",
+    "recommendation": "Control can be achieved using green oligonucleotide insecticides (DNA insecticides). The oligoICER-11, a short single-stranded fragment targeting the 28S rRNA gene, applied at 100 ng/μL to larvae, achieved 70% mortality within 10 days. This method is safe, effective, and has a low carbon footprint, providing an alternative to conventional chemical insecticides.",
+    "source": "https://www.mdpi.com/1422-0067/24/14/11650"
+  },
+  {
+    "pest": "Unaspis yanonensis",
+    "category": "Citrus",
+    "recommendation": "",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.55687"
+  },
+  {
+    "pest": "Ceroplastes rubens",
+    "category": "Citrus",
+    "recommendation": "Biological control using Anicetus beneficus has proven effective in controlling C. rubens in various regions. Chemical control may also be used, with selective pesticides such as hexythiazox and clofentezine offering effective control with lower impact on natural enemies. Monitoring for young crawlers is essential for timely chemical treatment.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/cabicompendium.12351"
+  },
+  {
+    "pest": "Chrysomphalus aonidum",
+    "category": "Citrus",
+    "recommendation": "Biological control using Aphytis holoxanthus and Pteroptrix smithi has been effective in managing C. aonidum. The use of chemical control with insecticides, including organophosphates, has been common but is costly and environmentally damaging in the long term. Pre-export inspection and monitoring for scale insect pests on leaves and fruits are also important preventive measures.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/10.1079/PWKB.Species.13379"
+  }
+,
+  {
+    "pest": "Parlatoria zizyphus Lucus",
+    "category": "Citrus",
+    "recommendation": "Biological control using fungi, hymenopterous parasites like Aspidiotiphagus (Encarsia) and Aphytis, as well as predators such as Chilocorus nigrita, Lindorus (Rhyzobius) lophanthae, and Orcus (Halmus) chalybeus has been effective. Chemical control recommendations are not provided due to variable regulations; please refer to EU, PAN pesticide databases, or national guides for more information.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/10.1079/PWKB.Species.38911"
+  },
+  {
+    "pest": "Nipaecoccus vastalor",
+    "category": "Citrus",
+    "recommendation": "",
+    "source": ""
+  },
+  {
+    "pest": "Aleurocanthus spiniferus",
+    "category": "Citrus",
+    "recommendation": "Biological control using Encarsia smithi and Amitus hesperidum has been effective in managing A. spiniferus. Chemical control, while possible, is not recommended due to its high cost and negative impact on natural enemies. Regulatory control methods, including inspection of planting materials and fumigation, are recommended for preventing the spread of this pest.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.4136"
+  },
+  {
+    "pest": "Tetradacus c Bactrocera minax",
+    "category": "Citrus",
+    "recommendation": "Chemical control using insecticides like trichlorphon and malathion in bait sprays is effective. Bait sprays are preferable as they target the flies with minimal impact on natural enemies. A sterile insect technique has also been successfully used. Phytosanitary measures, such as inspection and treatment of consignments, are important. Cold treatment or gamma irradiation can be applied for post-harvest control.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/cabicompendium.8726"
+  },
+  {
+    "pest": "Dacus dorsalis(Hendel)",
+    "category": "Citrus",
+    "recommendation": "Using neem seed kernel extract, and early harvesting are recommended. Sanitary measures, including the destruction of fallen fruit, are crucial. Biological control using Fopius arisanus has been successful, as well as soil application of entomopathogenic fungi combined with bait sprays. Chemical control details are not included due to variable pesticide regulations; please refer to EU and PAN pesticide databases.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.17685"
+  },
+  {
+    "pest": "Bactrocera tsuneonis",
+    "category": "Citrus",
+    "recommendation": "General control measures include gathering and destroying fallen infested fruits, using bait sprays with malathion and protein hydrolysate, and applying trichlorphon in sugar solution before female oviposition. Phytosanitary measures include inspecting and treating consignments of fruits from areas where the pest occurs. Cold treatment in transit and sterile insect technique (release of sterile males) have been applied successfully. Plants with roots from infested areas should be free of soil or treated against puparia.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.species.8745"
+  },
+  {
+    "pest": "Prodenia litura",
+    "category": "Citrus",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Adristyrannus",
+    "category": "Citrus",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Phyllocnistis citrella Stainton",
+    "category": "Citrus",
+    "recommendation": "Biological control using parasitoids, predators, and microbial control (e.g., Bacillus thuringiensis, avermectins), as well as host-plant resistance varieties such as Ruby Malta and Kinnow Mandarin. Avoid excessive chemical sprays, and consider using biorational insecticides like fenoxycarb.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/cabicompendium.40831"
+  },
+  {
+    "pest": "Toxoptera citricidus",
+    "category": "Citrus",
+    "recommendation": "Shorten branches of heavily attacked trees with active growth over a prolonged period. A moderate aphid population can be beneficial to mature trees, maintaining beneficial populations. Apply control measures only in areas affected by aphid-borne diseases such as citrus tristeza virus. In the absence of auxiliaries, use organic mineral oil or high-pressure wash with soapy water to remove honeydew.",
+    "source": "https://plantwiseplusknowledgebank.org/doi/full/10.1079/pwkb.20167800896"
+  }
+,
+  {
+    "pest": "Toxoptera aurantii",
+    "category": "Citrus",
+    "recommendation": "Organic control: Use predators like hoverflies, lacewings, and ladybirds (e.g., Cycloneda sanguinea and Hippodamia convergens) to attack aphids. The fungus Neozygites fresensii helps control aphid populations during humid weather. Ants can be eliminated with boiling water or natural pyrethrin solutions. Insecticidal solutions (soap, neem, or chilli extracts) can also be used. Chemical control: Apply insecticides with an integrated approach, using preventive measures along with biological treatments. Petroleum oil-based commercial products can be sprayed on the underside of leaves. Synthetic pyrethroids are effective but may harm natural enemies.",
+    "source": "https://plantix.net/en/library/plant-diseases/600157/black-citrus-aphid/"
+  },
+  {
+    "pest": "Aphis citricola Vander Goot",
+    "category": "Citrus",
+    "recommendation": "The mixture of Ligusticum chuanxiong oil (LCO) and lemongrass oil (LO) shows significant synergy against A. citricola. The optimal ratio of LCO to LO is 4:1 (w:w), with a common-toxicity coefficient (CTC) value of 221.46. The 20% emulsifiable concentrate (20% LCO·LO EC) was found to be comparable to conventional pesticide (20% imidacloprid EC) in field trials, showing efficacy seven days after application.",
+    "source": "https://www.mdpi.com/1420-3049/21/10/1359#:~:text=Toxicity%20of%20LCO%20and%20LO,der%20Goot%20(24%20h)."
+  },
+  {
+    "pest": "Scirtothrips dorsalis Hood",
+    "category": "Mango",
+    "recommendation": "Prevention: Strict phytosanitary practices are essential to prevent the unintentional movement of S. dorsalis, as their life stages are small and difficult to detect. Eradication: If populations are small and localized, destruction of infested plant material and insecticide application on 'at risk' host plants may be effective, though public resistance may occur. Chemical Control: Insecticides, including reduced risk products, should be used in rotation to suppress S. dorsalis populations and reduce resistance development. Compatibility with natural enemies, such as Orius insidiosus, should be considered for sustainable IPM programs.",
+    "source": "https://www.cabidigitallibrary.org/doi/full/10.1079/cabicompendium.49065"
+  },
+  {
+    "pest": "Dasineura sp",
+    "category": "Mango",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Lawana imitata Melichar",
+    "category": "Mango",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Salurnis marginella Guerr",
+    "category": "Mango",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Deporaus marginatus Pascoe",
+    "category": "Mango",
+    "recommendation": "Prevention: Regular collection and destruction of fallen leaves containing eggs. Plough the soil under the crowns of plants to destroy pupae. Chemical Control: Insecticides like Deltamelthrin and Fenvalerate can be applied when young leaves are 3 cm wide, with 2-3 weekly applications. Alternative Methods: Since conventional sprays are ineffective due to rain, monocrotophos was found effective in the study, but alternatives like neem oil and NSKE are considered as well. Rain-resistant control strategies are needed. Pest Alert: Develop pest alert models based on phenology, synchronizing young shoot emergence with D. marginatus larval development.",
+    "source": "https://www.cabidigitallibrary.org/doi/pdf/10.5555/20183071637"
+  },
+  {
+    "pest": "Chlumetia transversa",
+    "category": "Mango",
+    "recommendation": "When population numbers are low, plant extracts of garlic and chili dissolved in water can be sprayed to ward off caterpillars and reduce shoot borer infestation. Consider an integrated approach with preventive measures together with biological treatments if available. Remove affected grafts or seedlings and spray them with recommended insecticides such as penthoate to effectively control the insect.",
+    "source": "https://plantix.net/en/library/plant-diseases/800014/mango-shoot-borer/"
+  },
+  {
+    "pest": "Mango flat beak leafhopper",
+    "category": "Mango",
+    "recommendation": "Biological control agents such as the predators Mallada boninensis and Chrysopa lacciperda and the egg parasite Polynema sp. can reduce hopper populations. Alternatively, affected mango trees can be treated with oil-based sprays containing the fungi Beauveria bassiana or Metarhizium anisopliae, with treatment 2-3 times per week. Sprays based on neem oil (3%) can also reduce Idioscopus spp. populations by up to 60%. For chemical control, use sprays containing cypermethrin (0.4%) or insecticides with dimethoate injected into the trunk. Two sprays, 7 days apart, before flowering, are recommended.",
+    "source": "https://plantix.net/en/library/plant-diseases/800016/mango-hoppers/"
+  }
+,
+  {
+    "pest": "Rhytidodera bowrinii white",
+    "category": "Mango",
+    "recommendation": ".",
+    "source": ""
+  },
+  {
+    "pest": "Sternochetus frigidus",
+    "category": "Mango",
+    "recommendation": "Irradiation treatment with a minimum absorbed dose of 165 Gy will provide quarantine security for Sternochetus frigidus in exported Philippine mangoes. Confirmatory tests indicated that 100 Gy caused partial sterility, while 150 Gy resulted in complete sterility, preventing reproduction.",
+    "source": "https://www.researchgate.net/publication/261100927_Large-Scale_Confirmatory_Tests_of_a_Phytosanitary_Irradiation_Treatment_Against_Sternochetus_frigidus_Coleoptera_Curculionidae_in_Philippine_Mango"
+  },
+  {
+    "pest": "Cicadellidae",
+    "category": "Mango",
+    "recommendation": "Biological control agents such as the predators Mallada boninensis and Chrysopa lacciperda and the egg parasite Polynema sp. can reduce hopper populations. Alternatively, affected mango trees can be treated with oil-based sprays containing the fungi Beauveria bassiana or Metarhizium anisopliae, with treatment 2-3 times per week. Sprays based on neem oil (3%) can also reduce Idioscopus spp. populations by up to 60%. For chemical control, use sprays containing cypermethrin (0.4%) or insecticides with dimethoate injected into the trunk. Two sprays, 7 days apart, before flowering, are recommended.",
+    "source": "https://plantix.net/fr/library/plant-diseases/800016/mango-hoppers/"
+  }
+
+]
